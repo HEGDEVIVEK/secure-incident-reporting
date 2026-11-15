@@ -1,0 +1,65 @@
+.admin-dashboard {
+    display: grid;
+    gap: 1.5rem;
+    min-width: 0;
+}
+
+.admin-tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 0.25rem;
+    min-width: 0;
+    overflow-x: auto;
+    padding: 0.4rem 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.admin-tabs button {
+    flex: 0 0 auto;
+    min-height: 46px;
+    padding: 0.65rem 1rem;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 8px 8px 0 0;
+    background: transparent;
+    color: var(--muted);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.admin-tabs button:hover:enabled {
+    background: #e7f0ee;
+    color: #103e3b;
+}
+
+.admin-tabs button[aria-pressed="true"] {
+    border-bottom-color: var(--accent);
+    background: #deeeea;
+    color: #103e3b;
+}
+
+.admin-tabs button:focus-visible {
+    outline-offset: -4px;
+}
+
+.admin-panel {
+    min-width: 0;
+}
+
+.admin-panel [role="alert"] {
+    color: var(--danger);
+}
+
+@media (max-width: 600px) {
+    .admin-dashboard {
+        gap: 1rem;
+    }
+
+    .admin-tabs {
+        padding-inline: 0;
+    }
+
+    .admin-tabs button {
+        padding-inline: 0.8rem;
+    }
+}

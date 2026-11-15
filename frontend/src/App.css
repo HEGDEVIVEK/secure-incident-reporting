@@ -1,0 +1,104 @@
+.app-header {
+  background: #103e3b;
+  color: #ffffff;
+  border-bottom: 3px solid #52ac99;
+}
+
+.app-header-inner,
+.app-content {
+  width: min(1120px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.15rem;
+}
+
+.app-header-identity {
+  min-width: 0;
+}
+
+.app-header-identity h1 {
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.app-header-identity p {
+  margin: 0.3rem 0 0;
+  color: #cbe0dc;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.app-header-identity strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.app-logout {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  border: 1px solid #83aaa4;
+  border-radius: 8px;
+  background: transparent;
+  color: #ffffff;
+}
+
+.app-logout:hover:enabled {
+  background: #20544f;
+}
+
+.app-logout:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.app-content {
+  padding-block: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.app-error {
+  margin: 0 0 1rem;
+  color: var(--danger);
+}
+
+:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #172b36;
+  background-color: #f3f7f6;
+
+  --surface: #ffffff;
+  --border: #cddbd8;
+  --muted: #50655f;
+  --accent: #08665e;
+  --accent-hover: #064f49;
+  --danger: #973333;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #172b36;
+  background-color: #f3f7f6;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}

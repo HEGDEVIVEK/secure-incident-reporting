@@ -1,0 +1,83 @@
+.account-table-scroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.account-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: inherit;
+    font-size: 0.95rem;
+}
+
+.account-table th,
+.account-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid #dde7e6;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.account-table thead th {
+    background: #eef5f3;
+    color: #34514f;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.account-table tbody th {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.account-table tbody tr:hover {
+    background: #f7faf9;
+}
+
+.account-table tbody tr:last-child>* {
+    border-bottom: 0;
+}
+
+.account-table select {
+    min-height: 44px;
+    min-width: 8rem;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid #a8babc;
+    border-radius: 7px;
+    background: var(--surface);
+    color: inherit;
+}
+
+.account-table select:disabled {
+    opacity: 0.65;
+}
+
+.account-table-action {
+    width: 9rem;
+    min-width: 7rem;
+}
+
+.account-table-action button {
+    min-height: 44px;
+    padding: 0.5rem 0.9rem;
+}
+
+.account-table-action [role="status"]:not(:empty) {
+    display: block;
+    margin-block: 0.25rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+
+    .account-table th,
+    .account-table td {
+        padding: 0.65rem 0.5rem;
+    }
+
+    .account-table select {
+        min-width: 6.5rem;
+    }
+}

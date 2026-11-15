@@ -1,0 +1,51 @@
+.incident-form {
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.incident-form h2 {
+    margin: 0 0 1.5rem;
+    font-size: 1.3rem;
+}
+
+.incident-form form {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.incident-form label {
+    font-size: 0.925rem;
+    font-weight: 600;
+}
+
+.incident-form input,
+.incident-form textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid #a8babc;
+    border-radius: 7px;
+    background: var(--surface);
+    color: inherit;
+    font: inherit;
+}
+
+.incident-form textarea {
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.incident-form button {
+    justify-self: start;
+}
+
+.incident-form [role="status"] {
+    margin: 1rem 0 0;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+}

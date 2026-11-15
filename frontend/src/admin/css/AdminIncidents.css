@@ -1,0 +1,75 @@
+.admin-incidents {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    align-items: start;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.admin-incidents>h2,
+.admin-incidents>p {
+    grid-column: 1 / -1;
+    margin: 0;
+}
+
+.admin-incidents>h2 {
+    color: #103e3b;
+    font-size: 1.4rem;
+}
+
+.admin-incident-card {
+    min-width: 0;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    overflow-wrap: anywhere;
+}
+
+.admin-incident-card>header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.admin-incident-card h3 {
+    flex: 1 1 10rem;
+    min-width: 0;
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+.admin-incident-status {
+    flex-shrink: 0;
+    padding: 0.25rem 0.65rem;
+    border-radius: 1rem;
+    background: #e7effa;
+    color: #294d78;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.admin-incident-status[data-status="under-review"] {
+    background: #fff1ce;
+    color: #754b08;
+}
+
+.admin-incident-status[data-status="closed"] {
+    background: #e1f2e9;
+    color: #215c40;
+}
+
+.admin-incident-submitter {
+    margin: 0.45rem 0 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.admin-incident-description {
+    margin: 0;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
