@@ -17,7 +17,7 @@ function saveStatus(userId, selectedValue) {
 export default function AccountStatusTab({ currentUserId }) {
     return (
         <section className="account-status-tab">
-            <h2>Account status</h2>
+            {/* <h2>Account status</h2> */}
 
             <AccountTable
                 currentUserId={currentUserId}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./LoginPage.css";
+import "./css/LoginPage.css";
 
 export default function LoginPage({ onLogin, initialMessage = "" }) {
     const [message, setMessage] = useState(initialMessage);

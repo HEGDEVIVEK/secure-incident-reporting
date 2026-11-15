@@ -49,7 +49,7 @@ export default function CreateUserForm() {
 
     return (
         <section className="create-user">
-            <h2>Create account</h2>
+            {/* <h2>Create account</h2> */}
 
             <form onSubmit={handleSubmit}>
                 <label>
@@ -65,13 +65,13 @@ export default function CreateUserForm() {
                 </label>
 
                 <label>
-                    Password (5–128 characters)
+                    Password (5–15 characters)
                     <input
                         name="password"
                         type="password"
                         autoComplete="new-password"
                         minLength={5}
-                        maxLength={128}
+                        maxLength={15}
                         required
                     />
                 </label>

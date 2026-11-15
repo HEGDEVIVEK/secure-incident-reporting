@@ -54,3 +54,32 @@
     color: var(--muted);
     line-height: 1.5;
 }
+
+.create-user form button[type="submit"] {
+    justify-self: start;
+    min-height: 44px;
+    margin-top: 0.25rem;
+    padding: 0.65rem 1.25rem;
+    border: 1px solid #08665e;
+    border-radius: 8px;
+    background: #08665e;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.create-user form button[type="submit"]:hover:enabled {
+    background: #07534d;
+    border-color: #07534d;
+}
+
+.create-user form button[type="submit"]:focus-visible {
+    outline: 3px solid #08665e;
+    outline-offset: 3px;
+}
+
+.create-user form button[type="submit"]:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}

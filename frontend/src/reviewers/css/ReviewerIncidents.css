@@ -1,0 +1,97 @@
+.reviewer-incidents h2 {
+  margin: 0 0 1rem;
+}
+
+.reviewer-incident-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.reviewer-incident-filters button {
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--border, #cddbd8);
+  border-radius: 999px;
+  background: white;
+  color: #315552;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reviewer-incident-filters button:hover {
+  border-color: #087168;
+}
+
+.reviewer-incident-filters button[aria-pressed="true"] {
+  border-color: #08665e;
+  background: #08665e;
+  color: white;
+}
+
+.reviewer-incident-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+  gap: 1rem;
+}
+
+.reviewer-incident-card {
+  min-width: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--border, #cddbd8);
+  border-radius: 14px;
+  background: var(--surface, white);
+  overflow-wrap: anywhere;
+}
+
+.reviewer-incident-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.reviewer-incident-heading h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.reviewer-status-badge {
+  flex-shrink: 0;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.reviewer-status-badge[data-status="open"] {
+  background: #e7effb;
+  color: #214d86;
+}
+
+.reviewer-status-badge[data-status="under-review"] {
+  background: #fff1cd;
+  color: #754f0b;
+}
+
+.reviewer-status-badge[data-status="closed"] {
+  background: #e0f1e9;
+  color: #24583e;
+}
+
+.reviewer-incident-author {
+  margin: 0.45rem 0 1rem;
+  color: var(--muted, #486166);
+  font-size: 0.9rem;
+}
+
+.reviewer-incident-description {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.reviewer-incidents [role="alert"] {
+  color: var(--danger, #a12622);
+}

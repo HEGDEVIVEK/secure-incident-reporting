@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./IncidentForm.css";
+import "./css/IncidentForm.css";
 
 export default function IncidentForm({ onIncidentCreated }) {
     const [message, setMessage] = useState("");

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./MyIncidents.css";
+import "./css/MyIncidents.css";
 
 const statusLabels = {
     open: "Open",

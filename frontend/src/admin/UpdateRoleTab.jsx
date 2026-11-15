@@ -18,7 +18,7 @@ function saveRole(userId, role) {
 export default function UpdateRoleTab({ currentUserId }) {
     return (
         <section className="update-role-tab">
-            <h2>Update role</h2>
+            {/* <h2>Update role</h2> */}
 
             <AccountTable
                 currentUserId={currentUserId}

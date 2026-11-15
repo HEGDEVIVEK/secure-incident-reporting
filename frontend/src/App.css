@@ -102,3 +102,26 @@ select,
 textarea {
   font: inherit;
 }
+
+/* Thin scrollbars throughout the app */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #789b93 transparent;
+}
+
+/* Fallback for browsers without scrollbar-width support */
+@supports not (scrollbar-width: thin) {
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: #789b93;
+    border-radius: 999px;
+  }
+}

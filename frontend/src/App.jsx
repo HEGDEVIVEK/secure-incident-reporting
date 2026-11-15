@@ -1,14 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 import AdminDashboard from "./admin/AdminDashboard.jsx";
 import ReviewersDashboard from "./reviewers/ReviewersDashboard.jsx";
 import UserDashboard from "./users/UserDashboard.jsx";
 import LoginPage from "./shared/LoginPage.jsx";
-
-
 import "./App.css";
 
 export default function App() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState("");
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -32,6 +32,7 @@ export default function App() {
 
       setMessage("You have signed out.");
       setUser(null);
+      navigate("/", { replace: true });
     } catch {
       setMessage("Could not reach the server. Please try again.");
     } finally {
@@ -49,7 +50,9 @@ export default function App() {
         <div className="app-header-inner">
           <div className="app-header-identity">
             <h1>Incident Reporting</h1>
-            <p><strong>{user.username}</strong></p>
+            <p>
+              <strong>{user.username}</strong>
+            </p>
           </div>
 
           <button
@@ -64,7 +67,11 @@ export default function App() {
       </header>
 
       <main className="app-content">
-        {message && <p className="app-error" role="alert">{message}</p>}
+        {message && (
+          <p className="app-error" role="alert">
+            {message}
+          </p>
+        )}
 
         {user.role === "admin" && <AdminDashboard currentUserId={user.id} />}
         {user.role === "reviewer" && <ReviewersDashboard />}

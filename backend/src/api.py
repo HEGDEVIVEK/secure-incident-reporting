@@ -334,6 +334,7 @@ def fetch_incidents(query):
             "status": 1,
             "submitted_by_name": 1,
             "created_at": 1,
+            "comments": 1,
         },
     ).sort("created_at", -1)
 
@@ -345,22 +346,25 @@ def fetch_incidents(query):
             "status": incident["status"],
             "submitted_by_name": incident.get("submitted_by_name"),
             "created_at": incident["created_at"],
+            "comments": [
+                {
+                    "id": str(comment["_id"]),
+                    "username": comment["username"],
+                    "text": comment["text"],
+                    "created_at": comment.get("created_at"),
+                }
+                for comment in incident.get("comments", [])
+            ],
         }
         for incident in incidents
     ]
 
-
 @app.get("/incidents")
-def list_incidents(current_user=Depends(get_current_user)):
-    role = current_user["role"]
+def list_all_incidents(current_user=Depends(get_current_user)):
+    if current_user["role"] not in ("admin", "reviewer"):
+        raise HTTPException(status_code=403, detail="Reviewer or admin access required")
 
-    if role == "admin":
-        return fetch_incidents({})
-
-    if role == "reviewer":
-        return fetch_incidents({"status": {"$in": ["open", "under-review"]}})
-
-    raise HTTPException(status_code=403, detail="Reviewer or admin access required")
+    return fetch_incidents({})
 
 
 @app.post("/incidents/{incident_id}/comments", status_code=201)

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./IncidentCommentForm.css";
+import "./css/IncidentCommentForm.css";
 
 export default function IncidentCommentForm({ incidentId }) {
     const [message, setMessage] = useState("");
