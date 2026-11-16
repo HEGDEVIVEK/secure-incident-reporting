@@ -51,7 +51,7 @@ export default function IncidentForm({ onIncidentCreated }) {
 
     return (
         <section className="incident-form">
-            <h2>Report an incident</h2>
+            {/* <h2>Report an incident</h2> */}
 
             <form onSubmit={handleSubmit}>
                 <label htmlFor="incident-title">Title</label>
