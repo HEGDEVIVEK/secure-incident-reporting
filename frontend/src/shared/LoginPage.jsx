@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import "./css/LoginPage.css";
 
 export default function LoginPage({ onLogin, initialMessage = "" }) {
@@ -71,6 +72,10 @@ export default function LoginPage({ onLogin, initialMessage = "" }) {
                     {isSubmitting ? "Signing in…" : "Log in"}
                 </button>
             </form>
+
+            <Link className="login-change-password" to="/update-password">
+                Change password
+            </Link>
 
             <p role="status">{message}</p>
         </main>

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Navigate, NavLink, Route, Routes } from "react-router";
 
 import AdminDashboard from "./admin/AdminDashboard.jsx";
 import ReviewersDashboard from "./reviewers/ReviewersDashboard.jsx";
 import UserDashboard from "./users/UserDashboard.jsx";
 import LoginPage from "./shared/LoginPage.jsx";
+import UpdatePassword from "./shared/UpdatePassword.jsx";
 import "./App.css";
 
 export default function App() {
@@ -41,8 +43,17 @@ export default function App() {
   }
 
   if (!user) {
-    return <LoginPage onLogin={handleLogin} initialMessage={message} />;
-  }
+  return (
+    <Routes>
+      <Route
+        path="/login"
+        element={<LoginPage onLogin={handleLogin} initialMessage={message} />}
+      />
+      <Route path="/update-password" element={<UpdatePassword />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
+  );
+}
 
   return (
     <>

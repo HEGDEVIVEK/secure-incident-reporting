@@ -5,6 +5,8 @@ from datetime import datetime, timedelta, timezone
 from bson import ObjectId
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from pymongo.errors import DuplicateKeyError
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 from src.mongodb import mongo_client, mongo_db
 from src.schemas import (
@@ -14,14 +16,22 @@ from src.schemas import (
     LoginRequest,
     UserCreate,
     UserRoleUpdate,
-    UserStatusUpdate
+    UserStatusUpdate,
+    ChangePasswordRequest
 )
 from src.security import password_hasher
 from src.verifySession import get_current_user
 from src.verifyUser import verify_credentials
 
-
 app = FastAPI()
+
+
+@app.exception_handler(RequestValidationError)
+async def handle_validation_error(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=422,
+        content={"detail": "Invalid input. Please check the submitted fields."},
+    )
 
 
 @app.get("/health")
@@ -88,6 +98,62 @@ def logout(request: Request, response: Response):
 
     return {"message": "Signed out"}
 
+
+@app.post("/update-password")
+def update_password(data: ChangePasswordRequest):
+    current_password = data.current_password.get_secret_value()
+    new_password = data.new_password.get_secret_value()
+
+    user = verify_credentials(data.username, current_password)
+
+    if new_password == current_password:
+        raise HTTPException(
+            status_code=422,
+            detail="Choose a password different from your current password.",
+        )
+
+    new_hash = password_hasher.hash(new_password)
+
+    def change_password_and_log(db_session):
+        # Only update if the account is still active and the verified hash still matches.
+        result = mongo_db.users.update_one(
+            {
+                "_id": user["_id"],
+                "is_active": True,
+                "password_hash": user["password_hash"],
+            },
+            {"$set": {"password_hash": new_hash}},
+            session=db_session,
+        )
+
+        if result.matched_count == 0:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid username or password",
+            )
+
+        mongo_db.sessions.delete_many(
+            {"user_id": user["_id"]},
+            session=db_session,
+        )
+
+        mongo_db.audit_logs.insert_one(
+            {
+                "user_id": user["_id"],
+                "username": user["username"],
+                "action": "password_changed",
+                "target_type": "user",
+                "target_id": user["_id"],
+                "target_username": user["username"],
+                "timestamp": datetime.now(timezone.utc),
+            },
+            session=db_session,
+        )
+
+    with mongo_client.start_session() as db_session:
+        db_session.with_transaction(change_password_and_log)
+
+    return {"message": "Password updated. Log in with your new password."}
 
 
 #### ADMIN END POINTS ####

@@ -6,7 +6,13 @@ class LoginRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     username: str = Field(min_length=1, max_length=64)
-    password: SecretStr = Field(min_length=1, max_length=128)
+    password: SecretStr = Field(min_length=5, max_length=15)
+
+
+class ChangePasswordRequest(BaseModel):
+    username: str = Field(min_length=1, max_length=64)
+    current_password: SecretStr = Field(min_length=5, max_length=15)
+    new_password: SecretStr = Field(min_length=5, max_length=15)
 
 
 class IncidentCreate(BaseModel):
@@ -24,7 +30,7 @@ class UserCreate(BaseModel):
         max_length=64,
         pattern=r"^[a-z0-9_]+$",
     )
-    password: SecretStr = Field(min_length=5, max_length=128)
+    password: SecretStr = Field(min_length=5, max_length=15)
     role: Literal["user", "reviewer", "admin"] = "user"
 
 
@@ -33,10 +39,12 @@ class IncidentStatusUpdate(BaseModel):
 
     status: Literal["open", "under-review", "closed"]
 
+
 class CommentCreate(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     text: str = Field(min_length=1, max_length=2000)
+
 
 class UserRoleUpdate(BaseModel):
     role: Literal["user", "reviewer", "admin"]
@@ -44,3 +52,4 @@ class UserRoleUpdate(BaseModel):
 
 class UserStatusUpdate(BaseModel):
     is_active: StrictBool
+
