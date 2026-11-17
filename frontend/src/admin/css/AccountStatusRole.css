@@ -1,0 +1,281 @@
+.account-status-role {
+  width: 100%;
+  color: #173b37;
+}
+
+.account-status-role,
+.account-status-role * {
+  box-sizing: border-box;
+}
+
+/* Table container */
+
+.account-status-role .account-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #d6e4e0;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+.account-status-role .account-table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+}
+
+.account-status-role .account-table th,
+.account-status-role .account-table td {
+  padding: 16px 20px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #dce5e2;
+}
+
+/* Column headings */
+
+.account-status-role .account-table thead th {
+  background-color: #173f3a;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Role-based row colors */
+
+.account-status-role .account-table tbody tr {
+  --row-background: #fff;
+  --row-hover: #f5f8f7;
+  --role-color: #526e68;
+
+  background-color: var(--row-background);
+}
+
+.account-status-role .account-table tbody tr[data-role="admin"] {
+  --row-background: #f3edff;
+  --row-hover: #eae0ff;
+  --role-color: #6941a5;
+}
+
+.account-status-role .account-table tbody tr[data-role="reviewer"] {
+  --row-background: #edf5ff;
+  --row-hover: #dfecff;
+  --role-color: #245b9e;
+}
+
+.account-status-role .account-table tbody tr[data-role="user"] {
+  --row-background: #edf8f0;
+  --row-hover: #dff1e5;
+  --role-color: #286b40;
+}
+
+.account-status-role .account-table tbody tr:hover,
+.account-status-role .account-table tbody tr:focus-within {
+  background-color: var(--row-hover);
+}
+
+.account-status-role .account-table tbody th,
+.account-status-role .account-table tbody td {
+  background-color: transparent;
+}
+
+.account-status-role .account-table tbody th {
+  color: var(--role-color);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  border-left: 4px solid var(--role-color);
+}
+
+.account-status-role .account-table tbody tr:last-child th,
+.account-status-role .account-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Role and status dropdowns */
+
+.account-status-role .account-table select {
+  display: block;
+  width: 100%;
+  min-width: 140px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #a9bfb8;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #173b37;
+  font: inherit;
+  cursor: pointer;
+}
+
+.account-status-role .account-table select:hover:not(:disabled) {
+  border-color: var(--role-color);
+}
+
+/* Update button */
+
+.account-status-role .account-table-action {
+  min-width: 170px;
+  max-width: 300px;
+}
+
+.account-status-role .account-table-action button {
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid #0f766e;
+  border-radius: 8px;
+  background-color: #0f766e;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.account-status-role .account-table-action button:hover:not(:disabled) {
+  border-color: #0b5e57;
+  background-color: #0b5e57;
+}
+
+/* Disabled controls and keyboard focus */
+
+.account-status-role .account-table select:disabled,
+.account-status-role .account-table button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.account-status-role .account-table select:focus-visible,
+.account-status-role .account-table button:focus-visible,
+.account-status-role .account-table-scroll:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 3px;
+}
+
+/* Current admin account */
+
+.account-status-role .account-table-you {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 9px;
+  border: 1px solid #d5c4ed;
+  border-radius: 20px;
+  background-color: #fff;
+  color: #6941a5;
+  font-size: 0.75rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.account-status-role .account-table-protected {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid #d5c4ed;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #6941a5;
+  font-size: 0.85rem;
+}
+
+/* Feedback */
+
+.account-status-role .account-table-success,
+.account-status-role .account-table-error {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.account-status-role .account-table-success {
+  color: #226338;
+}
+
+.account-status-role .account-table-error {
+  color: #a12626;
+}
+
+/* Smaller screens */
+
+@media (max-width: 600px) {
+  .account-status-role .account-table th,
+  .account-status-role .account-table td {
+    padding: 12px;
+  }
+
+  .account-status-role .account-table-scroll {
+    border-radius: 8px;
+  }
+}
+
+/* Light grey header */
+.account-status-role .account-table thead th {
+  background-color: #d5dfe9;
+  color: #507ec7;
+}
+
+/* Alternating grey and white rows */
+.account-status-role .account-table tbody tr:nth-child(odd) {
+  background-color: #f3f4f6;
+}
+
+.account-status-role .account-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* Neutral text and borders */
+.account-status-role .account-table tbody th,
+.account-status-role .account-table tbody td {
+  background-color: transparent;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.account-status-role .account-table tbody th {
+  border-left: 0;
+}
+
+/* Neutral dropdown borders */
+.account-status-role .account-table select:hover:not(:disabled) {
+  border-color: #9ca3af;
+}
+
+/* Grey labels */
+.account-status-role .account-table-you,
+.account-status-role .account-table-protected {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+  color: #4b5563;
+}
+
+.account-role-filter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.account-role-filter label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.account-role-filter select {
+  min-width: 150px;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #374151;
+  font: inherit;
+  cursor: pointer;
+}
+
+.account-role-filter select:focus-visible {
+  outline: 2px solid #6b7280;
+  outline-offset: 2px;
+}

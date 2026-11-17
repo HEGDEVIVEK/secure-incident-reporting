@@ -2,16 +2,14 @@ import { Navigate, NavLink, Route, Routes } from "react-router";
 import CreateUserForm from "./CreateUserForm.jsx";
 import AdminIncidents from "./AdminIncidents.jsx";
 import AdminComments from "./AdminComments.jsx";
-import UpdateRoleTab from "./UpdateRoleTab.jsx";
-import AccountStatusTab from "./AccountStatusTab.jsx";
+import AccountStatusRole from "./AccountStatusRole.jsx";
 import "./css/AdminDashboard.css";
 
 const tabs = [
   { path: "/admin/create-account", label: "Create account", component: CreateUserForm },
   { path: "/admin/incidents", label: "All incidents", component: AdminIncidents },
   { path: "/admin/comments", label: "Comments", component: AdminComments },
-  { path: "/admin/account-roles", label: "Update role", component: UpdateRoleTab },
-  { path: "/admin/account-status", label: "Account status", component: AccountStatusTab },
+  { path: "/admin/account-roles-status", label: "Update role and status", component: AccountStatusRole }
 ];
 
 export default function AdminDashboard({ currentUserId }) {

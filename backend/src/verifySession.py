@@ -17,13 +17,13 @@ def get_current_user(request: Request):
         "expires_at": {"$gt": datetime.now(timezone.utc)},
     })
     if session is None:
-        raise HTTPException(status_code=401, detail="Session expired or invalid")
+        raise HTTPException(status_code=401, detail="Your session has expired. Please sign in again.")
 
     user = mongo_db.users.find_one(
         {"_id": session["user_id"], "is_active": True},
         {"_id": 1, "role": 1, "username": 1},
     )
     if user is None:
-        raise HTTPException(status_code=401, detail="Please sign in")
+        raise HTTPException(status_code=401, detail="Your session has expired. Please sign in again.")
 
     return user

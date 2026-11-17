@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import "./css/IncidentComments.css";
 
 const statusLabels = {
@@ -6,6 +6,19 @@ const statusLabels = {
   "under-review": "Under review",
   closed: "Closed",
 };
+
+const priorityLabels = {
+  high: "High",
+  medium: "Medium",
+  low: "Low",
+};
+
+const filterGroups = [
+  { key: "status", title: "Incident status", options: statusLabels },
+  { key: "priority", title: "Incident priority", options: priorityLabels },
+];
+
+const emptyFilters = { status: [], priority: [] };
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
@@ -16,10 +29,17 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   timeZoneName: "short",
 });
 
+function normalizeStatus(value) {
+  return (value ?? "").trim().toLowerCase().replace(/[\s_]+/g, "-");
+}
+
+function normalizePriority(value) {
+  return (value ?? "").trim().toLowerCase();
+}
+
 function renderDateTime(value) {
   if (!value) return "Date unavailable";
 
-  // The backend stores UTC, including timestamps returned without a suffix.
   const hasTimeZone = /(?:Z|[+-]\d{2}:\d{2})$/i.test(value);
   const date = new Date(hasTimeZone ? value : `${value}Z`);
 
@@ -40,10 +60,42 @@ export default function IncidentComments({ canChangeStatus = false }) {
   const [message, setMessage] = useState("");
   const [actionError, setActionError] = useState("");
 
+  const [filters, setFilters] = useState(emptyFilters);
+  const [draftFilters, setDraftFilters] = useState(emptyFilters);
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  const filterWrapper = useRef(null);
+  const filterButton = useRef(null);
+  const filterPanelId = useId();
+  const incidentSelectId = useId();
+  const commentInputId = useId();
+
   const isSaving = savingAction !== null;
+  const activeFilterCount = filters.status.length + filters.priority.length;
+
+  const filteredIncidents = incidents.filter((incident) => {
+    const status = normalizeStatus(incident.status);
+    const priority = normalizePriority(incident.priority);
+
+    const matchesStatus =
+      filters.status.length === 0 || filters.status.includes(status);
+
+    const matchesPriority =
+      filters.priority.length === 0 || filters.priority.includes(priority);
+
+    return matchesStatus && matchesPriority;
+  });
+
   const selectedIncident = incidents.find((item) => item.id === selectedId);
   const comments = selectedIncident?.comments ?? [];
-  const status = selectedIncident?.status.replace("_", "-");
+  const status = normalizeStatus(selectedIncident?.status);
+  const priority = normalizePriority(selectedIncident?.priority);
+
+  // Keep the current incident available after its status changes,
+  // even if its updated status falls outside the applied filters.
+  const selectedOutsideFilters =
+    selectedIncident &&
+    !filteredIncidents.some((incident) => incident.id === selectedId);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -86,15 +138,62 @@ export default function IncidentComments({ canChangeStatus = false }) {
     return () => controller.abort();
   }, [refreshVersion]);
 
+  useEffect(() => {
+    if (!filterOpen) return;
+
+    function handleOutsideClick(event) {
+      if (!filterWrapper.current?.contains(event.target)) {
+        setFilterOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handleOutsideClick);
+    return () =>
+      document.removeEventListener("pointerdown", handleOutsideClick);
+  }, [filterOpen]);
+
   function refreshIncidents() {
     setRefreshVersion((version) => version + 1);
+  }
+
+  function clearFeedback() {
+    setMessage("");
+    setActionError("");
   }
 
   function handleSelect(event) {
     setSelectedId(event.target.value);
     setCommentText("");
-    setMessage("");
-    setActionError("");
+    clearFeedback();
+  }
+
+  function toggleFilterPanel() {
+    if (!filterOpen) {
+      setDraftFilters(filters);
+    }
+    setFilterOpen((previous) => !previous);
+  }
+
+  function toggleFilter(group, value, checked) {
+    setDraftFilters((previous) => ({
+      ...previous,
+      [group]: checked
+        ? [...previous[group], value]
+        : previous[group].filter((item) => item !== value),
+    }));
+  }
+
+  function closeFilterPanel() {
+    setFilterOpen(false);
+    filterButton.current?.focus();
+  }
+
+  function applyFilters() {
+    setFilters(draftFilters);
+    setSelectedId("");
+    setCommentText("");
+    clearFeedback();
+    closeFilterPanel();
   }
 
   async function handleCommentSubmit(event) {
@@ -103,8 +202,7 @@ export default function IncidentComments({ canChangeStatus = false }) {
     if (!selectedIncident || isSaving) return;
 
     const text = commentText.trim();
-    setMessage("");
-    setActionError("");
+    clearFeedback();
 
     if (!text) {
       setActionError("Enter a comment before submitting.");
@@ -148,8 +246,7 @@ export default function IncidentComments({ canChangeStatus = false }) {
 
     const incidentId = selectedIncident.id;
     setSavingAction("status");
-    setMessage("");
-    setActionError("");
+    clearFeedback();
 
     try {
       const response = await fetch(`/api/incidents/${incidentId}/status`, {
@@ -169,7 +266,7 @@ export default function IncidentComments({ canChangeStatus = false }) {
       }
 
       const updated = await response.json();
-      const savedStatus = updated.status.replace("_", "-");
+      const savedStatus = normalizeStatus(updated.status);
 
       setIncidents((previous) =>
         previous.map((incident) =>
@@ -179,7 +276,7 @@ export default function IncidentComments({ canChangeStatus = false }) {
         )
       );
 
-      setMessage(`Status updated to ${statusLabels[savedStatus]}.`);
+      setMessage(`Status updated to ${statusLabels[savedStatus] ?? savedStatus}.`);
       refreshIncidents();
     } catch {
       setActionError("Could not confirm whether the status was updated.");
@@ -191,37 +288,148 @@ export default function IncidentComments({ canChangeStatus = false }) {
   return (
     <section className="incident-discussion">
       <div className="incident-discussion-picker">
-        <label htmlFor="discussion-incident">Select an incident</label>
+        <div className="incident-discussion-picker-heading">
+          <label htmlFor={incidentSelectId}>Select an incident</label>
+
+          {!loading && !loadError && (
+            <div
+              className="discussion-filter"
+              ref={filterWrapper}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                  setFilterOpen(false);
+                }
+              }}
+              onKeyDown={(event) => {
+                if (filterOpen && event.key === "Escape") {
+                  event.stopPropagation();
+                  closeFilterPanel();
+                }
+              }}
+            >
+              <button
+                type="button"
+                className="discussion-filter-trigger"
+                ref={filterButton}
+                disabled={isSaving}
+                aria-expanded={filterOpen}
+                aria-controls={filterPanelId}
+                onClick={toggleFilterPanel}
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M3 4h18l-7 8v6l-4 2v-8L3 4Z" />
+                </svg>
+                Filter by status and priority
+                {activeFilterCount > 0 && ` (${activeFilterCount})`}
+              </button>
+
+              <div
+                className="discussion-filter-panel"
+                id={filterPanelId}
+                hidden={!filterOpen}
+              >
+                {filterGroups.map(({ key, title, options }) => (
+                  <fieldset key={key} disabled={isSaving}>
+                    <legend>{title}</legend>
+
+                    {Object.entries(options).map(([value, label]) => (
+                      <label className="discussion-filter-option" key={value}>
+                        <input
+                          type="checkbox"
+                          checked={draftFilters[key].includes(value)}
+                          onChange={(event) =>
+                            toggleFilter(key, value, event.target.checked)
+                          }
+                        />
+                        {label}
+                      </label>
+                    ))}
+                  </fieldset>
+                ))}
+
+                <div className="discussion-filter-footer">
+                  <button
+                    type="button"
+                    className="discussion-filter-clear"
+                    disabled={isSaving}
+                    onClick={() => setDraftFilters(emptyFilters)}
+                  >
+                    Clear
+                  </button>
+                  <button
+                    type="button"
+                    className="discussion-filter-done"
+                    disabled={isSaving}
+                    onClick={applyFilters}
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
 
         <select
-          id="discussion-incident"
+          id={incidentSelectId}
           value={selectedId}
           onChange={handleSelect}
-          disabled={loading || isSaving || incidents.length === 0}
+          disabled={
+            loading ||
+            isSaving ||
+            (filteredIncidents.length === 0 && !selectedIncident)
+          }
         >
-          <option value="">
+          <option value="" disabled>
             {loading ? "Loading incidents…" : "Choose an incident"}
           </option>
 
-          {incidents.map((incident) => (
+          {selectedOutsideFilters && (
+            <option value={selectedIncident.id}>
+              {selectedIncident.title} · {selectedIncident.id.slice(-6)}
+              {" · Current selection"}
+            </option>
+          )}
+
+          {filteredIncidents.map((incident) => (
             <option key={incident.id} value={incident.id}>
               {incident.title} · {incident.id.slice(-6)}
             </option>
           ))}
         </select>
 
-        {!loading && !loadError && incidents.length === 0 && (
-          <p>No incidents have been submitted yet.</p>
+        {!loading && !loadError && filteredIncidents.length === 0 && (
+          <p className="incident-discussion-empty" role="status">
+            {incidents.length === 0
+              ? "No incidents have been submitted yet."
+              : "No incidents match the selected filters."}
+          </p>
         )}
-{/* 
+
+        {selectedOutsideFilters && (
+          <p className="incident-discussion-empty">
+            The selected incident now falls outside the applied filters.
+          </p>
+        )}
+
         {loadError && (
-          <div>
+          <div className="incident-discussion-load-error">
             <p role="alert">{loadError}</p>
-            <button type="button" onClick={refreshIncidents}>
+            {/* <button type="button" onClick={refreshIncidents} disabled={isSaving}>
               Retry
-            </button>
+            </button> */}
           </div>
-        )} */}
+        )}
       </div>
 
       {selectedIncident && (
@@ -229,15 +437,18 @@ export default function IncidentComments({ canChangeStatus = false }) {
           <header className="incident-discussion-header">
             <div>
               <h3>{selectedIncident.title}</h3>
-
               <p>
                 Submitted by{" "}
-                <strong>{selectedIncident.submitted_by_name || "Unknown user"}</strong>
-                {" · "}
-                Incident ID - <code>{selectedIncident.id.slice(-6)}</code>
+                <strong>
+                  {selectedIncident.submitted_by_name || "Unknown user"}
+                </strong>
+                {" · "}Incident ID - <code>{selectedIncident.id.slice(-6)}</code>
               </p>
-
-              <p className="incident-card-created">Created {renderDateTime(selectedIncident.created_at)}</p>
+              <p>Created {renderDateTime(selectedIncident.created_at)}</p>
+              <p>
+                Priority{" "}
+                <strong>{priorityLabels[priority] ?? "Unassigned"}</strong>
+              </p>
             </div>
 
             <span className="incident-discussion-status" data-status={status}>
@@ -261,7 +472,6 @@ export default function IncidentComments({ canChangeStatus = false }) {
                   Start review
                 </button>
               )}
-
               <button
                 type="button"
                 disabled={isSaving}
@@ -293,33 +503,28 @@ export default function IncidentComments({ canChangeStatus = false }) {
           </details>
 
           <div className="incident-discussion-compose">
-            <form
-              className="incident-comment-form"
-              onSubmit={handleCommentSubmit}
-            >
-              <label htmlFor="discussion-comment">Add a comment</label>
-
+            <form className="incident-comment-form" onSubmit={handleCommentSubmit}>
+              <label htmlFor={commentInputId}>Add a comment</label>
               <textarea
-                id="discussion-comment"
+                id={commentInputId}
                 name="text"
                 rows={3}
                 maxLength={2000}
                 value={commentText}
                 onChange={(event) => setCommentText(event.target.value)}
-                disabled={savingAction === "comment"}
+                disabled={isSaving}
                 required
               />
-
               <button type="submit" disabled={isSaving}>
                 {savingAction === "comment" ? "Saving…" : "Save comment"}
               </button>
             </form>
           </div>
-
-          {message && <p role="status">{message}</p>}
-          {actionError && <p role="alert">{actionError}</p>}
         </article>
       )}
+
+      {message && <p className="discussion-success" role="status">{message}</p>}
+      {actionError && <p className="discussion-error" role="alert">{actionError}</p>}
     </section>
   );
 }

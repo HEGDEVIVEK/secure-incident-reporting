@@ -15,9 +15,8 @@ from src.schemas import (
     IncidentStatusUpdate,
     LoginRequest,
     UserCreate,
-    UserRoleUpdate,
-    UserStatusUpdate,
-    ChangePasswordRequest
+    ChangePasswordRequest,
+    UserAccountUpdate
 )
 from src.security import password_hasher
 from src.verifySession import get_current_user
@@ -213,10 +212,10 @@ def list_users(current_user=Depends(get_current_user)):
     ]
 
 
-@app.patch("/users/{user_id}/role")
-def update_user_role(
+@app.patch("/users/{user_id}/status-role")
+def update_user_account(
     user_id: str,
-    data: UserRoleUpdate,
+    data: UserAccountUpdate,
     current_user=Depends(get_current_user),
 ):
     if current_user["role"] != "admin":
@@ -226,82 +225,66 @@ def update_user_role(
         raise HTTPException(status_code=422, detail="Invalid user ID")
 
     target_id = ObjectId(user_id)
+
     if target_id == current_user["_id"]:
-        raise HTTPException(status_code=403, detail="You cannot change your own role")
+        raise HTTPException(
+            status_code=403,
+            detail="You cannot change your own role or account status",
+        )
 
     def update_and_log(session):
         previous = mongo_db.users.find_one_and_update(
             {"_id": target_id},
-            {"$set": {"role": data.role}},
-            projection={"username": 1, "role": 1},
+            {
+                "$set": {
+                    "role": data.role,
+                    "is_active": data.is_active,
+                }
+            },
+            projection={
+                "username": 1,
+                "role": 1,
+                "is_active": 1,
+            },
             session=session,
         )
 
         if previous is None:
             raise HTTPException(status_code=404, detail="User not found")
 
-        if previous["role"] != data.role:
-            mongo_db.audit_logs.insert_one(
-                {
-                    "user_id": current_user["_id"],
-                    "username": current_user["username"],
-                    "action": "user_role_changed",
-                    "target_type": "user",
-                    "target_id": target_id,
-                    "target_username": previous["username"],
-                    "old_role": previous["role"],
-                    "new_role": data.role,
-                    "timestamp": datetime.now(timezone.utc),
-                },
-                session=session,
-            )
+        role_changed = previous["role"] != data.role
+        status_changed = previous["is_active"] != data.is_active
 
-        return {"id": str(target_id), "username": previous["username"], "role": data.role}
+        changes = {}
 
-    with mongo_client.start_session() as session:
-        return session.with_transaction(update_and_log)
+        if role_changed:
+            changes["role"] = {
+                "old": previous["role"],
+                "new": data.role,
+            }
 
+        if status_changed:
+            changes["is_active"] = {
+                "old": previous["is_active"],
+                "new": data.is_active,
+            }
 
-@app.patch("/users/{user_id}/status")
-def update_user_status(
-    user_id: str,
-    data: UserStatusUpdate,
-    current_user=Depends(get_current_user),
-):
-    if current_user["role"] != "admin":
-        raise HTTPException(status_code=403, detail="Admin access required")
-
-    if not ObjectId.is_valid(user_id):
-        raise HTTPException(status_code=422, detail="Invalid user ID")
-
-    target_id = ObjectId(user_id)
-
-    if target_id == current_user["_id"] and not data.is_active:
-        raise HTTPException(status_code=403, detail="You cannot deactivate your own account")
-
-    def update_and_log(session):
-        previous = mongo_db.users.find_one_and_update(
-            {"_id": target_id},
-            {"$set": {"is_active": data.is_active}},
-            projection={"username": 1, "is_active": 1},
-            session=session,
-        )
-
-        if previous is None:
-            raise HTTPException(status_code=404, detail="User not found")
-
-        if previous["is_active"] != data.is_active:
             if not data.is_active:
-                mongo_db.sessions.delete_many({"user_id": target_id}, session=session)
+                mongo_db.sessions.delete_many(
+                    {"user_id": target_id},
+                    session=session,
+                )
 
+        if changes:
             mongo_db.audit_logs.insert_one(
                 {
                     "user_id": current_user["_id"],
                     "username": current_user["username"],
-                    "action": "user_activated" if data.is_active else "user_deactivated",
+                    "action": "user_account_updated",
                     "target_type": "user",
                     "target_id": target_id,
                     "target_username": previous["username"],
+                    "changes": changes,
                     "timestamp": datetime.now(timezone.utc),
                 },
                 session=session,
@@ -310,13 +293,12 @@ def update_user_status(
         return {
             "id": str(target_id),
             "username": previous["username"],
+            "role": data.role,
             "is_active": data.is_active,
         }
 
     with mongo_client.start_session() as session:
         return session.with_transaction(update_and_log)
-
-
 
 
 #### USER END POINT ####
@@ -327,6 +309,7 @@ def create_incident(data: IncidentCreate, current_user=Depends(get_current_user)
     incident = {
         "title": data.title,
         "description": data.description,
+        "priority": data.priority,
         "status": "open",
         "submitted_by_id": current_user["_id"],
         "submitted_by_name": current_user["username"],
@@ -360,6 +343,7 @@ def list_my_incidents(current_user=Depends(get_current_user)):
         {
             "title": 1,
             "description": 1,
+            "priority" : 1,
             "status": 1,
             "created_at": 1,
             "comments": 1,
@@ -371,6 +355,7 @@ def list_my_incidents(current_user=Depends(get_current_user)):
             "id": str(incident["_id"]),
             "title": incident["title"],
             "description": incident["description"],
+            "priority" : incident["priority"],
             "status": incident["status"],
             "created_at": incident["created_at"],
             "comments": [
@@ -397,6 +382,7 @@ def fetch_incidents(query):
         {
             "title": 1,
             "description": 1,
+            "priority" : 1,
             "status": 1,
             "submitted_by_name": 1,
             "created_at": 1,
@@ -409,6 +395,7 @@ def fetch_incidents(query):
             "id": str(incident["_id"]),
             "title": incident["title"],
             "description": incident["description"],
+            "priority" : incident["priority"],
             "status": incident["status"],
             "submitted_by_name": incident.get("submitted_by_name"),
             "created_at": incident["created_at"],

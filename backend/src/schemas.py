@@ -20,6 +20,7 @@ class IncidentCreate(BaseModel):
 
     title: str = Field(min_length=1, max_length=200)
     description: str = Field(min_length=1, max_length=5000)
+    priority: Literal["high", "medium", "low"]
 
 
 class UserCreate(BaseModel):
@@ -46,10 +47,6 @@ class CommentCreate(BaseModel):
     text: str = Field(min_length=1, max_length=2000)
 
 
-class UserRoleUpdate(BaseModel):
+class UserAccountUpdate(BaseModel):
     role: Literal["user", "reviewer", "admin"]
-
-
-class UserStatusUpdate(BaseModel):
     is_active: StrictBool
-

@@ -11,6 +11,7 @@ export default function IncidentForm({ onIncidentCreated }) {
         const form = event.currentTarget;
         const fields = new FormData(form);
         const title = fields.get("title").trim();
+        const priority = fields.get("priority");
         const description = fields.get("description").trim();
 
         if (!title || !description) {
@@ -25,7 +26,7 @@ export default function IncidentForm({ onIncidentCreated }) {
             const response = await fetch("/api/add_incidents", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ title, description }),
+                body: JSON.stringify({ title, description, priority }),
             });
 
             if (response.status === 401) {
@@ -72,6 +73,14 @@ export default function IncidentForm({ onIncidentCreated }) {
                     placeholder="Describe what happened"
                     required
                 />
+
+                <label htmlFor="incident-priority">Priority</label>
+                <select id="incident-priority" name="priority" defaultValue="" required>
+                    <option value="" disabled>Select priority</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
 
                 <button type="submit" disabled={isSubmitting}>
                     {isSubmitting ? "Submitting…" : "Submit incident"}

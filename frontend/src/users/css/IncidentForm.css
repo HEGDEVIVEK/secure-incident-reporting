@@ -78,3 +78,22 @@
     opacity: 0.65;
     cursor: wait;
 }
+
+.incident-form #incident-priority {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #b9ceca;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #173b37;
+    font: inherit;
+    cursor: pointer;
+}
+
+.incident-form #incident-priority:focus-visible {
+    outline: 2px solid #0f766e;
+    outline-offset: 2px;
+}

@@ -78,7 +78,8 @@ export default function CreateUserForm() {
 
                 <label>
                     Role
-                    <select name="role" defaultValue="user">
+                    <select name="role" defaultValue="" required>
+                        <option value="" disabled>Select role</option>
                         <option value="user">User</option>
                         <option value="reviewer">Reviewer</option>
                         <option value="admin">Admin</option>
