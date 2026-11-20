@@ -8,6 +8,11 @@ from pymongo.errors import DuplicateKeyError
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+import json
+import logging
+import traceback
+from pathlib import Path
+
 from src.mongodb import mongo_client, mongo_db
 from src.schemas import (
     CommentCreate,
@@ -24,15 +29,99 @@ from src.verifyUser import verify_credentials
 
 app = FastAPI()
 
+logger = logging.getLogger("incident_reporting")
+logger.setLevel(logging.INFO)
+logger.propagate = False
+
+if not logger.handlers:
+    logger.addHandler(logging.StreamHandler())
+
+
+def log_request_error(level, event, request, **details):
+    # Log the route template, excluding raw URLs and query parameters.
+    route = getattr(request.scope.get("route"), "path", "<unmatched>")
+
+    record = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "event": event,
+        "request_id": request.state.request_id,
+        "method": request.method,
+        "route": route,
+        **details,
+    }
+
+    logger.log(level, json.dumps(record))
+
+
+@app.middleware("http")
+async def handle_request_errors(request: Request, call_next):
+    # Generate our own reference ID for each request.
+    request.state.request_id = secrets.token_hex(16)
+
+    try:
+        response = await call_next(request)
+
+    except Exception as exc:
+        # Record code locations without exception messages or local values.
+        frames = [
+            {
+                "file": Path(frame.filename).name,
+                "line": frame.lineno,
+                "function": frame.name,
+            }
+            for frame in traceback.extract_tb(exc.__traceback__)
+        ]
+
+        log_request_error(
+            logging.ERROR,
+            "unexpected_error",
+            request,
+            exception_type=type(exc).__name__,
+            frames=frames,
+        )
+
+        response = JSONResponse(
+            status_code=500,
+            content={
+                "detail": "Something went wrong. Please try again.",
+                "request_id": request.state.request_id,
+            },
+        )
+
+    else:
+        # Validation errors are logged by their handler below.
+        if response.status_code >= 400 and response.status_code != 422:
+            log_request_error(
+                logging.WARNING,
+                "request_rejected",
+                request,
+                status_code=response.status_code,
+            )
+
+    response.headers["X-Request-ID"] = request.state.request_id
+    return response
+
 
 @app.exception_handler(RequestValidationError)
-async def handle_validation_error(request: Request, exc: RequestValidationError):
-    return JSONResponse(
-        status_code=422,
-        content={"detail": "Invalid input. Please check the submitted fields."},
+async def handle_validation_error(
+    request: Request,
+    exc: RequestValidationError,
+):
+    log_request_error(
+        logging.WARNING,
+        "validation_failed",
+        request,
+        error_count=len(exc.errors()),
     )
 
+    return JSONResponse(
+        status_code=422,
+        content={
+            "detail": "Invalid input. Please check the submitted fields."
+        },
+    )
 
+    
 @app.get("/health")
 def health():
     return {"status": "ok"}
