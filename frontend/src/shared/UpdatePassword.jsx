@@ -90,12 +90,12 @@ export default function UpdatePassword() {
                 name="new_password"
                 type="password"
                 autoComplete="new-password"
-                minLength={5}
-                maxLength={15}
+                minLength={12}
+                maxLength={129}
                 aria-describedby="password-length"
                 required
               />
-              <small id="password-length">Use 5 to 15 characters.</small>
+              <small id="password-length">Use 12 to 128 characters.</small>
             </label>
 
             <label>
@@ -104,8 +104,8 @@ export default function UpdatePassword() {
                 name="confirm_password"
                 type="password"
                 autoComplete="new-password"
-                minLength={5}
-                maxLength={15}
+                minLength={12}
+                maxLength={128}
                 required
               />
             </label>

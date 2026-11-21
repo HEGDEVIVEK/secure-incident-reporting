@@ -27,7 +27,18 @@ from src.security import password_hasher
 from src.verifySession import get_current_user
 from src.verifyUser import verify_credentials
 
-app = FastAPI()
+app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
+
+# Security headers added to every API response (SR-16: security misconfiguration)
+SECURITY_HEADERS = {
+    "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'",
+    "X-Frame-Options": "DENY",
+    "X-Content-Type-Options": "nosniff",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "Referrer-Policy": "no-referrer",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+    "Cache-Control": "no-store",  # incident data is sensitive, so don't let browsers cache it
+}
 
 logger = logging.getLogger("incident_reporting")
 logger.setLevel(logging.INFO)
@@ -99,6 +110,7 @@ async def handle_request_errors(request: Request, call_next):
             )
 
     response.headers["X-Request-ID"] = request.state.request_id
+    response.headers.update(SECURITY_HEADERS)
     return response
 
 
@@ -137,7 +149,7 @@ def login(request: LoginRequest, response: Response):
     # The browser receives the token. MongoDB stores its hash.
     token = secrets.token_urlsafe(32)
     token_hash = hashlib.sha256(token.encode()).hexdigest()
-    lifetime = timedelta(minutes=15)
+    lifetime = timedelta(minutes=120)
 
     mongo_db.sessions.insert_one(
         {

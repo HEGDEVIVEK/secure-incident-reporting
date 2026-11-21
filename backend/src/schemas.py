@@ -16,10 +16,16 @@ from pydantic import (
 # Allow normal tabs and newlines in descriptions and comments.
 INVALID_CONTROL_CHARS = re.compile(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]")
 
+# ASVS 2.1: length-based policy, with a cap so huge inputs can't slow down Argon2
+PASSWORD_MIN_LENGTH = 12
+PASSWORD_MAX_LENGTH = 128
+
 
 def validate_text(value: str) -> str:
     if INVALID_CONTROL_CHARS.search(value):
         raise ValueError("Text contains invalid control characters")
+    if "<" in value or ">" in value:
+        raise ValueError("Angle brackets (< and >) are not allowed.")
     return value
 
 
@@ -27,7 +33,7 @@ class LoginRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     username: str = Field(min_length=1, max_length=64)
-    password: SecretStr = Field(min_length=5, max_length=15)
+    password: SecretStr = Field(min_length=PASSWORD_MIN_LENGTH, max_length=PASSWORD_MAX_LENGTH)
 
 
 class ChangePasswordRequest(BaseModel):
@@ -35,8 +41,8 @@ class ChangePasswordRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     username: str = Field(min_length=1, max_length=64)
-    current_password: SecretStr = Field(min_length=5, max_length=15)
-    new_password: SecretStr = Field(min_length=5, max_length=15)
+    current_password: SecretStr = Field(min_length=PASSWORD_MIN_LENGTH, max_length=PASSWORD_MAX_LENGTH)
+    new_password: SecretStr = Field(min_length=PASSWORD_MIN_LENGTH, max_length=PASSWORD_MAX_LENGTH)
 
 
 class IncidentCreate(BaseModel):
@@ -64,7 +70,7 @@ class UserCreate(BaseModel):
         max_length=64,
         pattern=r"^[a-z0-9_]+$",
     )
-    password: SecretStr = Field(min_length=5, max_length=15)
+    password: SecretStr = Field(min_length=PASSWORD_MIN_LENGTH, max_length=PASSWORD_MAX_LENGTH)
     role: Literal["user", "reviewer", "admin"] = "user"
 
 
