@@ -1,6 +1,17 @@
+"""NFR-3 / NFR-4 load test: 50 users log in at once, then read their incidents.
+
+Defaults go through the Vite dev server (localhost:5173, /api prefix).
+To measure the backend alone, without the dev proxy, for example:
+
+    LOAD_TEST_PORT=8000 LOAD_TEST_PREFIX= python test_load.py
+
+(Windows PowerShell: $env:LOAD_TEST_PORT="8000"; $env:LOAD_TEST_PREFIX=""; python test_load.py)
+"""
+
 import http.client
 import json
 import math
+import os
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -11,8 +22,9 @@ from threading import Barrier
 from time import perf_counter
 
 USERS = 50
-HOST = "localhost"
-PORT = 5173
+HOST = os.environ.get("LOAD_TEST_HOST", "localhost")
+PORT = int(os.environ.get("LOAD_TEST_PORT", "5173"))
+PREFIX = os.environ.get("LOAD_TEST_PREFIX", "/api")
 
 
 def request(method, path, body=None, headers=None):
@@ -54,13 +66,13 @@ def main():
     def virtual_user(_):
         gate.wait()
         status, ms, cookie = request(
-            "POST", "/api/login", body, {"Content-Type": "application/json"}
+            "POST", f"{PREFIX}/login", body, {"Content-Type": "application/json"}
         )
         login = (status, ms)
         gate.wait()
         if status != "200" or not cookie:
             return login, ("skipped: no successful login with cookie", 0)
-        status, ms, _ = request("GET", "/api/incidents/mine", headers={"Cookie": cookie})
+        status, ms, _ = request("GET", f"{PREFIX}/incidents/mine", headers={"Cookie": cookie})
         return login, (status, ms)
 
     with ThreadPoolExecutor(max_workers=USERS) as pool:

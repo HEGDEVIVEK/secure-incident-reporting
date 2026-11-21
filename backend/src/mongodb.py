@@ -27,7 +27,12 @@ load_dotenv()
 
 password = keyring.get_password("secure-incident-reporting", "atlas-db-password")
 if not password:
-    raise RuntimeError("Atlas password was not found in Windows Credential Manager.")
+    raise RuntimeError(
+        "Atlas password was not found in the OS credential store "
+        "(Windows Credential Manager, macOS Keychain, or Linux Secret Service). "
+        "Store it once with: python -c \"import keyring, getpass; "
+        "keyring.set_password('secure-incident-reporting', 'atlas-db-password', getpass.getpass())\""
+    )
 
 mongo_client = MongoClient(
     f"mongodb+srv://{os.environ['MONGO_HOST']}/",
