@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./css/IncidentForm.css";
 
+import { apiFetch } from "../shared/api.js";
+
 export default function IncidentForm({ onIncidentCreated }) {
     const [message, setMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,7 +25,7 @@ export default function IncidentForm({ onIncidentCreated }) {
         setIsSubmitting(true);
 
         try {
-            const response = await fetch("/api/add_incidents", {
+            const response = await apiFetch("/api/add_incidents", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ title, description, priority }),

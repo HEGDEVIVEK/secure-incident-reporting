@@ -137,7 +137,7 @@ def login(request: LoginRequest, response: Response):
     # The browser receives the token. MongoDB stores its hash.
     token = secrets.token_urlsafe(32)
     token_hash = hashlib.sha256(token.encode()).hexdigest()
-    lifetime = timedelta(minutes=30)
+    lifetime = timedelta(minutes=15)
 
     mongo_db.sessions.insert_one(
         {
@@ -165,6 +165,22 @@ def login(request: LoginRequest, response: Response):
             "role": user["role"],
             "username": user["username"],          
             },
+    }
+
+
+@app.get("/me")
+def current_account(
+    response: Response,
+    current_user=Depends(get_current_user),
+):
+    response.headers["Cache-Control"] = "no-store"
+
+    return {
+        "user": {
+            "id": str(current_user["_id"]),
+            "username": current_user["username"],
+            "role": current_user["role"],
+        }
     }
 
 

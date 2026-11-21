@@ -1,6 +1,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import "./css/IncidentList.css";
 
+import { apiFetch } from "./api.js";
+
 const statusLabels = {
   open: "Open",
   "under-review": "Under review",
@@ -159,7 +161,7 @@ export default function IncidentList({
       setError("");
       setIncidents([]);
       try {
-        const response = await fetch(endpoint, {
+        const response = await apiFetch(endpoint, {
           signal: controller.signal,
           cache: "no-store",
         });

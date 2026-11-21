@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./css/AccountStatusRole.css";
 
+import { apiFetch } from "../shared/api.js";
+
 const roleOptions = [
   { value: "user", label: "User" },
   { value: "reviewer", label: "Reviewer" },
@@ -33,7 +35,7 @@ function AccountRow({ user, currentUserId, onSaved }) {
     clearFeedback();
 
     try {
-      const response = await fetch(`/api/users/${user.id}/status-role`, {
+      const response = await apiFetch(`/api/users/${user.id}/status-role`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -184,7 +186,7 @@ export default function AccountStatusRole({ currentUserId }) {
       setError("");
 
       try {
-        const response = await fetch("/api/list_users", {
+        const response = await apiFetch("/api/list_users", {
           signal: controller.signal,
           cache: "no-store",
         });

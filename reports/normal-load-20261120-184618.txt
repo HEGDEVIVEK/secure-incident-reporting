@@ -1,0 +1,7 @@
+Normal-load timing | 2026-11-20T18:46:18-06:00
+Target: localhost:5173 | One request at a time
+Runs per operation: 5
+Login: median 261 ms, max 339 ms, over 2 seconds: 0/5
+My incidents: median 187 ms, max 195 ms, over 2 seconds: 0/5
+Logout: median 80 ms, max 95 ms, over 2 seconds: 0/5
+PASS: All sampled operations completed within 2 seconds.

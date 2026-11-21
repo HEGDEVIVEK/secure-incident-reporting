@@ -1,0 +1,12 @@
+Write-operation timing | 2026-11-20T20:16:06-06:00
+Target: http://localhost:5173
+Sequential workflow runs: 3
+Create incident: median 279 ms, max 283 ms, over 2 seconds: 0/3
+Add comment: median 280 ms, max 288 ms, over 2 seconds: 0/3
+Change incident status: median 280 ms, max 291 ms, over 2 seconds: 0/6
+Create account: median 366 ms, max 369 ms, over 2 seconds: 0/3
+Change account role: median 272 ms, max 301 ms, over 2 seconds: 0/6
+Change password: median 444 ms, max 448 ms, over 2 seconds: 0/3
+Deactivate account: median 326 ms, max 344 ms, over 2 seconds: 0/3
+Reactivate account: median 278 ms, max 280 ms, over 2 seconds: 0/3
+PASS: All sampled write operations completed within 2 seconds.

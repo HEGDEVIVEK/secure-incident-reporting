@@ -1,6 +1,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import "./css/IncidentComments.css";
 
+import { apiFetch } from "./api.js";
+
 const statusLabels = {
   open: "Open",
   "under-review": "Under review",
@@ -104,7 +106,7 @@ export default function IncidentComments({ canChangeStatus = false }) {
       setLoadError("");
 
       try {
-        const response = await fetch("/api/incidents", {
+        const response = await apiFetch("/api/incidents", {
           signal: controller.signal,
           cache: "no-store",
         });
@@ -212,7 +214,7 @@ export default function IncidentComments({ canChangeStatus = false }) {
     setSavingAction("comment");
 
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `/api/incidents/${selectedIncident.id}/comments`,
         {
           method: "POST",
@@ -249,7 +251,7 @@ export default function IncidentComments({ canChangeStatus = false }) {
     clearFeedback();
 
     try {
-      const response = await fetch(`/api/incidents/${incidentId}/status`, {
+      const response = await apiFetch(`/api/incidents/${incidentId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: nextStatus }),
@@ -461,8 +463,18 @@ export default function IncidentComments({ canChangeStatus = false }) {
             <p>{selectedIncident.description}</p>
           </section>
 
-          {canChangeStatus && status !== "closed" && (
+          {canChangeStatus && (
             <div className="incident-discussion-actions">
+              {status !== "open" && (
+                <button
+                  type="button"
+                  disabled={isSaving}
+                  onClick={() => updateStatus("open")}
+                >
+                  {status === "closed" ? "Reopen incident" : "Return to Open"}
+                </button>
+              )}
+
               {status === "open" && (
                 <button
                   type="button"
@@ -472,13 +484,16 @@ export default function IncidentComments({ canChangeStatus = false }) {
                   Start review
                 </button>
               )}
-              <button
-                type="button"
-                disabled={isSaving}
-                onClick={() => updateStatus("closed")}
-              >
-                Close incident
-              </button>
+
+              {status !== "closed" && (
+                <button
+                  type="button"
+                  disabled={isSaving}
+                  onClick={() => updateStatus("closed")}
+                >
+                  Close incident
+                </button>
+              )}
             </div>
           )}
 

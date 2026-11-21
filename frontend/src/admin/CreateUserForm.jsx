@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./css/CreateUserForm.css";
 
+import { apiFetch } from "../shared/api.js";
+
 export default function CreateUserForm() {
     const [message, setMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,7 +17,7 @@ export default function CreateUserForm() {
         setIsSubmitting(true);
 
         try {
-            const response = await fetch("/api/add_users", {
+            const response = await apiFetch("/api/add_users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
