@@ -74,7 +74,7 @@ def main():
         summarize("Login", logins),
         summarize("My incidents", reads),
     ])
-    folder = Path(__file__).resolve().parent.parent / "reports"
+    folder = Path(__file__).resolve().parents[2] / "reports"
     folder.mkdir(exist_ok=True)
     output = folder / f"nfr4-load-{now:%Y%m%d-%H%M%S}.txt"
     output.write_text(report + "\n", encoding="utf-8")

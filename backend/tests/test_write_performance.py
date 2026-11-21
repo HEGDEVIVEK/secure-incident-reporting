@@ -234,7 +234,7 @@ def main():
     lines.extend(f"Cleanup warning: {item}" for item in cleanup_warnings)
 
     report = "\n".join(lines)
-    folder = Path(__file__).resolve().parent.parent / "reports"
+    folder = Path(__file__).resolve().parents[2] / "reports"
     folder.mkdir(exist_ok=True)
 
     output = folder / f"write-performance-{now:%Y%m%d-%H%M%S}.txt"

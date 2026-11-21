@@ -5,7 +5,7 @@ from pathlib import Path
 from statistics import median
 from time import sleep
 
-from test_load import HOST, PORT, request
+from tests.test_load import HOST, PORT, request
 
 
 RUNS = 5
@@ -90,7 +90,7 @@ def main():
     )
 
     report = "\n".join(lines)
-    folder = Path(__file__).resolve().parent.parent / "reports"
+    folder = Path(__file__).resolve().parents[2] / "reports"
     folder.mkdir(exist_ok=True)
 
     output = folder / f"normal-load-{now:%Y%m%d-%H%M%S}.txt"

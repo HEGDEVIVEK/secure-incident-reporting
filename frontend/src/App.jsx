@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { Navigate, NavLink, Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 
 import { SESSION_EXPIRED_EVENT } from "./shared/api.js";
 
