@@ -142,8 +142,8 @@ Our component and setup documentation supports **NFR-8**:
 | Document | Coverage |
 |---|---|
 | `api.md` | Endpoints, role access, validation, errors and audit events |
-| `mongodb.md` / `MongoDB.md` | Data model, unique username index, optional session TTL cleanup, restricted audit role and OS credential-store setup |
-| `README.MD` / `README.md` | Architecture, prerequisites, setup and run/build instructions |
+| `MongoDB.md` | Data model, unique username index, optional session TTL cleanup, restricted audit role and OS credential-store setup |
+| `README.md` | Architecture, prerequisites, setup and run/build instructions |
 
 Atlas audit restrictions apply to the application account; privileged database administrators retain administrative access. We still need to record separate evidence of diagnostic-log protection for SR-11.
 
