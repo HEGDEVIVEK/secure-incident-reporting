@@ -79,7 +79,7 @@ Signs a user in.
 | Field | Rules |
 |---|---|
 | `username` | string, 1–64 characters |
-| `password` | string, 1–128 characters |
+| `password` | string, 12–128 characters |
 
 - **200:** `{"message": "Signed in", "user": {"id", "role", "username"}}` and the `session_token` cookie.
 - **401:** `Invalid username or password`. The same message is used for an unknown user, a wrong password and a deactivated account. A dummy hash is checked for unknown users so timing is similar.
@@ -95,7 +95,7 @@ Changes a user's own password.
 | Field | Rules |
 |---|---|
 | `username` | string, 1–64 characters |
-| `current_password` | string, 1–128 characters |
+| `current_password` | string, 12–128 characters |
 | `new_password` | string, 12–128 characters, must differ from the current password |
 
 - **200:** `{"message": "Password updated. Log in with your new password."}`

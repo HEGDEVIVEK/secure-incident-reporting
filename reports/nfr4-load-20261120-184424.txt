@@ -1,4 +1,0 @@
-NFR-4 load test | 2026-11-20T18:44:24-06:00
-Target: localhost:5173 | 50 virtual users sharing one test account
-Login: 50/50 returned 200 | outcomes: {'200': 50} | successful requests: p95 4479 ms, max 4509 ms
-My incidents: 50/50 returned 200 | outcomes: {'200': 50} | successful requests: p95 1586 ms, max 1755 ms
