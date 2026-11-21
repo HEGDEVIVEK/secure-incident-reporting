@@ -442,6 +442,55 @@ def update_user_account(
         return session.with_transaction(update_and_log)
 
 
+def _to_json_value(value):
+    """Convert ObjectIds and datetimes inside an audit entry into JSON-safe values."""
+    if isinstance(value, ObjectId):
+        return str(value)
+    if isinstance(value, datetime):
+        return value.isoformat()
+    if isinstance(value, dict):
+        return {key: _to_json_value(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_to_json_value(item) for item in value]
+    return value
+
+
+AUDIT_LOG_FIELDS = (
+    "user_id", "username", "action", "target_type", "target_id",
+    "target_username", "target_title", "incident_id", "incident_title",
+    "old_status", "new_status", "changes", "timestamp",
+)
+
+
+@app.get("/audit-logs")
+def list_audit_logs(
+    response: Response,
+    current_user=Depends(get_current_user),
+):
+    """Admin reads the newest 200 audit entries (FR-11).
+
+    Read only: the API has no way to edit or delete audit entries (FR-12).
+    """
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    response.headers["Cache-Control"] = "no-store"
+
+    entries = (
+        mongo_db.audit_logs.find({}, {field: 1 for field in AUDIT_LOG_FIELDS})
+        .sort("timestamp", -1)
+        .limit(200)
+    )
+
+    return [
+        {
+            "id": str(entry["_id"]),
+            **_to_json_value({k: v for k, v in entry.items() if k != "_id"}),
+        }
+        for entry in entries
+    ]
+
+
 #### USER END POINT ####
 @app.post("/add_incidents", status_code=201)
 def create_incident(data: IncidentCreate, current_user=Depends(get_current_user)):

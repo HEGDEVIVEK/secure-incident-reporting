@@ -3,13 +3,15 @@ import CreateUserForm from "./CreateUserForm.jsx";
 import AdminIncidents from "./AdminIncidents.jsx";
 import AdminComments from "./AdminComments.jsx";
 import AccountStatusRole from "./AccountStatusRole.jsx";
+import AuditLogs from "./AuditLogs.jsx";
 import "./css/AdminDashboard.css";
 
 const tabs = [
   { path: "/admin/create-account", label: "Create account", component: CreateUserForm },
   { path: "/admin/incidents", label: "All incidents", component: AdminIncidents },
   { path: "/admin/comments", label: "Comments", component: AdminComments },
-  { path: "/admin/account-roles-status", label: "Update role and status", component: AccountStatusRole }
+  { path: "/admin/account-roles-status", label: "Update role and status", component: AccountStatusRole },
+  { path: "/admin/audit-logs", label: "Audit log", component: AuditLogs },
 ];
 
 export default function AdminDashboard({ currentUserId }) {
