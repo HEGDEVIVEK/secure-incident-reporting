@@ -439,17 +439,18 @@ export default function IncidentComments({ canChangeStatus = false }) {
           <header className="incident-discussion-header">
             <div>
               <h3>{selectedIncident.title}</h3>
-              <p>
-                Submitted by{" "}
-                <strong>
-                  {selectedIncident.submitted_by_name || "Unknown user"}
-                </strong>
-                {" · "}Incident ID - <code>{selectedIncident.id.slice(-6)}</code>
-              </p>
-              <p>Created {renderDateTime(selectedIncident.created_at)}</p>
-              <p>
-                Priority{" "}
-                <strong>{priorityLabels[priority] ?? "Unassigned"}</strong>
+              <p className="incident-discussion-meta">
+                <span className="incident-card-priority" data-priority={priority}>
+                  <span className="priority-meter" aria-hidden="true"><i /><i /><i /></span>
+                  {priorityLabels[priority] ?? "Unassigned"}
+                </span>
+                <code aria-label={`Incident ID ${selectedIncident.id.slice(-6)}`}>
+                  #{selectedIncident.id.slice(-6)}
+                </code>
+                <span>
+                  by <strong>{selectedIncident.submitted_by_name || "Unknown user"}</strong>
+                </span>
+                <span>{renderDateTime(selectedIncident.created_at)}</span>
               </p>
             </div>
 

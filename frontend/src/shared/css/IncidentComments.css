@@ -1,60 +1,33 @@
+/* Comments and status page: pick an incident, read it, change its status,
+   and add comments. Colors come from theme.css. */
+
 .incident-discussion {
   width: 100%;
-  color: #173b37;
+  max-width: 900px;
+  color: var(--ink);
 }
 
-.incident-discussion,
-.incident-discussion * {
-  box-sizing: border-box;
-}
-
-.incident-discussion button,
-.incident-discussion select,
-.incident-discussion textarea {
-  font: inherit;
-}
-
-.incident-discussion button {
-  cursor: pointer;
-}
-
-.incident-discussion button:disabled,
-.incident-discussion select:disabled,
-.incident-discussion textarea:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.incident-discussion :focus-visible {
-  outline: 2px solid #0f766e;
-  outline-offset: 3px;
-}
+/* Incident picker */
 
 .incident-discussion-picker {
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 }
 
 .incident-discussion-picker-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 10px;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
 }
 
 .incident-discussion-picker-heading > label {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .incident-discussion-picker > select {
   display: block;
   width: 100%;
-  min-height: 46px;
-  padding: 10px 12px;
-  border: 1px solid #b9ceca;
-  border-radius: 8px;
-  background: #fff;
-  color: #173b37;
 }
 
 /* Filter panel */
@@ -67,32 +40,32 @@
 .discussion-filter-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   min-height: 44px;
-  padding: 10px 14px;
-  border: 1px solid #b9ceca;
-  border-radius: 8px;
-  background: #fff;
-  color: #173b37;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .discussion-filter-trigger:hover,
 .discussion-filter-trigger[aria-expanded="true"] {
-  border-color: #0f766e;
-  background: #f0f8f6;
+  border-color: var(--ink);
 }
 
 .discussion-filter-panel {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 0.5rem);
   right: 0;
   z-index: 20;
-  width: min(260px, 85vw);
-  padding: 18px;
-  border: 1px solid #c4d9d4;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 8px 24px rgb(23 59 55 / 14%);
+  width: min(16.5rem, 85vw);
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-pop);
 }
 
 .discussion-filter-panel[hidden] {
@@ -101,23 +74,23 @@
 
 .discussion-filter-panel fieldset {
   min-width: 0;
-  margin: 0 0 18px;
+  margin: 0 0 1.1rem;
   padding: 0;
   border: 0;
 }
 
 .discussion-filter-panel legend {
   width: 100%;
-  margin-bottom: 8px;
-  padding: 0 0 7px;
-  border-bottom: 1px solid #c4d9d4;
-  font-weight: 600;
+  margin-bottom: 0.5rem;
+  padding: 0 0 0.45rem;
+  border-bottom: 1px solid var(--line);
+  font-weight: 700;
 }
 
 .discussion-filter-option {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.6rem;
   min-height: 36px;
   cursor: pointer;
 }
@@ -126,7 +99,6 @@
   width: 17px;
   height: 17px;
   margin: 0;
-  accent-color: #0f766e;
   cursor: pointer;
 }
 
@@ -134,41 +106,38 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .discussion-filter-clear {
-  padding: 8px 4px;
+  padding: 0.5rem 0.25rem;
   border: 0;
   background: transparent;
-  color: #0f766e;
+  color: var(--link);
+  font-weight: 600;
 }
 
 .discussion-filter-done {
   min-height: 40px;
-  padding: 8px 20px;
-  border: 0;
-  border-radius: 7px;
-  background: #0f766e;
-  color: #fff;
+  padding: 0.45rem 1.2rem;
 }
 
 /* Selected incident */
 
 .incident-discussion-card {
-  padding: 24px;
-  border: 1px solid #d6e4e0;
-  border-radius: 12px;
-  background: #fff;
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
 }
 
 .incident-discussion-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid #e0ebe7;
+  gap: 1.25rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
 }
 
 .incident-discussion-header > div {
@@ -176,201 +145,186 @@
 }
 
 .incident-discussion-header h3 {
-  margin: 0 0 12px;
-  font-size: 1.3rem;
+  margin: 0 0 0.6rem;
+  font-size: 1.375rem;
+  font-weight: 700;
   overflow-wrap: anywhere;
 }
 
 .incident-discussion-header p {
-  margin: 6px 0;
-  color: #526e68;
+  margin: 0.25rem 0;
+  color: var(--muted);
   font-size: 0.9rem;
   overflow-wrap: anywhere;
 }
 
 .incident-discussion-header strong {
-  color: #173b37;
+  color: var(--ink-soft);
+}
+
+.incident-discussion-header .incident-discussion-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1.25rem;
+}
+
+.incident-discussion-header code {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.incident-discussion-header .incident-card-priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--ink-soft);
+  font-weight: 600;
 }
 
 .incident-discussion-status {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: #eef2f1;
-  color: #425c55;
-  font-size: 0.85rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.incident-discussion-status[data-status="open"] {
-  background: #e5efff;
-  color: #204c8c;
-}
-
-.incident-discussion-status[data-status="under-review"] {
-  background: #fff1ce;
-  color: #785100;
-}
-
-.incident-discussion-status[data-status="closed"] {
-  background: #dcf2e5;
-  color: #256241;
+  font-size: 0.9375rem;
 }
 
 .incident-discussion-description {
-  margin: 20px 0;
+  margin: 1.25rem 0;
 }
 
 .incident-discussion-description h4 {
-  margin: 0 0 10px;
-  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  font-weight: 700;
 }
 
 .incident-discussion-description p,
 .incident-discussion-history li p {
   margin: 0;
+  max-width: 75ch;
   line-height: 1.6;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
+/* Status actions: outlined, so the solid accent stays reserved for saving a comment */
+
 .incident-discussion-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
 }
 
 .incident-discussion-actions button,
 .incident-discussion-load-error button {
   min-height: 42px;
-  padding: 10px 16px;
-  border: 1px solid #b9ceca;
-  border-radius: 8px;
-  background: #fff;
-  color: #173b37;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
 }
 
-.incident-discussion-actions button:hover:not(:disabled),
-.incident-discussion-load-error button:hover:not(:disabled) {
-  background: #f0f8f6;
-  border-color: #0f766e;
+.incident-discussion-actions button:hover:enabled,
+.incident-discussion-load-error button:hover:enabled {
+  border-color: var(--ink);
 }
 
-/* Comments */
+/* Comment history */
 
 .incident-discussion-history {
-  margin-top: 20px;
-  padding-top: 18px;
-  border-top: 1px solid #e0ebe7;
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
 }
 
 .incident-discussion-history summary {
+  width: fit-content;
+  font-weight: 700;
   cursor: pointer;
-  font-weight: 600;
 }
 
 .incident-discussion-history ul {
   display: grid;
-  gap: 12px;
-  margin: 16px 0 0;
+  gap: 0.75rem;
+  margin: 1rem 0 0;
   padding: 0;
   list-style: none;
 }
 
 .incident-discussion-history li {
-  padding: 14px;
-  border: 1px solid #e0ebe7;
-  border-radius: 8px;
-  background: #f7faf9;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--line-strong);
+  border-radius: 0 var(--r-control) var(--r-control) 0;
+  background: var(--surface-sunk);
 }
 
 .incident-discussion-comment-meta {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .incident-discussion-comment-meta time {
-  color: #526e68;
+  color: var(--muted);
   font-size: 0.85rem;
 }
 
 .incident-discussion-empty {
-  margin: 12px 0;
-  color: #526e68;
+  margin: 0.75rem 0;
+  color: var(--muted);
 }
 
+/* New comment */
+
 .incident-discussion-compose {
-  margin-top: 24px;
+  margin-top: 1.5rem;
 }
 
 .incident-comment-form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 10px;
+  gap: 0.6rem;
 }
 
 .incident-comment-form label {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .incident-comment-form textarea {
   width: 100%;
-  min-height: 100px;
-  padding: 12px;
-  border: 1px solid #b9ceca;
-  border-radius: 8px;
-  background: #fff;
-  color: #173b37;
+  min-height: 110px;
   line-height: 1.5;
   resize: vertical;
 }
 
 .incident-comment-form button {
   align-self: flex-start;
-  min-height: 44px;
-  padding: 10px 18px;
-  border: 0;
-  border-radius: 8px;
-  background: #0f766e;
-  color: #fff;
-  font-weight: 600;
-}
-
-.incident-comment-form button:hover:not(:disabled),
-.discussion-filter-done:hover:not(:disabled) {
-  background: #0b5e57;
 }
 
 .discussion-success {
-  margin-top: 16px;
-  color: #256241;
+  margin-top: 1rem;
+  color: var(--success);
+  font-weight: 600;
 }
 
 .discussion-error,
 .incident-discussion-load-error {
-  margin-top: 16px;
-  color: #a12626;
+  margin-top: 1rem;
+  color: var(--danger);
 }
 
 @media (max-width: 600px) {
-  .incident-discussion-card {
-    padding: 16px;
-  }
-
   .incident-discussion-header {
     flex-direction: column;
-    gap: 12px;
+    gap: 0.75rem;
   }
 
   .incident-discussion-picker-heading {
-    gap: 8px;
+    gap: 0.5rem;
   }
 }

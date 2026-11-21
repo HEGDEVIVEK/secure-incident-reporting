@@ -1,0 +1,312 @@
+/*
+ * Design tokens and base styles.
+ *
+ * Every color is defined once with light-dark(), so the whole app switches
+ * theme by changing color-scheme on <html>:
+ *   - no data-theme attribute: follow the operating system setting
+ *   - data-theme="light" or "dark": the user's choice from the toggle
+ *
+ * Palette: the team's deep teal as the main color, with white and light
+ * grey around it. Teal marks the header, primary actions, the current page,
+ * and high priority. Dark mode is a teal-tinted version of the same roles.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* Surfaces */
+  --canvas: light-dark(#f2f6f5, #0e1817);
+  --surface: light-dark(#ffffff, #152220);
+  --surface-sunk: light-dark(#f7faf9, #111d1b);
+  --surface-raised: light-dark(#ffffff, #1b2b28);
+  --bar: light-dark(#103e3b, #0b2826);
+  --bar-line: #52ac99;
+  --bar-control: #83aaa4;
+  --bar-hover: #20544f;
+  --brand: light-dark(#103e3b, #5cc2b2);
+
+  /* Text */
+  --ink: light-dark(#172b36, #e2eeeb);
+  --ink-soft: light-dark(#294743, #bfd3ce);
+  --muted: light-dark(#50655f, #8fa9a3);
+  --on-bar: #ffffff;
+  --on-bar-muted: #cbe0dc;
+
+  /* Lines */
+  --line: light-dark(#d6e2df, #243a36);
+  --line-strong: light-dark(#a9c2bc, #3e5c56);
+
+  /* Teal accent: primary buttons, current page */
+  --accent: light-dark(#08665e, #5cc2b2);
+  --accent-hover: light-dark(#064f49, #7ad3c5);
+  --accent-tint: light-dark(#e3f0ed, #173a35);
+  --on-accent: light-dark(#ffffff, #082320);
+  --priority-high: light-dark(#08665e, #5cc2b2);
+
+  /* Status: shape first, color second */
+  --status-open: light-dark(#08665e, #5cc2b2);
+  --status-review: light-dark(#8a5300, #e3a54a);
+  --status-closed: var(--muted);
+
+  /* Feedback */
+  --success: light-dark(#24583e, #7fcf9b);
+  --success-tint: light-dark(#e0f1e9, #183020);
+  --danger: light-dark(#973333, #f2846f);
+  --danger-tint: light-dark(#fbe7e5, #3b1d1b);
+  --link: light-dark(#08665e, #7ad3c5);
+
+  /* Keyboard focus */
+  --focus: light-dark(#167dbe, #7ad3c5);
+
+  --shadow-pop: light-dark(0 10px 28px rgb(27 36 48 / 16%), 0 10px 28px rgb(0 0 0 / 55%));
+
+  /* Radius follows hierarchy: panels, then controls, then tags */
+  --r-panel: 10px;
+  --r-control: 6px;
+  --r-tag: 3px;
+
+  --font: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next",
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Kept for components that still read the older names */
+  --border: var(--line);
+
+  font-family: var(--font);
+  font-size: 100%;
+  line-height: 1.5;
+  color: var(--ink);
+  background-color: var(--canvas);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font);
+  color: var(--ink);
+  background-color: var(--canvas);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--ink);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--link);
+  text-underline-offset: 0.2em;
+}
+
+code {
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Form controls: one look everywhere, components only handle layout */
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  min-height: 44px;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background-color: var(--surface);
+  color: var(--ink);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):hover:enabled,
+select:hover:enabled,
+textarea:hover:enabled {
+  border-color: var(--muted);
+}
+
+input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled,
+select:disabled,
+textarea:disabled,
+input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Primary action: solid accent */
+.button-primary,
+.incident-form button[type="submit"],
+.create-user form button[type="submit"],
+.login-page form button[type="submit"],
+.incident-comment-form button,
+.account-status-role .account-table-action button,
+.incident-filter-done,
+.discussion-filter-done {
+  min-height: 44px;
+  padding: 0.6rem 1.15rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--r-control);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+
+.button-primary:hover:enabled,
+.incident-form button[type="submit"]:hover:enabled,
+.create-user form button[type="submit"]:hover:enabled,
+.login-page form button[type="submit"]:hover:enabled,
+.incident-comment-form button:hover:enabled,
+.account-status-role .account-table-action button:hover:enabled,
+.incident-filter-done:hover:enabled,
+.discussion-filter-done:hover:enabled {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+}
+
+/* Secondary action: outlined */
+.button-secondary {
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.button-secondary:hover:enabled {
+  border-color: var(--ink);
+}
+
+/* Status: a small circle that fills up as the incident moves along,
+   like an issue tracker. Open is empty, under review is half full,
+   closed is full and greyed out. No colored background. */
+.status-tag,
+.incident-card-status,
+.incident-discussion-status {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--status-open);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.status-tag::before,
+.incident-card-status::before,
+.incident-discussion-status::before {
+  content: "";
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+
+[data-status="under-review"]:is(.status-tag, .incident-card-status, .incident-discussion-status) {
+  color: var(--status-review);
+}
+
+[data-status="under-review"]:is(.status-tag, .incident-card-status, .incident-discussion-status)::before {
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
+[data-status="closed"]:is(.status-tag, .incident-card-status, .incident-discussion-status) {
+  color: var(--status-closed);
+}
+
+[data-status="closed"]:is(.status-tag, .incident-card-status, .incident-discussion-status)::before {
+  background: currentColor;
+}
+
+/* Priority: three bars, filled 1, 2 or 3 like a signal meter */
+.priority-meter {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 0.8rem;
+}
+
+.priority-meter i {
+  width: 3px;
+  border-radius: 1px;
+  background: var(--line-strong);
+}
+
+.priority-meter i:nth-child(1) { height: 40%; }
+.priority-meter i:nth-child(2) { height: 70%; }
+.priority-meter i:nth-child(3) { height: 100%; }
+
+[data-priority="low"] .priority-meter i:nth-child(-n + 1),
+[data-priority="medium"] .priority-meter i:nth-child(-n + 2),
+[data-priority="high"] .priority-meter i {
+  background: var(--ink);
+}
+
+[data-priority="high"] .priority-meter i {
+  background: var(--priority-high);
+}
+
+/* Thin scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

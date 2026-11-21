@@ -9,6 +9,7 @@ import ReviewersDashboard from "./reviewers/ReviewersDashboard.jsx";
 import UserDashboard from "./users/UserDashboard.jsx";
 import LoginPage from "./shared/LoginPage.jsx";
 import UpdatePassword from "./shared/UpdatePassword.jsx";
+import ThemeToggle from "./shared/ThemeToggle.jsx";
 import "./App.css";
 
 const roleLabels = { admin: "Admin", reviewer: "Reviewer", user: "User" };
@@ -140,14 +141,17 @@ export default function App() {
     }
 
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={<LoginPage onLogin={handleLogin} initialMessage={message} />}
-      />
-      <Route path="/update-password" element={<UpdatePassword />} />
-      <Route path="*" element={<Navigate to="/login" replace />} />
-    </Routes>
+    <>
+      <ThemeToggle className="theme-toggle-floating" />
+      <Routes>
+        <Route
+          path="/login"
+          element={<LoginPage onLogin={handleLogin} initialMessage={message} />}
+        />
+        <Route path="/update-password" element={<UpdatePassword />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </>
   );
 }
 
@@ -157,22 +161,27 @@ export default function App() {
         <div className="app-header-inner">
           <div className="app-header-identity">
             <h1>Secure Incident Reporting</h1>
+          </div>
+
+          <div className="app-header-account">
             <p>
-              Signed in as <strong>{user.username}</strong>
+              <strong>{user.username}</strong>
               <span className="app-role-badge" data-role={user.role}>
                 {roleLabels[user.role] ?? user.role}
               </span>
             </p>
-          </div>
 
-          <button
-            className="app-logout"
-            type="button"
-            onClick={handleLogout}
-            disabled={isSigningOut}
-          >
-            {isSigningOut ? "Signing out…" : "Log out"}
-          </button>
+            <ThemeToggle className="theme-toggle-on-bar" />
+
+            <button
+              className="app-logout"
+              type="button"
+              onClick={handleLogout}
+              disabled={isSigningOut}
+            >
+              {isSigningOut ? "Signing out…" : "Log out"}
+            </button>
+          </div>
         </div>
       </header>
 

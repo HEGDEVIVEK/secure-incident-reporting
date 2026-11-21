@@ -1,99 +1,63 @@
+/* Report an incident. Colors and control styles come from theme.css. */
+
 .incident-form {
-    min-width: 0;
-    padding: clamp(1.25rem, 3vw, 2rem);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
+  min-width: 0;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
 }
 
 .incident-form h2 {
-    margin: 0 0 1.5rem;
-    font-size: 1.3rem;
+  margin: 0 0 1.25rem;
+  font-size: 1.375rem;
 }
 
 .incident-form form {
-    display: grid;
-    gap: 0.5rem;
+  display: grid;
+  gap: 0.45rem;
 }
 
 .incident-form label {
-    font-size: 0.925rem;
-    font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .incident-form input,
-.incident-form textarea {
-    box-sizing: border-box;
-    width: 100%;
-    min-width: 0;
-    margin-bottom: 0.75rem;
-    padding: 0.75rem;
-    border: 1px solid #a8babc;
-    border-radius: 7px;
-    background: var(--surface);
-    color: inherit;
-    font: inherit;
+.incident-form textarea,
+.incident-form #incident-priority {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 0.85rem;
 }
 
 .incident-form textarea {
-    resize: vertical;
-    line-height: 1.5;
-}
-
-.incident-form button {
-    justify-self: start;
-}
-
-.incident-form [role="status"] {
-    margin: 1rem 0 0;
-    color: var(--muted);
-    overflow-wrap: anywhere;
+  min-height: 9rem;
+  line-height: 1.55;
+  resize: vertical;
 }
 
 .incident-form button[type="submit"] {
-    justify-self: start;
-    min-height: 44px;
-    margin-top: 0.25rem;
-    padding: 0.65rem 1.25rem;
-    border: 1px solid #08665e;
-    border-radius: 8px;
-    background: #08665e;
-    color: #fff;
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.incident-form button[type="submit"]:hover:enabled {
-    background: #07534d;
-    border-color: #07534d;
-}
-
-.incident-form button[type="submit"]:focus-visible {
-    outline: 3px solid #08665e;
-    outline-offset: 3px;
+  justify-self: start;
+  margin-top: 0.25rem;
 }
 
 .incident-form button[type="submit"]:disabled {
-    opacity: 0.65;
-    cursor: wait;
+  opacity: 0.65;
+  cursor: wait;
 }
 
-.incident-form #incident-priority {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    min-height: 44px;
-    padding: 10px 12px;
-    border: 1px solid #b9ceca;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #173b37;
-    font: inherit;
-    cursor: pointer;
+.incident-form [role="status"] {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
 }
 
-.incident-form #incident-priority:focus-visible {
-    outline: 2px solid #0f766e;
-    outline-offset: 2px;
+.incident-form [role="status"]:not(:empty) {
+  padding: 0.65rem 0.85rem;
+  border-left: 3px solid var(--success);
+  border-radius: var(--r-tag);
+  background: var(--success-tint);
+  color: var(--ink);
 }

@@ -259,7 +259,7 @@ export default function IncidentList({
             const comments = incident.comments ?? [];
             return (
 
-              <article key={incident.id} className="incident-card">
+              <article key={incident.id} className="incident-card" data-priority={priority}>
 
                 <header className="incident-card-heading">
                   <h3>{incident.title}</h3>
@@ -269,14 +269,18 @@ export default function IncidentList({
                 </header>
 
                 <p className="incident-card-meta">
+                  <span className="incident-card-priority" data-priority={priority}>
+                    <span className="priority-meter" aria-hidden="true"><i /><i /><i /></span>
+                    {priorityLabels[priority] ?? "Unassigned"}
+                  </span>
+                  <code aria-label={`Incident ID ${incident.id.slice(-6)}`}>#{incident.id.slice(-6)}</code>
                   {showSubmittedBy && (
-                    <>Submitted by <strong>{incident.submitted_by_name || "Unknown user"}</strong>{" · "}</>
+                    <span>
+                      by <strong>{incident.submitted_by_name || "Unknown user"}</strong>
+                    </span>
                   )}
-                  Incident ID - <code>{incident.id.slice(-6)}</code>
-                  {" · "}Priority: <strong>{priorityLabels[priority] ?? "Unassigned"}</strong>
+                  <span className="incident-card-created">{renderDateTime(incident.created_at)}</span>
                 </p>
-
-                <p className="incident-card-created">Created {renderDateTime(incident.created_at)}</p>
                 <div className="incident-card-description" role="region"
                   aria-label={`Description of ${incident.title}`} tabIndex={0}>
                   <p>{incident.description}</p>

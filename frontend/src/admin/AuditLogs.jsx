@@ -136,21 +136,6 @@ export default function AuditLogs() {
 
   return (
     <section className="audit-logs">
-      <div className="audit-logs-intro">
-        <p>
-          Append-only record of key actions, newest first (latest 200). Entries
-          cannot be edited or deleted from the application.
-        </p>
-        <button
-          type="button"
-          className="audit-logs-refresh"
-          onClick={() => setRefreshCount((count) => count + 1)}
-          disabled={loading}
-        >
-          {loading ? "Loading…" : "Refresh"}
-        </button>
-      </div>
-
       <div className="audit-logs-toolbar">
         <label>
           Action
@@ -176,6 +161,15 @@ export default function AuditLogs() {
             onChange={(event) => setSearch(event.target.value)}
           />
         </label>
+
+        <button
+          type="button"
+          className="audit-logs-refresh"
+          onClick={() => setRefreshCount((count) => count + 1)}
+          disabled={loading}
+        >
+          {loading ? "Loading…" : "Refresh"}
+        </button>
       </div>
 
       {error && (
