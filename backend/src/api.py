@@ -24,6 +24,7 @@ from src.schemas import (
     ChangePasswordRequest,
     UserAccountUpdate
 )
+from src.loginLimiter import clear_failures, ensure_not_locked, record_failure
 from src.security import password_hasher
 from src.verifySession import get_current_user
 from src.verifyUser import verify_credentials
@@ -150,10 +151,17 @@ def health():
 
 @app.post("/login")
 def login(request: LoginRequest, response: Response):
-    user = verify_credentials(
-        request.username,
-        request.password.get_secret_value(),
-    )
+    # Lock the username after repeated failures (ASVS V2.2.1).
+    ensure_not_locked(request.username)
+    try:
+        user = verify_credentials(
+            request.username,
+            request.password.get_secret_value(),
+        )
+    except HTTPException:
+        record_failure(request.username)
+        raise
+    clear_failures(request.username)
 
     # The browser receives the token. MongoDB stores its hash.
     token = secrets.token_urlsafe(32)
@@ -229,7 +237,14 @@ def update_password(data: ChangePasswordRequest):
     current_password = data.current_password.get_secret_value()
     new_password = data.new_password.get_secret_value()
 
-    user = verify_credentials(data.username, current_password)
+    # Same lockout as login, so this endpoint cannot be used to guess passwords.
+    ensure_not_locked(data.username)
+    try:
+        user = verify_credentials(data.username, current_password)
+    except HTTPException:
+        record_failure(data.username)
+        raise
+    clear_failures(data.username)
 
     if new_password == current_password:
         raise HTTPException(
