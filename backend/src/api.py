@@ -1,4 +1,5 @@
 import hashlib
+import os
 import secrets
 from datetime import datetime, timedelta, timezone
 
@@ -27,7 +28,25 @@ from src.security import password_hasher
 from src.verifySession import get_current_user
 from src.verifyUser import verify_credentials
 
-app = FastAPI()
+# The interactive API docs (/docs, /redoc, /openapi.json) list every endpoint
+# and schema, so they are off unless ENABLE_API_DOCS=true is set for local
+# development (SR-16, security misconfiguration).
+_docs_enabled = os.environ.get("ENABLE_API_DOCS", "").lower() == "true"
+
+app = FastAPI(
+    docs_url="/docs" if _docs_enabled else None,
+    redoc_url="/redoc" if _docs_enabled else None,
+    openapi_url="/openapi.json" if _docs_enabled else None,
+)
+
+# Defensive headers added to every response, including error responses
+# (SR-16). The API only returns JSON, so the CSP blocks all content loading.
+SECURITY_HEADERS = {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'",
+}
 
 logger = logging.getLogger("incident_reporting")
 logger.setLevel(logging.INFO)
@@ -99,6 +118,8 @@ async def handle_request_errors(request: Request, call_next):
             )
 
     response.headers["X-Request-ID"] = request.state.request_id
+    for header, value in SECURITY_HEADERS.items():
+        response.headers.setdefault(header, value)
     return response
 
 
