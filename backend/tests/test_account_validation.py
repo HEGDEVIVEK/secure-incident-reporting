@@ -72,9 +72,10 @@ def main():
                     {"username": {"$ne": None}},
                 ),
                 ("Short password rejected", {"password": "1234"}),
+                ("Password under 12 characters rejected", {"password": "a" * 11}),
                 (
-                    "Password exceeding current limit rejected",
-                    {"password": "a" * 16},
+                    "Password exceeding 128 characters rejected",
+                    {"password": "a" * 129},
                 ),
                 ("Unknown role rejected", {"role": "superadmin"}),
                 (

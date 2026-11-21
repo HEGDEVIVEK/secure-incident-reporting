@@ -67,13 +67,13 @@ export default function CreateUserForm() {
                 </label>
 
                 <label>
-                    Password (5–15 characters)
+                    Password (at least 12 characters)
                     <input
                         name="password"
                         type="password"
                         autoComplete="new-password"
-                        minLength={5}
-                        maxLength={15}
+                        minLength={12}
+                        maxLength={128}
                         required
                     />
                 </label>

@@ -12,6 +12,14 @@ from pydantic import (
 )
 
 
+# Password policy (OWASP ASVS V2.1.1, V2.1.2): new passwords need at least 12
+# characters and may be up to 128. Login and "current password" fields stay
+# permissive so accounts created under the old 5 to 15 character rule can
+# still sign in and then change their password.
+NEW_PASSWORD_MIN = 12
+PASSWORD_MAX = 128
+
+
 # Reject unsafe control characters.
 # Allow normal tabs and newlines in descriptions and comments.
 INVALID_CONTROL_CHARS = re.compile(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]")
@@ -27,7 +35,7 @@ class LoginRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     username: str = Field(min_length=1, max_length=64)
-    password: SecretStr = Field(min_length=5, max_length=15)
+    password: SecretStr = Field(min_length=1, max_length=PASSWORD_MAX)
 
 
 class ChangePasswordRequest(BaseModel):
@@ -35,8 +43,8 @@ class ChangePasswordRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     username: str = Field(min_length=1, max_length=64)
-    current_password: SecretStr = Field(min_length=5, max_length=15)
-    new_password: SecretStr = Field(min_length=5, max_length=15)
+    current_password: SecretStr = Field(min_length=1, max_length=PASSWORD_MAX)
+    new_password: SecretStr = Field(min_length=NEW_PASSWORD_MIN, max_length=PASSWORD_MAX)
 
 
 class IncidentCreate(BaseModel):
@@ -64,7 +72,7 @@ class UserCreate(BaseModel):
         max_length=64,
         pattern=r"^[a-z0-9_]+$",
     )
-    password: SecretStr = Field(min_length=5, max_length=15)
+    password: SecretStr = Field(min_length=NEW_PASSWORD_MIN, max_length=PASSWORD_MAX)
     role: Literal["user", "reviewer", "admin"] = "user"
 
 
