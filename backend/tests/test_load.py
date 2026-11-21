@@ -3,9 +3,10 @@
 Defaults go through the Vite dev server (localhost:5173, /api prefix).
 To measure the backend alone, without the dev proxy, for example:
 
-    LOAD_TEST_PORT=8000 LOAD_TEST_PREFIX= python test_load.py
+    LOAD_TEST_PORT=8000 LOAD_TEST_PREFIX= python -m tests.test_load
 
-(Windows PowerShell: $env:LOAD_TEST_PORT="8000"; $env:LOAD_TEST_PREFIX=""; python test_load.py)
+(Run from the backend folder. Windows PowerShell:
+$env:LOAD_TEST_PORT="8000"; $env:LOAD_TEST_PREFIX=""; python -m tests.test_load)
 """
 
 import http.client

@@ -34,7 +34,7 @@ db.audit_logs.updateOne({}, { $set: { action: "tampered" } })
 
 Both should fail with `not authorized`. Then `db.audit_logs.find().limit(1)` should still work.
 
-The same check is automated: run `uv run python test_audit_permissions.py` in `backend/`. It should print `PASS` for insert, and `PASS ... blocked` for both update and delete.
+The same check is automated: run `uv run python -m tests.test_audit_permissions` in `backend/`. It should print `PASS` for insert, and `PASS ... blocked` for both update and delete.
 
 ## Step 3. Indexes
 
@@ -72,9 +72,9 @@ The latest report (`reports/nfr4-load-20261120-184424.txt`) has login p95 at abo
 cd backend
 uv run uvicorn src.api:app --port 8000 --workers 4
 # in another terminal:
-LOAD_TEST_PORT=8000 LOAD_TEST_PREFIX= uv run python test_load.py
+LOAD_TEST_PORT=8000 LOAD_TEST_PREFIX= uv run python -m tests.test_load
 ```
 
-Windows PowerShell: `$env:LOAD_TEST_PORT="8000"; $env:LOAD_TEST_PREFIX=""; uv run python test_load.py`
+Windows PowerShell: `$env:LOAD_TEST_PORT="8000"; $env:LOAD_TEST_PREFIX=""; uv run python -m tests.test_load`
 
 A new report appears in `reports/`.

@@ -37,13 +37,15 @@ Browser ──► Vite server (:5173) ──/api/*──► FastAPI (:8000) ─�
 | `security.py` | The Argon2 password hasher |
 | `mongodb.py` | Database connection; password read from the OS credential store (keyring) |
 
-Tests live in `backend/test_*.py` (see section 8).
+Tests live in `backend/tests/` (see section 8).
 
 ### Front end (`frontend/src/`)
 
 | Folder | Contents |
 |---|---|
-| `App.jsx` | Restores the session on page load (`/me`), header with role badge, picks the dashboard by role |
+| `theme.css` | Design tokens (every color defined once for light and dark), base styles for controls, buttons, focus rings, status tags |
+| `App.jsx`, `App.css` | Restores the session on page load (`/me`), top bar, navigation rail shared by all dashboards, picks the dashboard by role |
+| `shared/ThemeToggle.jsx`, `shared/theme.js` | Light and dark mode: follows the system setting until the user chooses, then remembers the choice |
 | `shared/api.js` | `apiFetch`: sends any 401 to one "session expired" handler |
 | `shared/` | Login, change password, incident list (cards, search, filters, status summary), incident discussion (comments and status) |
 | `users/` | Report an incident, My incidents |
@@ -144,7 +146,7 @@ See [`docs/ATLAS_SETUP.md`](docs/ATLAS_SETUP.md): the least-privilege database r
 | SR-8 parameterized queries | PyMongo builds queries as documents; input is never joined into query strings; type checks block operator injection like `{"$ne": null}` | `api.py`, `schemas.py` |
 | SR-9 no sensitive data in logs | Audit entries store titles and IDs, never descriptions, passwords, or tokens. App logs record the route template, status, and a request ID only: no URLs, no bodies, no exception messages | `api.py` |
 | SR-10 audit fields | Every entry has `user_id`, `timestamp`, `action`, `target_id` | `api.py` |
-| SR-11, FR-12 tamper protection | No API to edit or delete audit entries; the app's DB user can only insert and read `audit_logs` (checked by `test_audit_permissions.py`) | `docs/ATLAS_SETUP.md` |
+| SR-11, FR-12 tamper protection | No API to edit or delete audit entries; the app's DB user can only insert and read `audit_logs` (checked by `tests/test_audit_permissions.py`) | `docs/ATLAS_SETUP.md` |
 | SR-12, NFR-2 safe error messages | Generic messages for validation errors, failed logins, and unexpected errors, with a reference ID | `api.py` |
 | SR-13 detailed errors logged | Unexpected errors log exception type and code locations (file, line, function) with the same request ID the user sees | `api.py` middleware |
 | SR-14 secrets | DB password in the OS credential store via keyring | `mongodb.py` |
@@ -164,10 +166,11 @@ There are two separate records:
 
 | What | How | Notes |
 |---|---|---|
-| Security and functional tests | `cd backend && uv run python test_<name>.py` | Most ask for test account credentials. They use the real database, so use test accounts and synthetic data only. |
-| Audit log tamper check (FR-12) | `uv run python test_audit_permissions.py` | Update and delete must be blocked |
-| Load, NFR-3 and NFR-4 | `uv run python test_load.py` (through Vite) or `LOAD_TEST_PORT=8000 LOAD_TEST_PREFIX= uv run python test_load.py` (backend only) | Report saved in `reports/` |
-| Other performance | `test_normal_performance.py`, `test_write_performance.py` | Reports in `reports/` |
+| Security and functional tests | `cd backend && uv run python -m tests.test_<name>` | Most ask for test account credentials. They use the real database, so use test accounts and synthetic data only. |
+| Audit log tamper check (FR-12) | `uv run python -m tests.test_audit_permissions` | Update and delete must be blocked |
+| Transaction rollback (NFR-5) | `uv run python -m tests.test_transaction_rollback` and `tests.test_remaining_rollbacks` | Needs the real database (transactions) |
+| Load, NFR-3 and NFR-4 | `uv run python -m tests.test_load` (through Vite) or `LOAD_TEST_PORT=8000 LOAD_TEST_PREFIX= uv run python -m tests.test_load` (backend only) | Report saved in `reports/` |
+| Other performance | `tests.test_normal_performance`, `tests.test_write_performance` | Reports in `reports/` |
 | SAST, backend | `bandit -r backend/src` | `reports/` |
 | SAST, front end | `semgrep scan --config auto frontend` | `reports/` |
 | Lint and dependencies, front end | `cd frontend && npm run lint && npm audit` | console |
