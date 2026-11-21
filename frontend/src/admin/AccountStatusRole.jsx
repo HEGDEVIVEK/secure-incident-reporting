@@ -31,6 +31,14 @@ function AccountRow({ user, currentUserId, onSaved }) {
   async function handleUpdate() {
     if (isOwnAccount || isSaving || !hasChanges) return;
 
+    // Deactivation signs the person out everywhere, so confirm it first.
+    if (user.is_active && !isActive) {
+      const confirmed = window.confirm(
+        `Deactivate ${user.username}? They will be signed out and unable to log in until reactivated.`
+      );
+      if (!confirmed) return;
+    }
+
     setIsSaving(true);
     clearFeedback();
 
@@ -88,7 +96,7 @@ function AccountRow({ user, currentUserId, onSaved }) {
   }
 
   return (
-    <tr>
+    <tr data-role={user.role}>
       <th scope="row">
         {user.username}
         {isOwnAccount && (

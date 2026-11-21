@@ -94,7 +94,7 @@ function FilterMenu({ filters, onApply }) {
           strokeLinejoin="round" aria-hidden="true">
           <path d="M3 4h18l-7 8v6l-4 2v-8L3 4Z" />
         </svg>
-        Filter Filter by status and priority{count > 0 && ` (${count})`}
+        Filter by status and priority{count > 0 && ` (${count})`}
       </button>
 
       <div className="incident-filter-panel" id={panelId} hidden={!open}>
@@ -189,8 +189,43 @@ export default function IncidentList({
   const query = search.trim().toLowerCase();
   const visibleIncidents = incidents.filter(incident => matchesIncident(incident, filters, query));
 
+  // Count incidents per status for the summary row.
+  const statusCounts = incidents.reduce((counts, incident) => {
+    const status = normalizeStatus(incident.status);
+    counts[status] = (counts[status] ?? 0) + 1;
+    return counts;
+  }, {});
+
+  // Clicking a summary chip shows only that status; clicking it again clears it.
+  function toggleStatusChip(status) {
+    setFilters(previous => ({
+      ...previous,
+      status: previous.status.length === 1 && previous.status[0] === status ? [] : [status],
+    }));
+  }
+
   return (
     <section className="incident-list" aria-label={heading}>
+
+      {!loading && !error && incidents.length > 0 && (
+        <div className="incident-summary" aria-label="Incidents by status">
+          <span className="incident-summary-total">
+            <strong>{incidents.length}</strong> total
+          </span>
+          {Object.entries(statusLabels).map(([status, label]) => (
+            <button
+              key={status}
+              type="button"
+              className="incident-summary-chip"
+              data-status={status}
+              aria-pressed={filters.status.length === 1 && filters.status[0] === status}
+              onClick={() => toggleStatusChip(status)}
+            >
+              <strong>{statusCounts[status] ?? 0}</strong> {label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {!loading && !error && (
         <div className="incident-list-toolbar">
@@ -205,7 +240,7 @@ export default function IncidentList({
       {error && (
         <div className="incident-list-error">
           <p role="alert">{error}</p>
-          {/* <button type="button" onClick={() => setRetryCount(count => count + 1)}>Retry</button> */}
+          <button type="button" onClick={() => setRetryCount(count => count + 1)}>Retry</button>
         </div>
       )}
 

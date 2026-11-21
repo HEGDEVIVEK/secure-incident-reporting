@@ -427,9 +427,9 @@ export default function IncidentComments({ canChangeStatus = false }) {
         {loadError && (
           <div className="incident-discussion-load-error">
             <p role="alert">{loadError}</p>
-            {/* <button type="button" onClick={refreshIncidents} disabled={isSaving}>
+            <button type="button" onClick={refreshIncidents} disabled={isSaving}>
               Retry
-            </button> */}
+            </button>
           </div>
         )}
       </div>

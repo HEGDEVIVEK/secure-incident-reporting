@@ -305,3 +305,76 @@
 .incident-filter-clear { border: 0; padding: .45rem 0; color: #106c60; background: transparent; }
 .incident-filter-done { border: 0; border-radius: 6px; padding: .5rem 1rem; color: white; background: #106c60; }
 .incident-list-toolbar :focus-visible { outline: 2px solid #106c60; outline-offset: 2px; }
+
+/* Status summary row */
+
+.incident-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.incident-summary-total {
+  margin-right: 0.35rem;
+  color: var(--muted, #486166);
+}
+
+.incident-summary-total strong {
+  color: #103e3b;
+  font-size: 1.1rem;
+}
+
+.incident-summary-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 36px;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.incident-summary-chip[data-status="open"] {
+  background: #e7effb;
+  color: #214d86;
+}
+
+.incident-summary-chip[data-status="under-review"] {
+  background: #fff1cd;
+  color: #754f0b;
+}
+
+.incident-summary-chip[data-status="closed"] {
+  background: #e0f1e9;
+  color: #24583e;
+}
+
+.incident-summary-chip:hover {
+  border-color: currentColor;
+}
+
+.incident-summary-chip[aria-pressed="true"] {
+  border-color: currentColor;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+
+.incident-summary-chip:focus-visible {
+  outline: 3px solid #167dbe;
+  outline-offset: 2px;
+}
+
+/* On narrow screens, give the search box its own full-width row. */
+@media (max-width: 600px) {
+  .incident-list-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .incident-list-search {
+    flex-basis: 100%;
+  }
+}

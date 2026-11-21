@@ -11,6 +11,8 @@ import LoginPage from "./shared/LoginPage.jsx";
 import UpdatePassword from "./shared/UpdatePassword.jsx";
 import "./App.css";
 
+const roleLabels = { admin: "Admin", reviewer: "Reviewer", user: "User" };
+
 export default function App() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -154,9 +156,12 @@ export default function App() {
       <header className="app-header">
         <div className="app-header-inner">
           <div className="app-header-identity">
-            <h1>Incident Reporting</h1>
+            <h1>Secure Incident Reporting</h1>
             <p>
-              <strong>{user.username}</strong>
+              Signed in as <strong>{user.username}</strong>
+              <span className="app-role-badge" data-role={user.role}>
+                {roleLabels[user.role] ?? user.role}
+              </span>
             </p>
           </div>
 

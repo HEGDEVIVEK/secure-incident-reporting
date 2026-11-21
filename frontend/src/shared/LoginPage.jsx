@@ -28,6 +28,11 @@ export default function LoginPage({ onLogin, initialMessage = "" }) {
                 return;
             }
 
+            if (response.status === 429) {
+                setMessage("Too many failed attempts. Please wait 15 minutes and try again.");
+                return;
+            }
+
             if (!response.ok) {
                 setMessage("Unable to sign in. Please try again.");
                 return;
