@@ -8,6 +8,8 @@ from pymongo.errors import DuplicateKeyError
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+import os
+from urllib.parse import urlsplit
 import json
 import logging
 import traceback
@@ -27,7 +29,29 @@ from src.security import password_hasher
 from src.verifySession import get_current_user
 from src.verifyUser import verify_credentials
 
-app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
+TRUSTED_ORIGINS = {
+    origin.strip().rstrip("/")
+    for origin in os.getenv(
+        "TRUSTED_ORIGINS",
+        "http://localhost:5173,http://localhost:4173",
+    ).split(",")
+    if origin.strip()
+}
+
+def get_referer_origin(referer):
+    try:
+        parsed = urlsplit(referer)
+        if parsed.scheme not in ("http", "https"):
+            return None
+        return f"{parsed.scheme}://{parsed.netloc}"
+    except ValueError:
+        return None
+
+app = FastAPI(
+    docs_url=None, 
+    redoc_url=None, 
+    openapi_url=None
+    )
 
 # Security headers added to every API response (SR-16: security misconfiguration)
 SECURITY_HEADERS = {
@@ -63,6 +87,26 @@ def log_request_error(level, event, request, **details):
 
     logger.log(level, json.dumps(record))
 
+
+@app.middleware("http")
+async def csrf_protection(request: Request, call_next):
+
+    if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
+
+        origin = request.headers.get("Origin")
+
+        if origin is None:
+            referer = request.headers.get("Referer")
+            origin = get_referer_origin(referer) if referer else None
+
+        if origin not in TRUSTED_ORIGINS:
+            return JSONResponse(
+                status_code=403,
+                content={"detail": "Untrusted request origin"},
+            )
+
+    return await call_next(request)
+    
 
 @app.middleware("http")
 async def handle_request_errors(request: Request, call_next):
@@ -149,7 +193,7 @@ def login(request: LoginRequest, response: Response):
     # The browser receives the token. MongoDB stores its hash.
     token = secrets.token_urlsafe(32)
     token_hash = hashlib.sha256(token.encode()).hexdigest()
-    lifetime = timedelta(minutes=120)
+    lifetime = timedelta(minutes=15)
 
     mongo_db.sessions.insert_one(
         {

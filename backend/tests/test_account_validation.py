@@ -71,10 +71,13 @@ def main():
                     "NoSQL-style username object rejected",
                     {"username": {"$ne": None}},
                 ),
-                ("Short password rejected", {"password": "1234"}),
                 (
-                    "Password exceeding current limit rejected",
-                    {"password": "a" * 16},
+                    "Password under 12 characters rejected",
+                    {"password": "Short1!abcd"},  # 11 characters
+                ),
+                (
+                    "Password exceeding 128 characters rejected",
+                    {"password": "a" * 129},
                 ),
                 ("Unknown role rejected", {"role": "superadmin"}),
                 (
