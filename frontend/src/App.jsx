@@ -9,7 +9,10 @@ import ReviewersDashboard from "./reviewers/ReviewersDashboard.jsx";
 import UserDashboard from "./users/UserDashboard.jsx";
 import LoginPage from "./shared/LoginPage.jsx";
 import UpdatePassword from "./shared/UpdatePassword.jsx";
+import ThemeToggle from "./shared/ThemeToggle.jsx";
 import "./App.css";
+
+const roleLabels = { admin: "Admin", reviewer: "Reviewer", user: "User" };
 
 export default function App() {
   const navigate = useNavigate();
@@ -138,14 +141,17 @@ export default function App() {
     }
 
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={<LoginPage onLogin={handleLogin} initialMessage={message} />}
-      />
-      <Route path="/update-password" element={<UpdatePassword />} />
-      <Route path="*" element={<Navigate to="/login" replace />} />
-    </Routes>
+    <>
+      <ThemeToggle className="theme-toggle-floating" />
+      <Routes>
+        <Route
+          path="/login"
+          element={<LoginPage onLogin={handleLogin} initialMessage={message} />}
+        />
+        <Route path="/update-password" element={<UpdatePassword />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </>
   );
 }
 
@@ -154,20 +160,28 @@ export default function App() {
       <header className="app-header">
         <div className="app-header-inner">
           <div className="app-header-identity">
-            <h1>Incident Reporting</h1>
-            <p>
-              <strong>{user.username}</strong>
-            </p>
+            <h1>Secure Incident Reporting</h1>
           </div>
 
-          <button
-            className="app-logout"
-            type="button"
-            onClick={handleLogout}
-            disabled={isSigningOut}
-          >
-            {isSigningOut ? "Signing out…" : "Log out"}
-          </button>
+          <div className="app-header-account">
+            <p>
+              <strong>{user.username}</strong>
+              <span className="app-role-badge" data-role={user.role}>
+                {roleLabels[user.role] ?? user.role}
+              </span>
+            </p>
+
+            <ThemeToggle className="theme-toggle-on-bar" />
+
+            <button
+              className="app-logout"
+              type="button"
+              onClick={handleLogout}
+              disabled={isSigningOut}
+            >
+              {isSigningOut ? "Signing out…" : "Log out"}
+            </button>
+          </div>
         </div>
       </header>
 

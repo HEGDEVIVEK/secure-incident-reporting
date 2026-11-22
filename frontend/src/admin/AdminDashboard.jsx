@@ -9,7 +9,7 @@ const tabs = [
   { path: "/admin/create-account", label: "Create account", component: CreateUserForm },
   { path: "/admin/incidents", label: "All incidents", component: AdminIncidents },
   { path: "/admin/comments", label: "Comments", component: AdminComments },
-  { path: "/admin/account-roles-status", label: "Update role and status", component: AccountStatusRole }
+  { path: "/admin/account-roles-status", label: "Update role and status", component: AccountStatusRole },
 ];
 
 export default function AdminDashboard({ currentUserId }) {

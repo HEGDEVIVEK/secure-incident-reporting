@@ -1,71 +1,7 @@
-.user-dashboard {
-  display: grid;
-  gap: 1.5rem;
-  min-width: 0;
-}
-
-.user-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  padding-inline: 0.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.user-tabs a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 46px;
-  padding: 0.65rem 1rem;
-  border-bottom: 3px solid transparent;
-  border-radius: 8px 8px 0 0;
-  color: var(--muted);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.user-tabs a:hover {
-  background: #e7f0ee;
-  color: #103e3b;
-}
-
-.user-tabs a[aria-current="page"] {
-  border-bottom-color: var(--accent);
-  background: #deeeea;
-  color: #103e3b;
-}
-
-.user-tabs a:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: -4px;
-}
-
-.user-panel {
-  min-width: 0;
-}
+/* The navigation rail and panel layout are shared with the other roles and
+   live in App.css. Only the widths of the user pages are set here. */
 
 .user-panel > .incident-form {
   width: 100%;
-  max-width: 680px;
-  margin-inline: auto;
-}
-
-.user-panel > .my-incidents {
-  width: 100%;
-  max-width: 900px;
-  margin-inline: auto;
-}
-
-@media (max-width: 600px) {
-  .user-dashboard {
-    gap: 1rem;
-  }
-
-  .user-tabs {
-    padding-inline: 0;
-  }
-
-  .user-tabs a {
-    padding-inline: 0.8rem;
-  }
+  max-width: 720px;
 }

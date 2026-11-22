@@ -1,0 +1,36 @@
+/* Icon button that switches light and dark mode. */
+
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.theme-toggle:hover {
+  border-color: var(--ink);
+}
+
+/* Variant used inside the dark top bar */
+.theme-toggle.theme-toggle-on-bar {
+  border-color: var(--bar-control);
+  background: transparent;
+  color: var(--on-bar);
+}
+
+.theme-toggle.theme-toggle-on-bar:hover {
+  background: var(--bar-hover);
+}
+
+/* Variant floating in the corner of the sign-in screens */
+.theme-toggle.theme-toggle-floating {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 5;
+}
