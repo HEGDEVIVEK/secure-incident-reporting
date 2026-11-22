@@ -15,7 +15,11 @@ def check(response, expected, label):
 
 
 def main():
-    with TestClient(app, base_url="https://testserver") as client:
+    with TestClient(
+    app,
+    base_url="https://testserver",
+    headers={"Origin": "http://localhost:5173"},
+) as client:
         try:
             print("Enter credentials for an active Reviewer test account.")
             username = input("Username: ").strip()

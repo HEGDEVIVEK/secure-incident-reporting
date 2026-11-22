@@ -12,7 +12,11 @@ MAX_FAILURES = 5
 username = f"lockout_{secrets.token_hex(4)}"
 other_username = f"lockout_{secrets.token_hex(4)}"
 
-with TestClient(app) as client:
+with TestClient(
+    app,
+    base_url="https://testserver",
+    headers={"Origin": "http://localhost:5173"},
+) as client:
     for _ in range(MAX_FAILURES):
         response = client.post(
             "/login", json={"username": username, "password": WRONG_PASSWORD}

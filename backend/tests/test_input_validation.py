@@ -14,7 +14,11 @@ def expect(response, status, label):
 
 
 def main():
-    with TestClient(app, base_url="https://testserver") as client:
+    with TestClient(
+    app,
+    base_url="https://testserver",
+    headers={"Origin": "http://localhost:5173"},
+) as client:
         try:
             # These inputs must be rejected before credential verification.
             login_cases = [

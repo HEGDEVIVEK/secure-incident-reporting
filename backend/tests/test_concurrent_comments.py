@@ -14,7 +14,11 @@ WORKERS = 5
 def main():
     marker = uuid4().hex[:10]
 
-    with TestClient(app, base_url="https://testserver") as client:
+    with TestClient(
+    app,
+    base_url="https://testserver",
+    headers={"Origin": "http://localhost:5173"},
+) as client:
         try:
             print("Enter credentials for an active Reviewer test account.")
             username = input("Username: ").strip()

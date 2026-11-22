@@ -29,7 +29,11 @@ for expected_role in ("user", "reviewer", "admin"):
     username = input("Username: ").strip()
     password = getpass("Password: ")
 
-    with TestClient(app, base_url="https://testserver") as client:
+    with TestClient(
+    app,
+    base_url="https://testserver",
+    headers={"Origin": "http://localhost:5173"},
+) as client:
         try:
             login = client.post("/login", json={
                 "username": username,

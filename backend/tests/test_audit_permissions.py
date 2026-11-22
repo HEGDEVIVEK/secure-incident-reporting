@@ -44,9 +44,17 @@ for name, operation in operations:
             )
         )
 
-        if permission_denied:
-            print(f"PASS: {name} blocked — {message}")
-        else:
-            print(f"ERROR: {name}, code {error.code} — {message}")
+        if not permission_denied:
+            raise AssertionError(
+                f"{name} failed for an unexpected reason: "
+                f"code {error.code} — {message}"
+            ) from error
+
+        print(f"PASS: {name} blocked — {message}")
+
     else:
-        print(f"FAIL: {name} was allowed")
+        raise AssertionError(
+            f"FAIL: Audit log {name.lower()} was allowed"
+        )
+
+print("PASS: All audit-permission checks passed")

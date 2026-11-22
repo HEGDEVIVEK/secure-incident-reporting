@@ -91,7 +91,7 @@ export default function UpdatePassword() {
                 type="password"
                 autoComplete="new-password"
                 minLength={12}
-                maxLength={129}
+                maxLength={128}
                 aria-describedby="password-length"
                 required
               />

@@ -28,7 +28,11 @@ def change_password(client, current_password):
 
 session_tokens = []
 
-with TestClient(app, base_url="https://testserver") as client:
+with TestClient(
+    app,
+    base_url="https://testserver",
+    headers={"Origin": "http://localhost:5173"},
+) as client:
     try:
         # Create two independent sessions for the same account.
         for _ in range(2):

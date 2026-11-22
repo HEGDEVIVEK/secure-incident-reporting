@@ -8,7 +8,11 @@ from src.api import app
 username = input("Active test account username: ").strip()
 password = getpass("Password: ")
 
-with TestClient(app, base_url="https://testserver") as client:
+with TestClient(
+    app,
+    base_url="https://testserver",
+    headers={"Origin": "http://localhost:5173"},
+) as client:
     token = None
 
     try:

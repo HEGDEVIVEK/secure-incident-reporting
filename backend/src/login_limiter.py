@@ -23,35 +23,62 @@ _locked_until: dict[str, float] = {}
 def _key(username: str) -> str:
     return username.casefold()
 
-
 def seconds_locked(username: str) -> int:
-    """Return the seconds left on a lockout, or 0 if the username is not locked."""
     key = _key(username)
-    now = time.monotonic()
+
     with _lock:
+        now = time.monotonic()
         until = _locked_until.get(key)
-        if until is None:
-            return 0
-        if until <= now:
+
+        if until is not None:
+            if until > now:
+                return int(until - now) + 1
+
             del _locked_until[key]
-            return 0
-        return int(until - now) + 1
+
+        if len(_locked_until) >= MAX_TRACKED:
+            # Remove expired entries before checking capacity.
+            for name, expiry in list(_locked_until.items()):
+                if expiry <= now:
+                    del _locked_until[name]
+
+            if len(_locked_until) >= MAX_TRACKED:
+                # Temporarily throttle until the earliest lockout expires.
+                return int(min(_locked_until.values()) - now) + 1
+
+        return 0
 
 
 def record_failure(username: str) -> None:
-    """Count a failed attempt and lock the username once the limit is reached."""
     key = _key(username)
-    now = time.monotonic()
+
     with _lock:
+        now = time.monotonic()
+
+        # Preserve an existing active lockout.
+        if _locked_until.get(key, 0) > now:
+            return
+
+        _locked_until.pop(key, None)
+
         if len(_locked_until) >= MAX_TRACKED:
-            for name in [n for n, t in _locked_until.items() if t <= now]:
-                del _locked_until[name]
+            for name, expiry in list(_locked_until.items()):
+                if expiry <= now:
+                    del _locked_until[name]
+
+            if len(_locked_until) >= MAX_TRACKED:
+                # An already-running request must not exceed capacity.
+                return
 
         if key not in _failures and len(_failures) >= MAX_TRACKED:
-            # Make room by dropping the oldest tracked username.
+            # Bound the number of partial failure counters.
             del _failures[next(iter(_failures))]
 
-        recent = [t for t in _failures.get(key, []) if now - t < WINDOW_SECONDS]
+        recent = [
+            timestamp
+            for timestamp in _failures.get(key, [])
+            if now - timestamp < WINDOW_SECONDS
+        ]
         recent.append(now)
 
         if len(recent) >= MAX_FAILURES:

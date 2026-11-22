@@ -19,7 +19,17 @@ def request(method, path, body=None, headers=None):
     conn = http.client.HTTPConnection(HOST, PORT, timeout=30)
     start = perf_counter()
     try:
-        conn.request(method, path, body=body, headers=headers or {})
+        request_headers = {
+        **(headers or {}),
+        "Origin": "http://localhost:5173",
+        }
+
+        conn.request(
+            method,
+            path,
+            body=body,
+            headers=request_headers,
+        )
         response = conn.getresponse()
         response.read()
         cookies = SimpleCookie()

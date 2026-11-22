@@ -37,7 +37,11 @@ cases = [
     }),
 ]
 
-with TestClient(app, base_url="https://testserver") as client:
+with TestClient(
+    app,
+    base_url="https://testserver",
+    headers={"Origin": "http://localhost:5173"},
+) as client:
     for method, path, payload in cases:
         client.cookies.clear()
         options = {"json": payload} if payload is not None else {}

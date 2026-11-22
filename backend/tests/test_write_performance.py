@@ -25,9 +25,12 @@ def main():
 
         def new_client():
             return stack.enter_context(
-                httpx.Client(base_url=BASE_URL, timeout=30)
+                httpx.Client(
+                    base_url=BASE_URL,
+                    timeout=30,
+                    headers={"Origin": "http://localhost:5173"},
+                )
             )
-
         def call(client, method, path, payload=None, expected=200, label=None):
             start = perf_counter()
             response = client.request(method, path, json=payload)
