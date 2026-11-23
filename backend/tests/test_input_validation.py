@@ -124,6 +124,22 @@ def main():
                     "Client-supplied comments rejected",
                     {"comments": [{"text": "Injected comment"}]},
                 ),
+                (
+                    "Less-than sign in title rejected",
+                    {"title": "Invalid < title"},
+                ),
+                (
+                    "Greater-than sign in title rejected",
+                    {"title": "Invalid > title"},
+                ),
+                (
+                    "Less-than sign in description rejected",
+                    {"description": "Invalid < description"},
+                ),
+                (
+                    "Greater-than sign in description rejected",
+                    {"description": "Invalid > description"},
+                ),
             ]
 
             for label, changes in cases:

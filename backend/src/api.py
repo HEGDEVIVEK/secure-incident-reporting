@@ -465,6 +465,10 @@ def update_user_account(
 #### USER END POINT ####
 @app.post("/add_incidents", status_code=201)
 def create_incident(data: IncidentCreate, current_user=Depends(get_current_user)):
+
+    if current_user["role"] != "user":
+        raise HTTPException(status_code=403, detail="User access required")
+
     now = datetime.now(timezone.utc)
 
     incident = {
@@ -499,6 +503,9 @@ def create_incident(data: IncidentCreate, current_user=Depends(get_current_user)
 
 @app.get("/incidents/mine")
 def list_my_incidents(current_user=Depends(get_current_user)):
+    if current_user["role"] != "user":
+        raise HTTPException(status_code=403, detail="User access required")
+
     incidents = mongo_db.incidents.find(
         {"submitted_by_id": current_user["_id"]},
         {
@@ -572,6 +579,7 @@ def fetch_incidents(query):
         }
         for incident in incidents
     ]
+
 
 @app.get("/incidents")
 def list_all_incidents(current_user=Depends(get_current_user)):

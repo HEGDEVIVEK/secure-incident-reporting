@@ -1,48 +1,56 @@
-C:\secure-incident-reporting\backend>uv run python -m tests.test_input_validation 
+C:\secure-incident-reporting\backend>uv run python -m tests.test_input_validation
 MongoDB connected successfully
-{"timestamp": "2026-11-23T00:52:16.054190+00:00", "event": "validation_failed", "request_id": "7d5d57b19a192f2b670fbc6ffa3af23f", "method": "POST", "route": "/login", "error_count": 2}
+{"timestamp": "2026-11-23T03:43:55.627381+00:00", "event": "validation_failed", "request_id": "ff6339128704f2f135409a5e33e97299", "method": "POST", "route": "/login", "error_count": 2}
 PASS: NoSQL-style username object rejected
-{"timestamp": "2026-11-23T00:52:16.054190+00:00", "event": "validation_failed", "request_id": "46a54461fd85922566514e4bba9a6d00", "method": "POST", "route": "/login", "error_count": 1}
+{"timestamp": "2026-11-23T03:43:55.632384+00:00", "event": "validation_failed", "request_id": "27aaa484c4718de0f3dd417d2e844eea", "method": "POST", "route": "/login", "error_count": 1}
 PASS: Password object rejected
-{"timestamp": "2026-11-23T00:52:16.076157+00:00", "event": "validation_failed", "request_id": "765248dada66c154914198f686065b57", "method": "POST", "route": "/login", "error_count": 2}
+{"timestamp": "2026-11-23T03:43:55.638354+00:00", "event": "validation_failed", "request_id": "5b159127cba6dc491e4919450fc9b075", "method": "POST", "route": "/login", "error_count": 2}
 PASS: Unexpected login role field rejected
-{"timestamp": "2026-11-23T00:52:16.083249+00:00", "event": "validation_failed", "request_id": "770e463f9ad8f42f4b7abbfe88c2808d", "method": "POST", "route": "/login", "error_count": 1}
+{"timestamp": "2026-11-23T03:43:55.642773+00:00", "event": "validation_failed", "request_id": "21cc4a49bef0c542286cd290e3496d89", "method": "POST", "route": "/login", "error_count": 1}
 PASS: Missing login password rejected
 
 Enter credentials for an active regular User account.
 Username: user1
 Password: 
-{"timestamp": "2026-11-23T00:52:39.008950+00:00", "event": "validation_failed", "request_id": "ef7b459bb38bd2f053df56fd3066ab5d", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:12.068963+00:00", "event": "validation_failed", "request_id": "ec621de86081f8becebbc6261df6a365", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Empty title rejected
-{"timestamp": "2026-11-23T00:52:39.118847+00:00", "event": "validation_failed", "request_id": "f6fd0c2dc210be75bc03151a58cbd15c", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:12.175543+00:00", "event": "validation_failed", "request_id": "e5ddbd0d4cc4d57fc9e547d7b38de599", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Whitespace-only title rejected
-{"timestamp": "2026-11-23T00:52:39.243518+00:00", "event": "validation_failed", "request_id": "f4a448d86ef3dc2cf7d2f8f82275dd2b", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:12.275426+00:00", "event": "validation_failed", "request_id": "6a748b3a1c8bfae6ba064dfb41814ff7", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Oversized title rejected
-{"timestamp": "2026-11-23T00:52:39.354925+00:00", "event": "validation_failed", "request_id": "3d089cce57748e16647cdf7b9b7d0a9b", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:12.389216+00:00", "event": "validation_failed", "request_id": "4f8eaa10ef591f7d8f4476f2df4d66c1", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Empty description rejected
-{"timestamp": "2026-11-23T00:52:39.483765+00:00", "event": "validation_failed", "request_id": "9478d6f2627aa5896b8065f4bdcec668", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:12.509559+00:00", "event": "validation_failed", "request_id": "08ae4077c8b76d7c7a4e9a3b00f186fe", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Whitespace-only description rejected
-{"timestamp": "2026-11-23T00:52:39.600804+00:00", "event": "validation_failed", "request_id": "46f1813543c246df605cabe384f6f983", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:12.625395+00:00", "event": "validation_failed", "request_id": "52f666452fcda0d23129542f093b25be", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Oversized description rejected
-{"timestamp": "2026-11-23T00:52:39.761690+00:00", "event": "validation_failed", "request_id": "180a9a3242e1d9ec4e0b7d402415d6c9", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:12.741483+00:00", "event": "validation_failed", "request_id": "933b89995a6e64afc13671e4e7c7b50f", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Unsupported priority rejected
-{"timestamp": "2026-11-23T00:52:39.882617+00:00", "event": "validation_failed", "request_id": "ce4dd335e40dde30d2432137fec287d2", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:12.845412+00:00", "event": "validation_failed", "request_id": "fa8ccefb5a7021e581cf3403eaa07385", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: NoSQL-style title object rejected
-{"timestamp": "2026-11-23T00:52:39.999537+00:00", "event": "validation_failed", "request_id": "43528372bf0a3739eedd7a3a349b8aec", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:12.959898+00:00", "event": "validation_failed", "request_id": "56835aec5d6ec3c7acef4741e522fc0a", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Description object rejected
-{"timestamp": "2026-11-23T00:52:40.115843+00:00", "event": "validation_failed", "request_id": "b3eee8800b0c338300b862b558c31a7f", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:13.074015+00:00", "event": "validation_failed", "request_id": "a6f20ea39236a6d55e50ce6f5cd5b8ca", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Control character in title rejected
-{"timestamp": "2026-11-23T00:52:40.219769+00:00", "event": "validation_failed", "request_id": "4691835d6c3ee6bccf66f47fde54ea20", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:13.206080+00:00", "event": "validation_failed", "request_id": "341f72343bdf3c3760457b14a7d3ff80", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Control character in description rejected
-{"timestamp": "2026-11-23T00:52:40.339246+00:00", "event": "validation_failed", "request_id": "c263f1a050992fcdcc025fd9ad0fc148", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:13.323296+00:00", "event": "validation_failed", "request_id": "2009b3df852d5b7ce6491de2732d74a9", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Client-supplied incident status rejected
-{"timestamp": "2026-11-23T00:52:40.491553+00:00", "event": "validation_failed", "request_id": "5794ae37d4b9792c4dd1a18600c1ef53", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:13.438385+00:00", "event": "validation_failed", "request_id": "4db6fe884921345974543acb7ab5cf60", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Client-supplied owner rejected
-{"timestamp": "2026-11-23T00:52:40.597844+00:00", "event": "validation_failed", "request_id": "0576109820e7c846e0244765d17af9ee", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:13.550854+00:00", "event": "validation_failed", "request_id": "24a930802ad81a0d0e77161b118fe438", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Client-supplied comments rejected
-{"timestamp": "2026-11-23T00:52:40.753710+00:00", "event": "validation_failed", "request_id": "806060e2644342ed29a6a297c2b396a9", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:13.661715+00:00", "event": "validation_failed", "request_id": "93c6c9cb910f0810f6568493e7cf7f91", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Less-than sign in title rejected
+{"timestamp": "2026-11-23T03:44:13.764648+00:00", "event": "validation_failed", "request_id": "2a79d2eb2a6e8deff16901f2f3400fd7", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Greater-than sign in title rejected
+{"timestamp": "2026-11-23T03:44:13.871495+00:00", "event": "validation_failed", "request_id": "f3621cabedcafe82a782436a8692ed18", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Less-than sign in description rejected
+{"timestamp": "2026-11-23T03:44:13.982982+00:00", "event": "validation_failed", "request_id": "9e7678b34f2d4aaf21b863ac83b68405", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Greater-than sign in description rejected
+{"timestamp": "2026-11-23T03:44:14.103788+00:00", "event": "validation_failed", "request_id": "e130e15bef71f2183ad0515579f74811", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Missing required description rejected
-{"timestamp": "2026-11-23T00:52:40.762729+00:00", "event": "validation_failed", "request_id": "2762b12212c249eeb1f76b658981e447", "method": "POST", "route": "/add_incidents", "error_count": 1}
+{"timestamp": "2026-11-23T03:44:14.103788+00:00", "event": "validation_failed", "request_id": "f108d4f1dc339c52aa62743b9c74f1ff", "method": "POST", "route": "/add_incidents", "error_count": 1}
 PASS: Malformed JSON rejected
 PASS: Rejected submissions created no incidents
 PASS: Valid authenticated requests still work after invalid inputs
