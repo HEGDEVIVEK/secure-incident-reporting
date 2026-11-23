@@ -218,7 +218,7 @@ td {
 	</h2>
 
 	<h3>
-		Generated on Sat, 21 Nov 2026 14:53:34
+		Generated on Sun, 22 Nov 2026 22:32:32
 	</h3>
 
 	<h3>
@@ -259,7 +259,7 @@ td {
 					<div>Low</div>
 				</td>
 				<td align="center">
-					<div>1</div>
+					<div>0</div>
 				</td>
 			</tr>
 			<tr>
@@ -301,14 +301,6 @@ td {
 					align="center">Number of Instances</th>
 			</tr>
 			<tr>
-				<td><a href="#40014">Cross Site Scripting Weakness (Persistent in JSON Response)</a></td>
-				<td align="center" class="risk-1">Low</td>
-				
-				
-				<td align="center">5</td>
-				
-			</tr>
-			<tr>
 				<td><a href="#10111">Authentication Request Identified</a></td>
 				<td align="center" class="risk-0">Informational</td>
 				
@@ -321,7 +313,7 @@ td {
 				<td align="center" class="risk-0">Informational</td>
 				
 				
-				<td align="center">1</td>
+				<td align="center">2</td>
 				
 			</tr>
 			<tr>
@@ -346,308 +338,6 @@ td {
 
 	
 		<h3>Alert Detail</h3>
-		
-			<table class="results">
-				<tr height="24">
-					<th width="20%" class="risk-1"><a
-						id="40014"></a>
-						<div>Low</div></th>
-					<th class="risk-1">Cross Site Scripting Weakness (Persistent in JSON Response)</th>
-				</tr>
-				<tr>
-					<td width="20%">Description</td>
-					<td width="80%">
-							<div>A XSS attack was found in a JSON response, this might leave content consumers vulnerable to attack if they don&#39;t appropriately handle the data (response).</div>
-							
-						</td>
-				</tr>
-				<TR vAlign="top">
-					<TD colspan="2"></TD>
-				</TR>
-				
-					<tr>
-						<td width="20%"
-							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:4173/api/incidents">http://localhost:4173/api/incidents</a></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:4173/api/incidents</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Method</td>
-						<td width="80%">GET</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Parameter</td>
-						<td width="80%">description</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Attack</td>
-						<td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Evidence</td>
-						<td width="80%"></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Other Info</td>
-						<td width="80%">
-							<div>Raised with LOW confidence as the Content-Type is not HTML.</div>
-							
-						</td>
-					</tr>
-				
-					<tr>
-						<td width="20%"
-							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:4173/api/incidents">http://localhost:4173/api/incidents</a></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:4173/api/incidents</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Method</td>
-						<td width="80%">GET</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Parameter</td>
-						<td width="80%">text</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Attack</td>
-						<td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Evidence</td>
-						<td width="80%"></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Other Info</td>
-						<td width="80%">
-							<div>Raised with LOW confidence as the Content-Type is not HTML.</div>
-							
-						</td>
-					</tr>
-				
-					<tr>
-						<td width="20%"
-							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:4173/api/incidents/mine">http://localhost:4173/api/incidents/mine</a></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:4173/api/incidents/mine</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Method</td>
-						<td width="80%">GET</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Parameter</td>
-						<td width="80%">description</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Attack</td>
-						<td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Evidence</td>
-						<td width="80%"></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Other Info</td>
-						<td width="80%">
-							<div>Raised with LOW confidence as the Content-Type is not HTML.</div>
-							
-						</td>
-					</tr>
-				
-					<tr>
-						<td width="20%"
-							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:4173/api/incidents/mine">http://localhost:4173/api/incidents/mine</a></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:4173/api/incidents/mine</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Method</td>
-						<td width="80%">GET</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Parameter</td>
-						<td width="80%">text</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Attack</td>
-						<td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Evidence</td>
-						<td width="80%"></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Other Info</td>
-						<td width="80%">
-							<div>Raised with LOW confidence as the Content-Type is not HTML.</div>
-							
-						</td>
-					</tr>
-				
-					<tr>
-						<td width="20%"
-							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:4173/api/incidents/mine">http://localhost:4173/api/incidents/mine</a></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:4173/api/incidents/mine</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Method</td>
-						<td width="80%">GET</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Parameter</td>
-						<td width="80%">title</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Attack</td>
-						<td width="80%">&lt;script&gt;alert(1);&lt;/script&gt;</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Evidence</td>
-						<td width="80%"></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Other Info</td>
-						<td width="80%">
-							<div>Raised with LOW confidence as the Content-Type is not HTML.</div>
-							
-						</td>
-					</tr>
-				
-				<tr>
-					<td width="20%">Instances</td>
-					
-					
-					<td width="80%">5</td>
-					
-				</tr>
-				<tr>
-					<td width="20%">Solution</td>
-					<td width="80%">
-							<div>Phase: Architecture and Design</div>
-							<br />
-						
-							<div>Use a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid.</div>
-							<br />
-						
-							<div>Examples of libraries and frameworks that make it easier to generate properly encoded output include Microsoft&#39;s Anti-XSS library, the OWASP ESAPI Encoding module, and Apache Wicket.</div>
-							<br />
-						
-							<div>Phases: Implementation; Architecture and Design</div>
-							<br />
-						
-							<div>Understand the context in which your data will be used and the encoding that will be expected. This is especially important when transmitting data between different components, or when generating outputs that can contain multiple encodings at the same time, such as web pages or multi-part mail messages. Study all expected communication protocols and data representations to determine the required encoding strategies.</div>
-							<br />
-						
-							<div>For any data that will be output to another web page, especially any data that was received from external inputs, use the appropriate encoding on all non-alphanumeric characters.</div>
-							<br />
-						
-							<div>Consult the XSS Prevention Cheat Sheet for more details on the types of encoding and escaping that are needed.</div>
-							<br />
-						
-							<div>Phase: Architecture and Design</div>
-							<br />
-						
-							<div>For any security checks that are performed on the client side, ensure that these checks are duplicated on the server side, in order to avoid CWE-602. Attackers can bypass the client-side checks by modifying values after the checks have been performed, or by changing the client to remove the client-side checks entirely. Then, these modified values would be submitted to the server.</div>
-							<br />
-						
-							<div>If available, use structured mechanisms that automatically enforce the separation between data and code. These mechanisms may be able to provide the relevant quoting, encoding, and validation automatically, instead of relying on the developer to provide this capability at every point where output is generated.</div>
-							<br />
-						
-							<div>Phase: Implementation</div>
-							<br />
-						
-							<div>For every web page that is generated, use and specify a character encoding such as ISO-8859-1 or UTF-8. When an encoding is not specified, the web browser may choose a different encoding by guessing which encoding is actually being used by the web page. This can cause the web browser to treat certain sequences as special, opening up the client to subtle XSS attacks. See CWE-116 for more mitigations related to encoding/escaping.</div>
-							<br />
-						
-							<div>To help mitigate XSS attacks against the user&#39;s session cookie, set the session cookie to be HttpOnly. In browsers that support the HttpOnly feature (such as more recent versions of Internet Explorer and Firefox), this attribute can prevent the user&#39;s session cookie from being accessible to malicious client-side scripts that use document.cookie. This is not a complete solution, since HttpOnly is not supported by all browsers. More importantly, XMLHTTPRequest and other powerful browser technologies provide read access to HTTP headers, including the Set-Cookie header in which the HttpOnly flag is set.</div>
-							<br />
-						
-							<div>Assume all input is malicious. Use an &quot;accept known good&quot; input validation strategy, i.e., use an allow list of acceptable inputs that strictly conform to specifications. Reject any input that does not strictly conform to specifications, or transform it into something that does. Do not rely exclusively on looking for malicious or malformed inputs (i.e., do not rely on a deny list). However, deny lists can be useful for detecting potential attacks or determining which inputs are so malformed that they should be rejected outright.</div>
-							<br />
-						
-							<div>When performing input validation, consider all potentially relevant properties, including length, type of input, the full range of acceptable values, missing or extra inputs, syntax, consistency across related fields, and conformance to business rules. As an example of business rule logic, &quot;boat&quot; may be syntactically valid because it only contains alphanumeric characters, but it is not valid if you are expecting colors such as &quot;red&quot; or &quot;blue.&quot;</div>
-							<br />
-						
-							<div>Ensure that you perform input validation at well-defined interfaces within the application. This will help protect the application even if a component is reused or moved elsewhere.</div>
-							<br />
-						
-							<div>	</div>
-							
-						</td>
-				</tr>
-				<tr>
-					<td width="20%">Reference</td>
-					<td width="80%">
-							<a href="https://owasp.org/www-community/attacks/xss/">https://owasp.org/www-community/attacks/xss/</a>
-							<br />
-						
-							<a href="https://cwe.mitre.org/data/definitions/79.html">https://cwe.mitre.org/data/definitions/79.html</a>
-							
-						</td>
-				</tr>
-				<tr>
-					<td width="20%">CWE Id</td>
-					<td width="80%"><a
-						href="https://cwe.mitre.org/data/definitions/79.html">79</a></td>
-				</tr>
-				<tr>
-					<td width="20%">WASC Id</td>
-					<td width="80%">8</td>
-				</tr>
-				<tr>
-					<td width="20%">Plugin Id</td>
-					<td width="80%"><a
-						href="https://www.zaproxy.org/docs/alerts/40014/">40014</a></td>
-				</tr>
-			</table>
-			<div class="spacer"></div>
 		
 			<table class="results">
 				<tr height="24">
@@ -704,7 +394,7 @@ td {
 							<div>userParam=username</div>
 							<br />
 						
-							<div>userValue=user2</div>
+							<div>userValue=user3</div>
 							<br />
 						
 							<div>passwordParam=password</div>
@@ -749,7 +439,7 @@ td {
 							<div>userParam=username</div>
 							<br />
 						
-							<div>userValue=user1</div>
+							<div>userValue=admin1</div>
 							<br />
 						
 							<div>passwordParam=password</div>
@@ -840,7 +530,46 @@ td {
 					<tr>
 						<td width="20%"
 							class="indent2">Evidence</td>
-						<td width="80%">&lt;script type=&quot;module&quot; crossorigin src=&quot;/assets/index-CF0Dfjlv.js&quot;&gt;&lt;/script&gt;</td>
+						<td width="80%">&lt;script type=&quot;module&quot; crossorigin src=&quot;/assets/index-4LVVokcK.js&quot;&gt;&lt;/script&gt;</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>No links have been found while there are scripts, which is an indication that this is a modern web application.</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:4173/admin/account-roles-status">http://localhost:4173/admin/account-roles-status</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:4173/admin/account-roles-status</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%">&lt;script type=&quot;module&quot; crossorigin src=&quot;/assets/index-4LVVokcK.js&quot;&gt;&lt;/script&gt;</td>
 					</tr>
 					<tr>
 						<td width="20%"
@@ -855,7 +584,7 @@ td {
 					<td width="20%">Instances</td>
 					
 					
-					<td width="80%">1</td>
+					<td width="80%">2</td>
 					
 				</tr>
 				<tr>
@@ -1000,12 +729,12 @@ td {
 					<tr>
 						<td width="20%"
 							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:4173/api/incidents/6b01f45c9dc5d675f6206b19/status">http://localhost:4173/api/incidents/6b01f45c9dc5d675f6206b19/status</a></td>
+						<td width="80%"><a href="http://localhost:4173/api/users/6b03bb58d2ded874e6a79a9b/status-role">http://localhost:4173/api/users/6b03bb58d2ded874e6a79a9b/status-role</a></td>
 					</tr>
 					<tr>
 						<td width="20%"
 							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:4173/api/incidents/6b01f45c9dc5d675f6206b19/status ()({status})</td>
+						<td width="80%">http://localhost:4173/api/users/6b03bb58d2ded874e6a79a9b/status-role ()({role,is_active})</td>
 					</tr>
 					<tr>
 						<td width="20%"
@@ -1036,12 +765,12 @@ td {
 					<tr>
 						<td width="20%"
 							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:4173/api/add_incidents">http://localhost:4173/api/add_incidents</a></td>
+						<td width="80%"><a href="http://localhost:4173/api/login">http://localhost:4173/api/login</a></td>
 					</tr>
 					<tr>
 						<td width="20%"
 							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:4173/api/add_incidents ()({title,description,priority})</td>
+						<td width="80%">http://localhost:4173/api/login ()({username,password})</td>
 					</tr>
 					<tr>
 						<td width="20%"
@@ -1056,7 +785,7 @@ td {
 					<tr>
 						<td width="20%"
 							class="indent2">Attack</td>
-						<td width="80%">Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)</td>
+						<td width="80%">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)</td>
 					</tr>
 					<tr>
 						<td width="20%"
@@ -1072,12 +801,12 @@ td {
 					<tr>
 						<td width="20%"
 							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:4173/api/incidents/6b01f45c9dc5d675f6206b19/comments">http://localhost:4173/api/incidents/6b01f45c9dc5d675f6206b19/comments</a></td>
+						<td width="80%"><a href="http://localhost:4173/api/login">http://localhost:4173/api/login</a></td>
 					</tr>
 					<tr>
 						<td width="20%"
 							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:4173/api/incidents/6b01f45c9dc5d675f6206b19/comments ()({text})</td>
+						<td width="80%">http://localhost:4173/api/login ()({username,password})</td>
 					</tr>
 					<tr>
 						<td width="20%"

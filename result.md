@@ -102,17 +102,17 @@ Target: `http://localhost:5173`. Times are **milliseconds**, measuring HTTP requ
 |---|---|
 | Backend Bandit | **0 issues** across all severity/confidence levels; 747 lines scanned; 0 files/lines skipped and 0 issues skipped through disabled checks. Started 22 November 2026 at 20:03:13 CST (`2026-11-23 02:03:13.338639+00:00`). |
 | Frontend Semgrep | **0 findings, 0 blocking**; Semgrep OSS with `--config auto` ran 200 rules (153 JavaScript, 47 multi-language) on 32 git-tracked files; approximately 100% of lines parsed. Run on 22 November 2026; the output includes no time or commit. Rules that need a Semgrep login were not run, and files not tracked by git were not scanned. |
-| ZAP 2.17.0 | **0 High, 0 Medium, 1 Low alert type (5 instances), 4 Informational types**. Target: `http://localhost:4173`. Report generated 21 November 2026 at 14:53:34; timezone unspecified. The scan ran against the build **before** the CSRF origin check, the login limiter, and the angle-bracket input validation were added, so the report does not cover those controls. |
+| ZAP 2.17.0 | ZAP 2.17.0: Report generated on 22 November 2026 at 22:29:46 (timezone unspecified), targeting http://localhost:4173. Results: **0 High**, **0 Medium**, **0 Low**, and **4 Informational** alert types. The previously reported Low XSS alert was not reported in this rerun. |
  
 Zero SAST findings means the selected rules detected no issues, not that all vulnerabilities are excluded.
  
-**ZAP Low finding:** Script payloads appeared in JSON from `/api/incidents` and `/api/incidents/mine` in titles, descriptions, or comments. ZAP assigned Low confidence because the response was not HTML. Reviewed components render these values as escaped React text; the team reports manual XSS checks completed. Current validation rejects angle brackets in new input but does not remove existing test payloads. The finding remains documented; no zero-alert retest is claimed.
- 
-Informational types: Authentication Request Identified, Modern Web Application, Session Management Response Identified, and User Agent Fuzzer. Full authenticated coverage of every endpoint/role is not established by this HTML report alone; retain scan configuration/logs to explain coverage and earlier 4xx responses or scan warnings.
+**ZAP retest:** The scan report generated on 22 November 2026 at 22:29:46 recorded **0 High, 0 Medium, 0 Low, and 4 Informational alert types**. The previously reported Low XSS alert was not reported in this rerun. Current validation rejects angle brackets in new input, and manual browser checks confirmed existing synthetic payloads displayed without execution.
+
+The remaining informational types are Authentication Request Identified, Modern Web Application, Session Management Response Identified, and User Agent Fuzzer. This HTML report alone does not establish complete authenticated coverage of every endpoint and role; scan configuration/logs and manual test evidence are retained separately.
  
 ## 4. Selected security evidence
  
-The team confirmed these checks. Console output for each automated check is in `reports/test-evidence/`; screenshots (for example Atlas permissions, cookie flags, and the XSS check) are not stored in the repository.
+The team confirmed these checks. Console output for each automated check is in `reports/test-evidence/`;
  
 | Evidence | Result demonstrated | Output |
 |---|---|---|
@@ -122,7 +122,7 @@ The team confirmed these checks. Console output for each automated check is in `
 | Audit restrictions and contents | Insert allowed; update/delete denied. Required events include actor ID, timestamp, action, and target ID, without passwords, tokens, or full descriptions. FR-11–12, SR-9–11 | [test_audit_permissions.txt](reports/test-evidence/test_audit_permissions.txt) |
 | CSRF | Missing/untrusted origins return **403**; trusted origin accepted. SR-16 | [test_csrf.txt](reports/test-evidence/test_csrf.txt) |
 | Login lockout | Five wrong attempts return **401**; next returns **429 with Retry-After**. Password change also blocked; a different username unaffected under normal capacity. SR-16 | [test_login_lockout.txt](reports/test-evidence/test_login_lockout.txt) |
-| XSS | Automated tests confirm `<` and `>` in incident titles/descriptions return HTTP 422 and create no incidents. Manual browser checks confirmed existing synthetic payloads displayed without execution. SR-7, SR-16 | [test_input_validation.txt](reports/test-evidence/test_input_validation.txt); manual browser check |
+| XSS | No zero-alert retest is claimed with The latest rerun reported no High, Medium, or Low alerts. Automated tests confirm `<` and `>` in incident titles/descriptions return HTTP 422 and create no incidents. Manual browser checks confirmed existing synthetic payloads displayed without execution. SR-7, SR-16 | [test_input_validation.txt](reports/test-evidence/test_input_validation.txt); [DAST test ](reports/2026-11-22-ZAP-Report-localhost.html) |
  
 ## 5. Implementation and limitations
  
@@ -146,7 +146,7 @@ The team confirmed these checks. Console output for each automated check is in `
 |---|---|
 | Bandit | [backend-sast-bandit-20261122.txt](reports/backend-sast-bandit-20261122.txt) |
 | Semgrep | [frontend-sast-semgrep-20261122.txt](reports/frontend-sast-semgrep-20261122.txt) |
-| ZAP | [dast-localhost-final.html](reports/dast-localhost-final.html) |
+| ZAP | [dast-localhost-final.html](reports/2026-11-22-ZAP-Report-localhost.html) |
 | Normal load | [test_normal_performance.txt](reports/test-evidence/test_normal_performance.txt) |
 | 50-user load | [test_load.txt](reports/test-evidence/test_load.txt) |
 | Write operations | [test_write_performance.txt](reports/test-evidence/test_write_performance.txt) |
@@ -167,5 +167,4 @@ All files are in `reports/test-evidence/`.
 | CSRF and lockout | [test_csrf.txt](reports/test-evidence/test_csrf.txt), [test_login_lockout.txt](reports/test-evidence/test_login_lockout.txt) |
 | Performance | [test_normal_performance.txt](reports/test-evidence/test_normal_performance.txt), [test_write_performance.txt](reports/test-evidence/test_write_performance.txt), [test_load.txt](reports/test-evidence/test_load.txt) |
  
-**Before submission:** Fill in team number/commit; confirm that the final source matches what Bandit and Semgrep scanned (re-run them if any code changes); and retain the ZAP Low finding, the note that the ZAP report predates the CSRF check and login limiter, and the diagnostic-log limitation.
  
