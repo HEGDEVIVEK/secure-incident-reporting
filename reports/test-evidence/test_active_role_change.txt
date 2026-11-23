@@ -1,0 +1,22 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_active_role_change
+MongoDB connected successfully
+
+Enter credentials for an active admin test account.
+Username: admin1
+Password:
+
+Enter credentials for an active user test account.
+Username: user1
+Password:
+{"timestamp": "2026-11-23T00:27:46.658101+00:00", "event": "request_rejected", "request_id": "adc7b91fc258d9ffc147de56503ff3a5", "method": "GET", "route": "/incidents", "status_code": 403}
+PASS: Original session has regular-user permissions
+PASS: Admin changes the test account to Reviewer
+PASS: Same session gains reviewer access without login
+{"timestamp": "2026-11-23T00:27:47.193699+00:00", "event": "request_rejected", "request_id": "7b74f1e9d0243d67c88d482b450b0855", "method": "GET", "route": "/list_users", "status_code": 403}
+PASS: Promoted reviewer still cannot access admin features
+PASS: Admin restores the account to User
+{"timestamp": "2026-11-23T00:27:47.585370+00:00", "event": "request_rejected", "request_id": "8bbbd7ae0fa3597fd81572723c664b18", "method": "GET", "route": "/incidents", "status_code": 403}
+PASS: Same session immediately loses reviewer access
+PASS: Same session can still read its own incidents
+
+All active-role-change checks passed.

@@ -1,0 +1,29 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_sensitive_data_exposure
+MongoDB connected successfully
+
+Enter credentials for an active user account.
+Username: user1
+Password: 
+PASS: user password is stored as a working Argon2 hash, with no checked plaintext password fields
+PASS: user session uses the token hash; its database record does not contain the raw token
+
+Enter credentials for an active reviewer account.
+Username: revw1
+Password: 
+PASS: reviewer password is stored as a working Argon2 hash, with no checked plaintext password fields
+PASS: reviewer session uses the token hash; its database record does not contain the raw token
+
+Enter credentials for an active admin account.
+Username: admin1
+Password: 
+PASS: admin password is stored as a working Argon2 hash, with no checked plaintext password fields
+PASS: admin session uses the token hash; its database record does not contain the raw token
+PASS: user login response contains no checked credential fields or secrets
+PASS: reviewer login response contains no checked credential fields or secrets
+PASS: admin login response contains no checked credential fields or secrets
+PASS: User incident list contains no checked credential fields or secrets
+PASS: Reviewer incident list contains no checked credential fields or secrets
+PASS: Admin incident list contains no checked credential fields or secrets
+PASS: Admin user list contains no checked credential fields or secrets
+
+All sensitive-data checks in this script passed.

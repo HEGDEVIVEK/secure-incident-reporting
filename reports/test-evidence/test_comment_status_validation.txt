@@ -1,0 +1,42 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_comment_status_validation
+MongoDB connected successfully
+Enter credentials for an active Reviewer test account.
+Username: revw1
+Password: 
+
+Testing incident: 6b038a737235221250fb176a
+{"timestamp": "2026-11-23T00:36:23.045898+00:00", "event": "validation_failed", "request_id": "ee746cb242c2334e8c38bd2d0878e272", "method": "POST", "route": "/incidents/{incident_id}/comments", "error_count": 1}
+PASS: Empty comment rejected
+{"timestamp": "2026-11-23T00:36:23.166854+00:00", "event": "validation_failed", "request_id": "f4375ebe2a45c8d067bc9f93c8a4443c", "method": "POST", "route": "/incidents/{incident_id}/comments", "error_count": 1}
+PASS: Whitespace-only comment rejected
+{"timestamp": "2026-11-23T00:36:23.282749+00:00", "event": "validation_failed", "request_id": "1cae107e09e44b16626ca2b999c82a12", "method": "POST", "route": "/incidents/{incident_id}/comments", "error_count": 1}
+PASS: Oversized comment rejected
+{"timestamp": "2026-11-23T00:36:23.412363+00:00", "event": "validation_failed", "request_id": "318fca4a01788fe79cd582b87cb8c206", "method": "POST", "route": "/incidents/{incident_id}/comments", "error_count": 1}
+PASS: Missing comment text rejected
+{"timestamp": "2026-11-23T00:36:23.511692+00:00", "event": "validation_failed", "request_id": "6eda8bd06e8f367d2103fbbed6f6c2c9", "method": "POST", "route": "/incidents/{incident_id}/comments", "error_count": 1}
+PASS: NoSQL-style comment object rejected
+{"timestamp": "2026-11-23T00:36:23.624686+00:00", "event": "validation_failed", "request_id": "d9cfa3cdb7c13e8f2870d43db8bceb30", "method": "POST", "route": "/incidents/{incident_id}/comments", "error_count": 1}
+PASS: Control character rejected
+{"timestamp": "2026-11-23T00:36:23.738474+00:00", "event": "validation_failed", "request_id": "98c0a280f7233210f1555d27020a9bdb", "method": "POST", "route": "/incidents/{incident_id}/comments", "error_count": 1}
+PASS: Forged comment author rejected
+{"timestamp": "2026-11-23T00:36:23.846691+00:00", "event": "validation_failed", "request_id": "2fa24c890e318ada4600eef09f64b55b", "method": "POST", "route": "/incidents/{incident_id}/comments", "error_count": 1}
+PASS: Client-supplied user ID rejected
+{"timestamp": "2026-11-23T00:36:23.960232+00:00", "event": "validation_failed", "request_id": "deb230dbd2bc92313226e4d689dc2765", "method": "PATCH", "route": "/incidents/{incident_id}/status", "error_count": 1}
+PASS: Unknown status rejected
+{"timestamp": "2026-11-23T00:36:24.076259+00:00", "event": "validation_failed", "request_id": "a768e32399da8afa60075da2b417a273", "method": "PATCH", "route": "/incidents/{incident_id}/status", "error_count": 1}
+PASS: Empty status rejected
+{"timestamp": "2026-11-23T00:36:24.196856+00:00", "event": "validation_failed", "request_id": "498092e0714b4371e203f3d5cc236f59", "method": "PATCH", "route": "/incidents/{incident_id}/status", "error_count": 1}
+PASS: Missing status rejected
+{"timestamp": "2026-11-23T00:36:24.310747+00:00", "event": "validation_failed", "request_id": "8d090e172aa756604253e2dddfd2ab34", "method": "PATCH", "route": "/incidents/{incident_id}/status", "error_count": 1}
+PASS: NoSQL-style status object rejected
+{"timestamp": "2026-11-23T00:36:24.420919+00:00", "event": "validation_failed", "request_id": "685697645998e94feff0972f7e4cc7cc", "method": "PATCH", "route": "/incidents/{incident_id}/status", "error_count": 1}
+PASS: Unexpected status-update field rejected
+PASS: Malformed incident ID rejected for comments
+PASS: Malformed incident ID rejected for status updates
+{"timestamp": "2026-11-23T00:36:24.905908+00:00", "event": "request_rejected", "request_id": "4b2f74893c5b9cd4253cf0b4373204dd", "method": "POST", "route": "/incidents/{incident_id}/comments", "status_code": 404}
+PASS: Comment on a nonexistent incident returns 404
+{"timestamp": "2026-11-23T00:36:25.121300+00:00", "event": "request_rejected", "request_id": "44a40935b8068da393dc1a73150de67e", "method": "PATCH", "route": "/incidents/{incident_id}/status", "status_code": 404}
+PASS: Status update on a nonexistent incident returns 404
+PASS: Incident status and comments remain unchanged
+
+All comment/status validation checks passed.

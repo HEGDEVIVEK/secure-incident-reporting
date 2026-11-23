@@ -1,0 +1,23 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_incident_workflow 
+MongoDB connected successfully
+
+Enter credentials for an active user test account.
+Username: user1
+Password: 
+
+Enter credentials for an active reviewer test account.
+Username: revw1
+Password: 
+
+Enter credentials for an active admin test account.
+Username: admin1
+Password: 
+
+Test incident ID: 6b038e0654249063b33ab98c
+PASS: User, reviewer, and admin can see the open incident
+PASS: Reviewer starts review; all three roles see the update
+PASS: Reviewer comment is saved and visible to all three roles
+PASS: Admin comment is saved and visible to all three roles
+PASS: Reviewer closes the incident; all three roles see Closed with both comments preserved
+
+All incident-workflow checks passed.

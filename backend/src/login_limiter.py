@@ -11,8 +11,8 @@ import threading
 import time
 
 MAX_FAILURES = 5
-WINDOW_SECONDS = 1 * 60
-LOCKOUT_SECONDS = 1 * 60
+WINDOW_SECONDS = 3 * 60
+LOCKOUT_SECONDS = 3 * 60
 MAX_TRACKED = 10_000  # caps memory use if someone tries many random usernames
 
 _lock = threading.Lock()  # request handlers run in a thread pool

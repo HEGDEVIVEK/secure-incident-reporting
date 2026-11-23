@@ -1,0 +1,40 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_role_permissions   
+MongoDB connected successfully
+
+Enter credentials for an active user test account.
+Username: user1
+Password: 
+PASS [user]: GET /incidents/mine -> 200
+{"timestamp": "2026-11-23T01:05:04.031154+00:00", "event": "request_rejected", "request_id": "0a7ce78cbd72444da980cc336f739042", "method": "GET", "route": "/list_users", "status_code": 403}
+PASS [user]: GET /list_users -> 403
+{"timestamp": "2026-11-23T01:05:04.148863+00:00", "event": "request_rejected", "request_id": "33e37532dc52212305b59327c02afbf9", "method": "POST", "route": "/add_users", "status_code": 403}
+PASS [user]: POST /add_users -> 403
+{"timestamp": "2026-11-23T01:05:04.272354+00:00", "event": "request_rejected", "request_id": "76ee62f283163a7ac631bb92ad166e03", "method": "PATCH", "route": "/users/{user_id}/status-role", "status_code": 403}
+PASS [user]: PATCH /users/6b03913673d7c3780c2ae937/status-role -> 403
+{"timestamp": "2026-11-23T01:05:04.376090+00:00", "event": "request_rejected", "request_id": "1fe95d5dfc6537f6e033ec07b0c20bb0", "method": "GET", "route": "/incidents", "status_code": 403}
+PASS [user]: GET /incidents -> 403
+{"timestamp": "2026-11-23T01:05:04.483992+00:00", "event": "request_rejected", "request_id": "f1b45504b398bff39d998f75dbbc773e", "method": "POST", "route": "/incidents/{incident_id}/comments", "status_code": 403}
+PASS [user]: POST /incidents/6b03913673d7c3780c2ae937/comments -> 403
+{"timestamp": "2026-11-23T01:05:04.614759+00:00", "event": "request_rejected", "request_id": "df858773c86f0d7a9e9142dde7fdc237", "method": "PATCH", "route": "/incidents/{incident_id}/status", "status_code": 403}
+PASS [user]: PATCH /incidents/6b03913673d7c3780c2ae937/status -> 403
+
+Enter credentials for an active reviewer test account.
+Username: revw1
+Password: 
+PASS [reviewer]: GET /incidents -> 200
+{"timestamp": "2026-11-23T01:05:16.367855+00:00", "event": "request_rejected", "request_id": "b25dbd7a1ec40782cecc6e3f24b42a11", "method": "GET", "route": "/list_users", "status_code": 403}
+PASS [reviewer]: GET /list_users -> 403
+{"timestamp": "2026-11-23T01:05:16.480185+00:00", "event": "request_rejected", "request_id": "9fd5cede109c9bf5276064d825f0fed3", "method": "POST", "route": "/add_users", "status_code": 403}
+PASS [reviewer]: POST /add_users -> 403
+{"timestamp": "2026-11-23T01:05:16.580067+00:00", "event": "request_rejected", "request_id": "31a6df00865101e991c3de59dd8bc2d6", "method": "PATCH", "route": "/users/{user_id}/status-role", "status_code": 403}
+PASS [reviewer]: PATCH /users/6b03913673d7c3780c2ae937/status-role -> 403
+
+Enter credentials for an active admin test account.
+Username: admin1
+Password: 
+PASS [admin]: GET /list_users -> 200
+PASS [admin]: GET /incidents -> 200
+{"timestamp": "2026-11-23T01:05:25.608379+00:00", "event": "request_rejected", "request_id": "65e40b01e02ff165e26437cb21b7fe79", "method": "PATCH", "route": "/users/{user_id}/status-role", "status_code": 403}
+PASS [admin]: PATCH /users/6b01ec91b6c03082c2940b6b/status-role -> 403
+
+All 14 role-permission checks passed.

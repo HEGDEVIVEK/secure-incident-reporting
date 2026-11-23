@@ -33,8 +33,8 @@ def main():
     user_id = None
 
     with (
-        TestClient(app, base_url="https://testserver") as admin,
-        TestClient(app, base_url="https://testserver") as user,
+        TestClient(app, base_url="https://testserver",  headers={"Origin": "http://localhost:5173"},) as admin,
+        TestClient(app, base_url="https://testserver",  headers={"Origin": "http://localhost:5173"},) as user,
     ):
         try:
             admin_account = login(admin, "admin")

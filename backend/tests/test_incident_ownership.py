@@ -28,8 +28,8 @@ def sign_in(client, label):
 run_id = secrets.token_hex(4)
 
 with (
-    TestClient(app, base_url="https://testserver") as client_a,
-    TestClient(app, base_url="https://testserver") as client_b,
+    TestClient(app, base_url="https://testserver", headers={"Origin": "http://localhost:5173"}, ) as client_a,
+    TestClient(app, base_url="https://testserver", headers={"Origin": "http://localhost:5173"},) as client_b,
 ):
     try:
         account_a = sign_in(client_a, "A")

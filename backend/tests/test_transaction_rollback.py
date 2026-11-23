@@ -15,6 +15,7 @@ def main():
     with TestClient(
         api_module.app,
         base_url="https://testserver",
+        headers={"Origin": "http://localhost:5173"},
     ) as client:
         try:
             print("Enter credentials for an active regular User account.")

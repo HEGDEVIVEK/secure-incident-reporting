@@ -1,0 +1,16 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_concurrent_account_updates 
+MongoDB connected successfully
+Enter credentials for an active Admin account.
+Admin username: admin1
+Admin password: 
+PASS: Temporary account has a working session
+PASS: Both simultaneous account updates succeeded
+PASS: Final role/status matches one complete update
+Final state before cleanup: ('reviewer', True)
+{"timestamp": "2026-11-23T00:38:53.219561+00:00", "event": "request_rejected", "request_id": "9c50cd23ceaf30916ecdabf5b6b6a047", "method": "GET", "route": "/incidents/mine", "status_code": 401}
+PASS: Original session remains invalid after deactivation
+{"timestamp": "2026-11-23T00:38:53.648771+00:00", "event": "request_rejected", "request_id": "04bf12561e0198f416665fe03010de6e", "method": "GET", "route": "/list_users", "status_code": 403}
+PASS: Fresh login has the final reviewer permissions
+
+All concurrent-account checks passed.
+Cleanup: Test account concurrent_113b0197ab deactivated

@@ -1,0 +1,11 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_logout       
+MongoDB connected successfully
+Active test account username: user1
+Password: 
+PASS: Session allows access before logout
+PASS: Session cookie has HttpOnly, Secure, and SameSite flags
+PASS: Logout succeeds and removes the client cookie
+{"timestamp": "2026-11-23T00:55:56.646416+00:00", "event": "request_rejected", "request_id": "2e978bb4f298b9aaca313dfe4049bccf", "method": "GET", "route": "/incidents/mine", "status_code": 401}
+PASS: Reusing the logged-out session token returns HTTP 401
+
+All logout checks passed.

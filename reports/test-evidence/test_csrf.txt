@@ -1,0 +1,7 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_csrf             
+MongoDB connected successfully
+{"timestamp": "2026-11-23T00:43:07.568032+00:00", "event": "request_rejected", "request_id": "fdf71b896a0efb2bcd9f16e894623bbd", "method": "POST", "route": "<unmatched>", "status_code": 403}
+PASS: Untrusted origin blocked
+{"timestamp": "2026-11-23T00:43:07.575047+00:00", "event": "request_rejected", "request_id": "6c7c207775d1a866e5030836895b8c79", "method": "POST", "route": "<unmatched>", "status_code": 403}
+PASS: Missing origin blocked
+PASS: Trusted origin accepted

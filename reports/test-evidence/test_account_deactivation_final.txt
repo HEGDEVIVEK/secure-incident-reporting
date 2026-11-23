@@ -1,0 +1,20 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_account_deactivation
+MongoDB connected successfully
+Admin username: admin1
+Admin password: 
+Regular test username: user1
+Current password for that user: 
+PASS: Two user sessions work before deactivation
+PASS: Admin can deactivate the test account
+{"timestamp": "2026-11-23T00:19:58.948798+00:00", "event": "request_rejected", "request_id": "08b409fd72cfe857c9488e28fab2251b", "method": "GET", "route": "/incidents/mine", "status_code": 401}
+{"timestamp": "2026-11-23T00:19:59.016386+00:00", "event": "request_rejected", "request_id": "76fb98bbd578dabe7ef06915ddb41562", "method": "GET", "route": "/incidents/mine", "status_code": 401}
+PASS: Both existing sessions are blocked
+{"timestamp": "2026-11-23T00:19:59.160249+00:00", "event": "request_rejected", "request_id": "b03a888a19027a976d6478a035d95389", "method": "POST", "route": "/login", "status_code": 401}
+PASS: The inactive account cannot log in
+PASS: Admin can reactivate the account
+{"timestamp": "2026-11-23T00:19:59.494513+00:00", "event": "request_rejected", "request_id": "1894ecdc96ab14174264c87fe16ee695", "method": "GET", "route": "/incidents/mine", "status_code": 401}
+{"timestamp": "2026-11-23T00:19:59.550903+00:00", "event": "request_rejected", "request_id": "5403d7ce800c40caca055b096c5f31df", "method": "GET", "route": "/incidents/mine", "status_code": 401}
+PASS: Reactivation does not revive old sessions
+PASS: A fresh login works after reactivation
+
+All account-deactivation checks passed.

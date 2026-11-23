@@ -1,0 +1,12 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_concurrent_status  
+MongoDB connected successfully
+Enter credentials for an active Reviewer test account.
+Username: revw1
+Password: 
+PASS: Both simultaneous status-update requests succeeded
+PASS: Final status matches one of the concurrent updates
+PASS: Other incident fields remain unchanged
+
+Test incident ID: 6b038be93f79751e6429a904
+Final status: closed
+Concurrent-status API checks passed.

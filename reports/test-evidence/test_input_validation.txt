@@ -1,0 +1,50 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_input_validation 
+MongoDB connected successfully
+{"timestamp": "2026-11-23T00:52:16.054190+00:00", "event": "validation_failed", "request_id": "7d5d57b19a192f2b670fbc6ffa3af23f", "method": "POST", "route": "/login", "error_count": 2}
+PASS: NoSQL-style username object rejected
+{"timestamp": "2026-11-23T00:52:16.054190+00:00", "event": "validation_failed", "request_id": "46a54461fd85922566514e4bba9a6d00", "method": "POST", "route": "/login", "error_count": 1}
+PASS: Password object rejected
+{"timestamp": "2026-11-23T00:52:16.076157+00:00", "event": "validation_failed", "request_id": "765248dada66c154914198f686065b57", "method": "POST", "route": "/login", "error_count": 2}
+PASS: Unexpected login role field rejected
+{"timestamp": "2026-11-23T00:52:16.083249+00:00", "event": "validation_failed", "request_id": "770e463f9ad8f42f4b7abbfe88c2808d", "method": "POST", "route": "/login", "error_count": 1}
+PASS: Missing login password rejected
+
+Enter credentials for an active regular User account.
+Username: user1
+Password: 
+{"timestamp": "2026-11-23T00:52:39.008950+00:00", "event": "validation_failed", "request_id": "ef7b459bb38bd2f053df56fd3066ab5d", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Empty title rejected
+{"timestamp": "2026-11-23T00:52:39.118847+00:00", "event": "validation_failed", "request_id": "f6fd0c2dc210be75bc03151a58cbd15c", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Whitespace-only title rejected
+{"timestamp": "2026-11-23T00:52:39.243518+00:00", "event": "validation_failed", "request_id": "f4a448d86ef3dc2cf7d2f8f82275dd2b", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Oversized title rejected
+{"timestamp": "2026-11-23T00:52:39.354925+00:00", "event": "validation_failed", "request_id": "3d089cce57748e16647cdf7b9b7d0a9b", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Empty description rejected
+{"timestamp": "2026-11-23T00:52:39.483765+00:00", "event": "validation_failed", "request_id": "9478d6f2627aa5896b8065f4bdcec668", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Whitespace-only description rejected
+{"timestamp": "2026-11-23T00:52:39.600804+00:00", "event": "validation_failed", "request_id": "46f1813543c246df605cabe384f6f983", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Oversized description rejected
+{"timestamp": "2026-11-23T00:52:39.761690+00:00", "event": "validation_failed", "request_id": "180a9a3242e1d9ec4e0b7d402415d6c9", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Unsupported priority rejected
+{"timestamp": "2026-11-23T00:52:39.882617+00:00", "event": "validation_failed", "request_id": "ce4dd335e40dde30d2432137fec287d2", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: NoSQL-style title object rejected
+{"timestamp": "2026-11-23T00:52:39.999537+00:00", "event": "validation_failed", "request_id": "43528372bf0a3739eedd7a3a349b8aec", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Description object rejected
+{"timestamp": "2026-11-23T00:52:40.115843+00:00", "event": "validation_failed", "request_id": "b3eee8800b0c338300b862b558c31a7f", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Control character in title rejected
+{"timestamp": "2026-11-23T00:52:40.219769+00:00", "event": "validation_failed", "request_id": "4691835d6c3ee6bccf66f47fde54ea20", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Control character in description rejected
+{"timestamp": "2026-11-23T00:52:40.339246+00:00", "event": "validation_failed", "request_id": "c263f1a050992fcdcc025fd9ad0fc148", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Client-supplied incident status rejected
+{"timestamp": "2026-11-23T00:52:40.491553+00:00", "event": "validation_failed", "request_id": "5794ae37d4b9792c4dd1a18600c1ef53", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Client-supplied owner rejected
+{"timestamp": "2026-11-23T00:52:40.597844+00:00", "event": "validation_failed", "request_id": "0576109820e7c846e0244765d17af9ee", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Client-supplied comments rejected
+{"timestamp": "2026-11-23T00:52:40.753710+00:00", "event": "validation_failed", "request_id": "806060e2644342ed29a6a297c2b396a9", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Missing required description rejected
+{"timestamp": "2026-11-23T00:52:40.762729+00:00", "event": "validation_failed", "request_id": "2762b12212c249eeb1f76b658981e447", "method": "POST", "route": "/add_incidents", "error_count": 1}
+PASS: Malformed JSON rejected
+PASS: Rejected submissions created no incidents
+PASS: Valid authenticated requests still work after invalid inputs
+
+All input-validation checks in this script passed.

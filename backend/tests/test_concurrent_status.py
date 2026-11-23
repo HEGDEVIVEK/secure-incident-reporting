@@ -49,6 +49,7 @@ def main():
                 with TestClient(
                     app,
                     base_url="https://testserver",
+                    headers={"Origin": "http://localhost:5173"},
                 ) as worker:
                     gate.wait(timeout=30)
 

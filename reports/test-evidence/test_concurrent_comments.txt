@@ -1,0 +1,14 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_concurrent_comments       
+MongoDB connected successfully
+Enter credentials for an active Reviewer test account.
+Username: revw1
+Password: 
+
+Test incident ID: 6b038b9a1d7bb3d80f953a52
+PASS: All 5 concurrent requests succeeded
+PASS: Each comment has a distinct ID
+PASS: Every successful comment was saved exactly once
+PASS: No comment text was lost or overwritten
+PASS: Comment authors and incident status remain correct
+
+All concurrent-comment checks passed.

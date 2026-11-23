@@ -1,0 +1,19 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_authentication   
+MongoDB connected successfully
+{"timestamp": "2026-11-23T00:30:18.849380+00:00", "event": "request_rejected", "request_id": "cedb75f546fcd80722739dd92b4988af", "method": "GET", "route": "/list_users", "status_code": 401}
+PASS: GET /list_users rejects an unauthenticated request
+{"timestamp": "2026-11-23T00:30:18.849380+00:00", "event": "request_rejected", "request_id": "4fbeaf55c932dcfa07a3d170fd1f6ace", "method": "GET", "route": "/incidents", "status_code": 401}
+PASS: GET /incidents rejects an unauthenticated request
+{"timestamp": "2026-11-23T00:30:18.864891+00:00", "event": "request_rejected", "request_id": "1b03031498cdd4b4af9bbfb17c90ab46", "method": "GET", "route": "/incidents/mine", "status_code": 401}
+PASS: GET /incidents/mine rejects an unauthenticated request
+{"timestamp": "2026-11-23T00:30:18.875217+00:00", "event": "request_rejected", "request_id": "4784d48dd66e8a51e5940099bb8f295d", "method": "POST", "route": "/add_users", "status_code": 401}
+PASS: POST /add_users rejects an unauthenticated request
+{"timestamp": "2026-11-23T00:30:18.876174+00:00", "event": "request_rejected", "request_id": "dfdb86d4340335fc7a0d83395db63857", "method": "POST", "route": "/add_incidents", "status_code": 401}
+PASS: POST /add_incidents rejects an unauthenticated request
+{"timestamp": "2026-11-23T00:30:18.889284+00:00", "event": "request_rejected", "request_id": "0bbe07f7e8b36112ce599503e695afc7", "method": "PATCH", "route": "/users/{user_id}/status-role", "status_code": 401}
+PASS: PATCH /users/6b03891a91af5ec6c54911d9/status-role rejects an unauthenticated request
+{"timestamp": "2026-11-23T00:30:18.894773+00:00", "event": "request_rejected", "request_id": "9d433745114813647a3bed5c0ba358bb", "method": "POST", "route": "/incidents/{incident_id}/comments", "status_code": 401}
+PASS: POST /incidents/6b03891a91af5ec6c54911d9/comments rejects an unauthenticated request
+{"timestamp": "2026-11-23T00:30:18.899352+00:00", "event": "request_rejected", "request_id": "0c2ec71c1c66534e80e86cc653386f85", "method": "PATCH", "route": "/incidents/{incident_id}/status", "status_code": 401}
+PASS: PATCH /incidents/6b03891a91af5ec6c54911d9/status rejects an unauthenticated request
+All 8 session-protected endpoint checks passed.

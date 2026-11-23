@@ -1,0 +1,6 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_audit_permissions
+MongoDB connected successfully
+PASS: Insert allowed
+PASS: Update blocked — user is not allowed to do action [update] on [secure_incident_reporting.audit_logs]
+PASS: Delete blocked — user is not allowed to do action [remove] on [secure_incident_reporting.audit_logs]
+PASS: All audit-permission checks passed

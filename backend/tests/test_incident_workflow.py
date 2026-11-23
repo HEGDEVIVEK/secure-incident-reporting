@@ -53,7 +53,7 @@ def main():
     with ExitStack() as stack:
         clients = {
             role: stack.enter_context(
-                TestClient(app, base_url="https://testserver")
+                TestClient(app, base_url="https://testserver", headers={"Origin": "http://localhost:5173"},)
             )
             for role in ("user", "reviewer", "admin")
         }

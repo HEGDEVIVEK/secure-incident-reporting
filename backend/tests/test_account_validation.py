@@ -24,7 +24,7 @@ def main():
     restore_needed = False
     target = None
 
-    with TestClient(app, base_url="https://testserver") as admin:
+    with TestClient(app, base_url="https://testserver", headers={"Origin": "http://localhost:5173"},) as admin:
         try:
             print("Enter credentials for an active Admin account.")
             username = input("Admin username: ").strip()

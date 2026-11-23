@@ -30,8 +30,8 @@ user_id = None
 restore_needed = False
 
 with (
-    TestClient(app, base_url="https://testserver") as admin_client,
-    TestClient(app, base_url="https://testserver") as user_client,
+    TestClient(app, base_url="https://testserver", headers={"Origin": "http://localhost:5173"},) as admin_client,
+    TestClient(app, base_url="https://testserver", headers={"Origin": "http://localhost:5173"},) as user_client,
 ):
     try:
         admin_login = login(admin_client, admin_name, admin_password)

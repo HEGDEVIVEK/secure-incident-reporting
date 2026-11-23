@@ -14,7 +14,7 @@ secret_marker = "DUMMY_SECRET_FOR_TEST_ONLY"
 test_password = "TestPassword123"
 
 try:
-    with TestClient(app) as client:
+    with TestClient(app, headers={"Origin": "http://localhost:5173"},) as client:
         # Simulate a failure before login can create a database session.
         with patch(
             "src.api.verify_credentials",

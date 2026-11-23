@@ -1,0 +1,11 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_session_validation     
+MongoDB connected successfully
+Active test account username: user1
+Password: 
+PASS: A valid session allows access
+{"timestamp": "2026-11-23T01:09:34.650936+00:00", "event": "request_rejected", "request_id": "8efa76b1cefcb46a36c0173a4be25cc6", "method": "GET", "route": "/incidents/mine", "status_code": 401}
+PASS: Session is rejected after its expiration time
+{"timestamp": "2026-11-23T01:09:34.706767+00:00", "event": "request_rejected", "request_id": "e5d116974b414691a9bb184086accb00", "method": "GET", "route": "/incidents/mine", "status_code": 401}
+PASS: A forged session token is rejected
+
+All session-validation checks passed.

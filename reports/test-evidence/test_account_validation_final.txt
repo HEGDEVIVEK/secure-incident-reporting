@@ -1,0 +1,37 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_account_validation  
+MongoDB connected successfully
+Enter credentials for an active Admin account.
+Admin username: admin1
+Admin password: 
+
+Existing active regular test username (e.g. user1): user1
+{"timestamp": "2026-11-23T00:23:33.760160+00:00", "event": "validation_failed", "request_id": "1ba2f25ae474c5eca4bd9b929b3e998f", "method": "POST", "route": "/add_users", "error_count": 1}
+PASS: Short username rejected
+{"timestamp": "2026-11-23T00:23:33.868304+00:00", "event": "validation_failed", "request_id": "ac1406d2295d86144646b41e83589459", "method": "POST", "route": "/add_users", "error_count": 1}
+PASS: Oversized username rejected
+{"timestamp": "2026-11-23T00:23:33.993336+00:00", "event": "validation_failed", "request_id": "3ace0090454c9f0bf5cab0eecaa6eab3", "method": "POST", "route": "/add_users", "error_count": 1}
+PASS: Spaces in username rejected
+{"timestamp": "2026-11-23T00:23:34.103702+00:00", "event": "validation_failed", "request_id": "55e4289ed12a8466c81753cca655b0ba", "method": "POST", "route": "/add_users", "error_count": 1}
+PASS: NoSQL-style username object rejected
+{"timestamp": "2026-11-23T00:23:34.213553+00:00", "event": "validation_failed", "request_id": "bfd1312097e0dda444d045662bd9b4cc", "method": "POST", "route": "/add_users", "error_count": 1}
+PASS: Password under 12 characters rejected
+{"timestamp": "2026-11-23T00:23:34.317645+00:00", "event": "validation_failed", "request_id": "9c59712bc557a0df80387944e487729d", "method": "POST", "route": "/add_users", "error_count": 1}
+PASS: Password exceeding 128 characters rejected
+{"timestamp": "2026-11-23T00:23:34.416751+00:00", "event": "validation_failed", "request_id": "2bf3e90a79c1ac41f10ea3d2ffe1a60d", "method": "POST", "route": "/add_users", "error_count": 1}
+PASS: Unknown role rejected
+{"timestamp": "2026-11-23T00:23:34.517706+00:00", "event": "validation_failed", "request_id": "84f634746c8f636144e2540443d235e8", "method": "POST", "route": "/add_users", "error_count": 1}
+PASS: Unexpected account field rejected
+{"timestamp": "2026-11-23T00:23:34.633440+00:00", "event": "validation_failed", "request_id": "0ac3f950b51ba40650f2cb581680c987", "method": "POST", "route": "/add_users", "error_count": 1}
+PASS: Client-supplied password hash rejected
+PASS: Invalid account submissions created no users
+{"timestamp": "2026-11-23T00:23:34.912220+00:00", "event": "validation_failed", "request_id": "946f6afb9bed89b49d450e39c8430577", "method": "PATCH", "route": "/users/{user_id}/status-role", "error_count": 1}
+PASS: Unknown updated role rejected
+{"timestamp": "2026-11-23T00:23:35.201028+00:00", "event": "validation_failed", "request_id": "78d05daa874303f9e0471420a1665534", "method": "PATCH", "route": "/users/{user_id}/status-role", "error_count": 1}
+PASS: String Boolean rejected
+{"timestamp": "2026-11-23T00:23:35.479759+00:00", "event": "validation_failed", "request_id": "0259a5a359e91ac7d26af553f97ddf7f", "method": "PATCH", "route": "/users/{user_id}/status-role", "error_count": 1}
+PASS: Numeric Boolean rejected
+{"timestamp": "2026-11-23T00:23:35.759082+00:00", "event": "validation_failed", "request_id": "40c1ede9e3e1795947d1d9568831e0d9", "method": "PATCH", "route": "/users/{user_id}/status-role", "error_count": 1}
+PASS: Unexpected update field rejected
+PASS: Test account remains active with its original role
+
+All account-validation checks passed.

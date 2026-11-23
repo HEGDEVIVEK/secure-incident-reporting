@@ -1,0 +1,13 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_transaction_rollback
+MongoDB connected successfully
+Enter credentials for an active regular User account.
+Username: user1
+Password: 
+{"timestamp": "2026-11-23T01:16:36.209342+00:00", "event": "unexpected_error", "request_id": "2cc6fc2dbd75955dee275d30ddd1f7f6", "method": "POST", "route": "/add_incidents", "exception_type": "RuntimeError", "frames": [{"file": "api.py", "line": 117, "function": "handle_request_errors"}, {"file": "base.py", "line": 179, "function": "call_next"}, {"file": "base.py", "line": 149, "function": "coro"}, {"file": "base.py", "line": 203, "function": "__call__"}, {"file": "api.py", "line": 108, "function": "csrf_protection"}, {"file": "base.py", "line": 179, "function": "call_next"}, {"file": "base.py", "line": 149, "function": "coro"}, {"file": "exceptions.py", "line": 63, "function": "__call__"}, {"file": "_exception_handler.py", "line": 53, "function": "wrapped_app"}, {"file": "_exception_handler.py", "line": 42, "function": "wrapped_app"}, {"file": "asyncexitstack.py", "line": 18, "function": "__call__"}, {"file": "routing.py", "line": 683, "function": "__call__"}, {"file": "routing.py", "line": 2811, "function": "app"}, {"file": "routing.py", "line": 1330, "function": "handle"}, {"file": "routing.py", "line": 289, "function": "handle"}, {"file": "routing.py", "line": 166, "function": "app"}, {"file": "_exception_handler.py", "line": 53, "function": "wrapped_app"}, {"file": "_exception_handler.py", "line": 42, "function": "wrapped_app"}, {"file": "routing.py", "line": 152, "function": "app"}, {"file": "routing.py", "line": 745, "function": "app"}, {"file": "routing.py", "line": 374, "function": "run_endpoint_function"}, {"file": "concurrency.py", "line": 34, "function": "run_in_threadpool"}, {"file": "to_thread.py", "line": 65, "function": "run_sync"}, {"file": "_asyncio.py", "line": 2779, "function": "run_sync_in_worker_thread"}, {"file": "_asyncio.py", "line": 1124, "function": "run"}, {"file": "_api.py", "line": 244, "function": "_run_sync_endpoint"}, {"file": "api.py", "line": 484, "function": "create_incident"}, {"file": "mock.py", "line": 1139, "function": "__call__"}, {"file": "mock.py", "line": 1143, "function": "_mock_call"}, {"file": "mock.py", "line": 1198, "function": "_execute_mock_call"}]}
+PASS: Incident creation reached the failing audit operation
+PASS: Failure returns a friendly error without internal details
+PASS: MongoDB rolled back the incident insertion
+PASS: User cannot see an incident from the failed operation
+PASS: Application still handles authenticated requests
+
+Incident-creation rollback checks passed.

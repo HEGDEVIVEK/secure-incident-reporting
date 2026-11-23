@@ -46,9 +46,9 @@ def main():
     admin_ready = False
 
     with (
-        TestClient(api_module.app, base_url="https://testserver") as admin,
-        TestClient(api_module.app, base_url="https://testserver") as reviewer,
-        TestClient(api_module.app, base_url="https://testserver") as user,
+        TestClient(api_module.app, base_url="https://testserver", headers={"Origin": "http://localhost:5173"},) as admin,
+        TestClient(api_module.app, base_url="https://testserver", headers={"Origin": "http://localhost:5173"},) as reviewer,
+        TestClient(api_module.app, base_url="https://testserver", headers={"Origin": "http://localhost:5173"},) as user,
     ):
         def fail_audit(client, method, path, payload):
             failed_insert = Mock(

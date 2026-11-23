@@ -1,0 +1,17 @@
+C:\secure-incident-reporting\backend>uv run python -m tests.test_incident_ownership 
+MongoDB connected successfully
+
+Enter credentials for regular User A
+Username: user1
+Password: 
+
+Enter credentials for regular User B
+Username: user2
+Password: 
+PASS: Both users can submit an incident
+PASS: User A sees their incident and cannot see User B's incident
+PASS: User B sees their incident and cannot see User A's incident
+Test incident A: 6b038da396f69369aace15da
+Test incident B: 6b038da396f69369aace15dc
+
+All incident-ownership checks passed.
