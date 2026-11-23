@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    image: vivekhegde78/secure-incident-backend:v1
+    env_file:
+      - ./backend/.env
+    environment:
+      MONGO_PASSWORD_FILE: /run/secrets/mongo_password
+    secrets:
+      - mongo_password
+
+  frontend:
+    build: ./frontend
+    image: vivekhegde78/secure-incident-frontend:v1
+    ports:
+      - "127.0.0.1:5173:80"
+    depends_on:
+      - backend
+
+secrets:
+  mongo_password:
+    file: ./secrets/mongo_password.txt

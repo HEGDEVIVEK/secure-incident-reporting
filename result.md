@@ -167,4 +167,17 @@ All files are in `reports/test-evidence/`.
 | CSRF and lockout | [test_csrf.txt](reports/test-evidence/test_csrf.txt), [test_login_lockout.txt](reports/test-evidence/test_login_lockout.txt) |
 | Performance | [test_normal_performance.txt](reports/test-evidence/test_normal_performance.txt), [test_write_performance.txt](reports/test-evidence/test_write_performance.txt), [test_load.txt](reports/test-evidence/test_load.txt) |
  
- 
+ ## 7. Deployment
+
+The application was deployed on **AWS EC2 (Ubuntu)** using Docker Compose (`compose.prod.yaml`) behind a host Nginx reverse proxy with HTTPS enabled.
+
+| Component | Configuration |
+|---|---|
+| Public URL | `https://secure-incident-report.duckdns.org` (DuckDNS subdomain pointing to EC2) |
+| Host reverse proxy | Host Nginx on ports `80` and `443` with a Let's Encrypt TLS certificate (Certbot), forwarding `secure-incident-report.duckdns.org` to `http://127.0.0.1:82` |
+| Frontend container | `vivekhegde78/secure-incident-frontend:v1` (multi-stage Node 24 build served via Nginx, mapped `82:80`), proxying `/api/` requests to `http://backend:8000/` over the internal Docker network |
+| Backend container | `vivekhegde78/secure-incident-backend:v1` (FastAPI/Uvicorn on port `8000`, not published directly to the host) |
+| Secrets and config | `.env` and `mongo_password.txt` excluded from Git and Docker images; mounted at runtime on EC2 (`MONGO_PASSWORD_FILE=/run/secrets/mongo_password`), with `TRUSTED_ORIGINS=https://secure-incident-report.duckdns.org` |
+| Database access | MongoDB Atlas over TLS with EC2 IP allowlisted in Atlas Network Access |
+
+- **Verified on deployment:** HTTPS routing, `TRUSTED_ORIGINS` CSRF enforcement, and `HttpOnly; Secure; SameSite=Lax` `session_token` cookie handling over `https://secure-incident-report.duckdns.org`.
