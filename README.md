@@ -56,7 +56,7 @@ talks to one origin.
 - Python 3.12 or newer and [uv](https://docs.astral.sh/uv/)
 - A current Node.js LTS (20.19 or newer) and npm
 - A MongoDB Atlas cluster set up as described in [`MongoDB.md`](MongoDB.md)
-The project runs on Windows, macOS and Linux. The database password is kept in the
+- The project runs on Windows, macOS and Linux. The database password is kept in the
 operating system's credential store (Windows Credential Manager, macOS Keychain, or
 a Secret Service keyring on Linux).
  
@@ -119,7 +119,11 @@ Start the front end (from `frontend/`):
 ```
 npm run dev
 ```
- 
+
+### Running with Docker Compose
+Put the database password in `secrets/mongo_password.txt`, then run `docker compose up --build`. 
+
+
 Open **http://localhost:5173** and sign in. Use `localhost`, not `127.0.0.1` or the
 machine's IP address, because the session cookie is marked `Secure` and the
 development security policy allows hot reload only for `localhost`.

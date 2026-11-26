@@ -128,7 +128,9 @@ Changes a user's own password.
  
 #### `GET /me`
 Returns `{"user": {"id", "username", "role"}}`. Used by the UI to restore the session after a reload. Never cached.
- 
+
+### User only
+
 #### `POST /add_incidents`  (FR-6)
 Submits an incident.
  

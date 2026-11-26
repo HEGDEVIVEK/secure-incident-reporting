@@ -1,17 +1,6 @@
 # Secure Incident Reporting — Test Results
  
 **Team:** 5  
-Pranav Raheja (dol803) 
-pranav.raheja@my.utsa.edu 
-Frontend development and user interface. 
-
-Vivek Hegde (gvm401) 
-vivek.hegde@my.utsa.edu 
-Backend development and database implementation. 
-
-Shanmukhanjali Lokam (gpl757) 
-shanmukhanjali.lokam@my.utsa.edu 
-Application deployment. 
 **Updated:** 25 November 2026  
 
  
@@ -26,7 +15,7 @@ All modules below have the prefix `test_` and extension `.py`.
 | Authentication and sessions | `authentication`, `logout`, `session_validation`, `password_change` | Authentication enforced; logout/password changes invalidate old sessions; expired/forged tokens rejected. FR-4–5, SR-1–3, SR-5 |
 | Accounts and authorization | `role_permissions`, `incident_ownership`, `active_role_change`, `account_deactivation`, `account_validation` | Role/ownership checks, account validation, role changes, deactivation/reactivation, and self-role restrictions passed. FR-1–3, SR-4–7 |
 | Incident workflow | `incident_workflow` | Submission, viewing, comments, and status changes passed. FR-6–10 |
-| Input validation | `input_validation`, `comment_status_validation` | Invalid types, lengths, IDs, unexpected fields, and injection-style input and and < / > in incident titles and descriptions rejected. SR-7–8 |
+| Input validation | `input_validation`, `comment_status_validation` | Invalid types, lengths, IDs, unexpected fields, and injection-style input and < / > in incident titles and descriptions rejected. SR-7–8 |
 | Audit and data protection | `audit_permissions`, `sensitive_data_exposure` | Audit insert allowed; update/delete denied; sensitive-field and secure-storage checks passed. FR-12, SR-2–3, SR-11, SR-16 |
 | Errors and rollback | `error_handling`, `transaction_rollback`, `remaining_rollbacks` | Friendly errors, sanitized diagnostic details, recovery, and rollback on audit failure passed. FR-11, NFR-2, NFR-6, SR-9, SR-12–13 |
 | Concurrent operations | `concurrent_comments`, `concurrent_status`, `concurrent_account_updates` | Comment, status, and account-update consistency checks passed. NFR-5 |
@@ -133,7 +122,7 @@ The team confirmed these checks. Console output for each automated check is in `
 | Audit restrictions and contents | Insert allowed; update/delete denied. Required events include actor ID, timestamp, action, and target ID, without passwords, tokens, or full descriptions. FR-11–12, SR-9–11 | [test_audit_permissions.txt](reports/test-evidence/test_audit_permissions.txt) |
 | CSRF | Missing/untrusted origins return **403**; trusted origin accepted. SR-16 | [test_csrf.txt](reports/test-evidence/test_csrf.txt) |
 | Login lockout | Five wrong attempts return **401**; next returns **429 with Retry-After**. Password change also blocked; a different username unaffected under normal capacity. SR-16 | [test_login_lockout.txt](reports/test-evidence/test_login_lockout.txt) |
-| XSS | No zero-alert retest is claimed with The latest rerun reported no High, Medium, or Low alerts. Automated tests confirm `<` and `>` in incident titles/descriptions return HTTP 422 and create no incidents. Manual browser checks confirmed existing synthetic payloads displayed without execution. SR-7, SR-16 | [test_input_validation.txt](reports/test-evidence/test_input_validation.txt); [DAST test ](reports/2026-11-22-ZAP-Report-localhost.html) |
+| XSS | The latest rerun reported no High, Medium, or Low alerts. Automated tests confirm `<` and `>` in incident titles/descriptions return HTTP 422 and create no incidents. Manual browser checks confirmed existing synthetic payloads displayed without execution. SR-7, SR-16 | [test_input_validation.txt](reports/test-evidence/test_input_validation.txt); [DAST test ](reports/2026-11-22-ZAP-Report-localhost.html) |
  
 ## 5. Implementation and limitations
  
@@ -186,8 +175,8 @@ The application was deployed on **AWS EC2 (Ubuntu)** using Docker Compose (`comp
 |---|---|
 | Public URL | `https://secure-incident-report.duckdns.org` (DuckDNS subdomain pointing to EC2) |
 | Host reverse proxy | Host Nginx on ports `80` and `443` with a Let's Encrypt TLS certificate (Certbot), forwarding `secure-incident-report.duckdns.org` to `http://127.0.0.1:82` |
-| Frontend container | `vivekhegde78/secure-incident-frontend:v1` (multi-stage Node 24 build served via Nginx, mapped `82:80`), proxying `/api/` requests to `http://backend:8000/` over the internal Docker network |
-| Backend container | `vivekhegde78/secure-incident-backend:v1` (FastAPI/Uvicorn on port `8000`, not published directly to the host) |
+| Frontend container | `secure-incident-frontend:v1` (multi-stage Node 24 build served via Nginx, mapped `82:80`), proxying `/api/` requests to `http://backend:8000/` over the internal Docker network |
+| Backend container | `secure-incident-backend:v1` (FastAPI/Uvicorn on port `8000`, not published directly to the host) |
 | Secrets and config | `.env` and `mongo_password.txt` excluded from Git and Docker images; mounted at runtime on EC2 (`MONGO_PASSWORD_FILE=/run/secrets/mongo_password`), with `TRUSTED_ORIGINS=https://secure-incident-report.duckdns.org` |
 | Database access | MongoDB Atlas over TLS with EC2 IP allowlisted in Atlas Network Access |
 

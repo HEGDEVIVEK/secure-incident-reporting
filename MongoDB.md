@@ -135,11 +135,7 @@ the server answers that the user is not allowed to do the `update` and `remove` 
 | `MONGO_HOST`, `MONGO_USERNAME`, `MONGO_DB_NAME` | `backend/.env` (git-ignored) |
 | Database password | Operating system credential store (service `secure-incident-reporting`, entry `atlas-db-password`) via the `keyring` library |
  
-No password is stored in a file or in the repository. To save the password once:
- 
-```
-uv run python -c "import keyring, getpass; keyring.set_password('secure-incident-reporting', 'atlas-db-password', getpass.getpass())"
-```
+No password is stored in the repository or Docker images. Locally it is stored in the OS credential store via keyring; on AWS EC2 it is mounted at runtime as a Docker secret file (MONGO_PASSWORD_FILE=/run/secrets/mongo_password, excluded from Git/images and restricted with owner-only file permissions).
  
 ## Setting up from scratch
  
@@ -154,10 +150,8 @@ uv run python -c "import keyring, getpass; keyring.set_password('secure-incident
 7. Create the first admin account in the `users` collection (one document with a
    hashed password, `role: "admin"` and `is_active: true`). Further accounts are
    created through the application.
-## Evidence to capture for the final report
- 
-Take these Atlas screenshots with test data only, and hide any account email address and
-organization name:
+
+
  
 1. **Collections → `users` → Indexes:** `username_1` marked UNIQUE.
 2. **Database Access → Custom Roles:** the `incident_app` role and its actions.
